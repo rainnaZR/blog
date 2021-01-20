@@ -1,0 +1,25 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "This is a blog website including study files and blogs.",
+  "main": "index.js",
+  "scripts": {
+    "build": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rainnaZR/blog.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "rainnaZR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rainnaZR/blog/issues"
+  },
+  "homepage": "https://github.com/rainnaZR/blog#readme",
+  "devDependencies": {
+    "marked": "^1.2.7"
+  }
+}
