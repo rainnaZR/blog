@@ -57,12 +57,12 @@ function onGetHtml(templatePath, data){
                                     </div>`;
               }).join('')}`;
               template = template.replace('@template', templateStr)      
-                fs.access('dist',(err)=>{
+                fs.access('docs',(err)=>{
                     // 目录存在时
                     // if(!err) fs.rmdir('dist');
                     // fs.mkdir('dist', err => {
                         // if(err) return;
-                        fs.writeFile('dist/index.html', template, err => {
+                        fs.writeFile('docs/index.html', template, err => {
                             if(!err) console.log("success")  
                         })
                     // })
@@ -88,7 +88,7 @@ function onGetMdHtml({ path, name }){
                     // 将html模板文件中的 '@markdown' 替换为html字符串  
                     template = template.replace('@markdown', htmlStr)  
                     // 将新生成的字符串template重新写入到文件中==>模板文件地址  
-                    fs.writeFile(`dist/${name}.html`, template, err=>{  
+                    fs.writeFile(`docs/${name}.html`, template, err=>{  
                         if(err){  
                             throw err  
                         }else{  
