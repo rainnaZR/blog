@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flex布局模式简单概述</title>
+    <style>
+        .box{display:flex;align-items:center;justify-content:center;  float:left;width:400px;height:400px;margin:10px;background:#eee;color:#fff;}
+        .item{width:150px;height:150px;background:red;margin:5px;}
+
+        .box-1{flex-direction:row;justify-content:flex-start;}
+        .box-2{flex-direction:row-reverse;justify-content:flex-start;}
+        .box-3{flex-direction:column;justify-content:flex-start;}
+        .box-4{flex-direction:column-reverse;justify-content:flex-start;}
+		
+		.box-5{flex-wrap:wrap;}
+		.box-6{flex-wrap:nowrap;}
+		
+		.box-7{justify-content:flex-start;}
+		.box-8{justify-content:flex-end;}
+		.box-9{justify-content:center;}
+		.box-10{justify-content:space-between;}
+		.box-11{justify-content:space-around;}
+		.box-10 .item,.box-11 .item{margin:0;}
+		
+		.box-12{align-items:flex-start;}
+		.box-13{align-items:flex-end;}
+		.box-14{align-items:center;}
+		.box-15{align-items:stretch;height:auto;}
+    </style>
+</head>
+
+<body>
+<div class="box box-1">
+    <div class="item">我是横向左对齐元素flex-direction:row;justify-content:flex-start;</div>
+</div>
+
+<div class="box box-2">
+    <div class="item">我是横向右对齐子元素flex-direction:row-reverse;justify-content:flex-start;</div>
+</div>
+
+<div class="box box-3">
+    <div class="item">我是纵向顶部对齐子元素flex-direction:column;justify-content:flex-start;</div>
+</div>
+
+<div class="box box-4">
+    <div class="item">我是纵向底部对齐子元素flex-direction:column-reverse;justify-content:flex-start;</div>
+</div>
+
+
+<div class="box box-7">
+    <div class="item">我是横向左对齐子元素 justify-content:flex-start;</div>
+</div>
+
+<div class="box box-8">
+    <div class="item">我是横向右对齐子元素 justify-content:flex-end;</div>
+</div>
+
+<div class="box box-9">
+    <div class="item">我是水平居中对齐子元素 justify-content:center;</div>
+</div>
+
+<div class="box box-10">
+    <div class="item">我是水平居中对齐子元素  justify-content:space-between;</div>
+    <div class="item">我是水平居中对齐子元素  justify-content:space-between;</div>
+</div>
+
+<div class="box box-11">
+    <div class="item">我是水平居中对齐子元素  justify-content:space-around;</div>
+    <div class="item">我是水平居中对齐子元素  justify-content:space-around;</div>
+</div>
+
+
+<div class="box box-12">
+    <div class="item">我是纵向顶部对齐子元素 align-items:flex-start;</div>
+</div>
+
+<div class="box box-13">
+    <div class="item">我是纵向底部对齐子元素 align-items:flex-end;</div>
+</div>
+
+<div class="box box-14">
+    <div class="item">我是垂直居中子元素 align-items:center;</div>
+</div>
+
+<div class="box box-15">
+    <div class="item">我是垂直子元素 align-items:stretch;</div>
+</div>
+
+
+<div class="box box-5">
+    <div class="item">我是换行子元素flex-wrap:wrap;</div>
+    <div class="item">我是换行子元素</div>
+    <div class="item">我是换行子元素</div>
+    <div class="item">我是换行子元素</div>
+</div>
+
+<div class="box box-6">
+    <div class="item">我是不换行子元素flex-wrap:nowrap;</div>
+    <div class="item">我是不换行子元素</div>
+    <div class="item">我是不换行子元素</div>
+    <div class="item">我是不换行子元素</div>
+</div>
+</body>
+</html>

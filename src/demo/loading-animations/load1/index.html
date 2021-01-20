@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" Content="text/html; charset=utf-8;">
+<title>CSS3实现加载的动画效果1</title>
+<meta name="author" content="rainna" />
+<meta name="keywords" content="rainna's css lib" />
+<meta name="description" content="CSS3" />
+<style>
+*{margin:0;padding:0;}
+body{background:#535353;}
+
+.m-load,.m-load2{width:36px;height:36px;margin:100px auto;}
+.m-load{background:url('load.gif') #535353 center center no-repeat;}
+.m-load2{background:#535353;}
+
+/** 加载动画的静态样式 **/
+.m-load2{position:relative;}
+.m-load2 .line div{position:absolute;left:16px;top:0;width:3px;height:36px;}
+.m-load2 .line div:before,.m-load2 .line div:after{content:'';display:block;height:50%;background:#fcfcfc;border-radius:5px;}
+.m-load2 .line div:nth-child(2){-webkit-transform:rotate(30deg);}
+.m-load2 .line div:nth-child(3){-webkit-transform:rotate(60deg);}
+.m-load2 .line div:nth-child(4){-webkit-transform:rotate(90deg);}
+.m-load2 .line div:nth-child(5){-webkit-transform:rotate(120deg);}
+.m-load2 .line div:nth-child(6){-webkit-transform:rotate(150deg);}
+.m-load2 .circlebg{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;background:#535353;border-radius:18px;}
+
+/** 加载动画 **/
+@-webkit-keyframes load{
+	0%{opacity:0;}
+	100%{opacity:1;}
+}
+.m-load2 .line div:nth-child(1):before{-webkit-animation:load 1.2s linear 0s infinite;}
+.m-load2 .line div:nth-child(2):before{-webkit-animation:load 1.2s linear 0.1s infinite;}
+.m-load2 .line div:nth-child(3):before{-webkit-animation:load 1.2s linear 0.2s infinite;}
+.m-load2 .line div:nth-child(4):before{-webkit-animation:load 1.2s linear 0.3s infinite;}
+.m-load2 .line div:nth-child(5):before{-webkit-animation:load 1.2s linear 0.4s infinite;}
+.m-load2 .line div:nth-child(6):before{-webkit-animation:load 1.2s linear 0.5s infinite;}
+.m-load2 .line div:nth-child(1):after{-webkit-animation:load 1.2s linear 0.6s infinite;}
+.m-load2 .line div:nth-child(2):after{-webkit-animation:load 1.2s linear 0.7s infinite;}
+.m-load2 .line div:nth-child(3):after{-webkit-animation:load 1.2s linear 0.8s infinite;}
+.m-load2 .line div:nth-child(4):after{-webkit-animation:load 1.2s linear 0.9s infinite;}
+.m-load2 .line div:nth-child(5):after{-webkit-animation:load 1.2s linear 1s infinite;}
+.m-load2 .line div:nth-child(6):after{-webkit-animation:load 1.2s linear 1.1s infinite;}
+
+
+.m-intro{width:800px;margin:0 auto;padding:20px;background:#f7f7f7;}
+.m-intro h2,.m-intro p{margin:0 0 15px;line-height:1.8;}
+</style>
+</head>
+
+<body>
+<div class="m-load"></div>
+<div class="m-load2">
+	<div class="line">
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+	<div class="circlebg"></div>
+</div>
+
+
+<div class="m-intro">
+	<a href="http://www.cnblogs.com/zourong/p/3980006.html" target="_blank">原文链接</a>
+	<p>最近打算整理几个动画样式，最常见的就是我们用到的加载动画。加载动画的效果处理的好，会给页面带来画龙点睛的作用，而使用户愿意去等待。而页面中最常用的做法是把动画做成gif格式，当做背景图或是img标签来引用，这种方式最简单，也不会有兼容性的问题。不过本人有时爱折腾，看到一些动画的效果，不管是简单也好，复杂也好，也想尝试用代码来实现它，换一种思维方式，就算在项目中用到的可能性很小，自己多动手多写写总归不会有坏处。</p>
+	<p>CSS3新增了很多强大的功能，虽然会有兼容性的问题，但是阻挡不了我们去使用它的这些新特性。像一些简单的动画以前靠画图工具来实现，现在单纯用CSS也能非常简单的实现。下面的案例就是利用CSS加html如何实现菊花旋转的动画。</p>
+	<p><img width="100%" src="intro.png" /></p>
+	<h2>2. 共五个步骤：</h2>
+	<p>2.1 先定义元素容器，定义每个线条的位置。<br />2.2 因为考虑到旋转时每根线条的透明度不一致，故要把单根线条分为两个区块。<br />2.3 使用CSS的rotate方法来对线条进行旋转，旋转的度数取决于线条的数量，最终使线条形成一个正圆。<br />2.4 在形成圆形的线条上面覆盖一个与背景同色的正圆，正圆圆心与线条形成的圆心保持一致，这样整个形状就会有镂空的感觉。<br />2.5 这一步最关键，就是形成动画的核心，其实整个动画的实现过程非常简单，就是改变每根线条的透明度，这个可以通过animation的动画延迟来实现，即每根线条的动画延迟时间根据其位置决定。</p>
+	<h2>3. 主要使用的技术</h2>
+	<p>主要用到了CSS3的rotate旋转方法和animation方法。</p>
+	<p>3.1 rotate<br />rotate是transform方法中的一个属性，除了rotate之外，还有translate(平移)，scale(缩放)，skew(拉伸)。具体的就不详细解释了。<p>
+	<p>3.2 animation<br />animation方法的使用步骤是先使用@关键字定义动画的关键帧，然后在对应的样式名称里来引用。<br />案例中先定义动画load<br />@-webkit-keyframes load{0%{opacity:0;}100%{opacity:1;}}<br />然后在使用动画的节点样式里来引用<br />.m-load2 .line div:nth-child(1):before{-webkit-animation:load 1.2s linear 0s infinite;}<br />其中load 1.2s linear 0s infinite这几个值分别对应动画的名称，动画持续的时间，动画显示的方式，动画的延迟时间，动画是否循环播放。<br />另外还有动画播放的次数，动画是否反向播放等。</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>手动触发绑定-数据变更检测</title>
+</head>
+
+<body>
+    <input q-value="value" type="text" id="input">
+    <span q-text="value" id="el"></span>
+
+    <script>
+        let elems = [document.getElementById('el'), document.getElementById('input')];
+        let data = {
+            value: 'hello'
+        };
+
+        //定义Directive
+        let directive = {
+            text(text){
+                this.innerHTML = text;
+            },
+
+            value(value){
+                this.setAttribute('value', value);
+            }
+        };
+
+        //数据改变后扫描节点
+        function VMset(key, value){
+            data[key] = value;
+            scan();
+        }
+
+        //扫描带指令的节点属性
+        function scan(){
+            for(let elem of elems){
+                elem.directive = [];
+                for(let attr of elem.attributes){
+                    let nodeName = attr.nodeName;
+                    //有指令的属性
+                    if(nodeName.indexOf('q-') >= 0){
+                        directive[nodeName.slice(2)].call(elem, data[attr.nodeValue]);
+                        elem.directive.push(attr.nodeName.slice(2));
+                    }
+                }
+            }
+        }
+
+        //开始扫描节点
+        scan();
+        setTimeout(function(){
+            VMset('value', 'hello change');
+        }, 2000)
+
+        //数据绑定监听
+        if(document.addEventListener){
+            elems[1].addEventListener('keyup', function(e){
+                VMset('value', e.target.value);
+            }, false);
+        }else{
+            elems[1].attachEvent('onkeyup', function(e){
+                VMset('value', e.target.value);
+            })
+        }
+
+    </script>
+</body>
+</html>

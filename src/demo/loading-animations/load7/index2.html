@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Loading</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <style type="text/css">
+        @-webkit-keyframes rotate { 100% { -webkit-transform: rotate(360deg); } }
+        @-webkit-keyframes rotate-reverse { 100% { -webkit-transform: rotate(-360deg); } }
+        html, body{overflow: hidden;height: 100%;background-color: #efefef;}
+        .loading{
+            width:0;
+            height:0;
+            border-right:100px solid blue;
+            border-top:100px solid transparent;
+            border-left:100px solid red;
+            border-bottom:100px solid transparent;
+            border-radius: 100px;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            margin: -100px 0 0 -100px;
+            -webkit-animation:rotate 4s linear infinite;
+            animation:rotate 4s linear infinite;
+        }
+        
+        .loading:before{
+            display: block;
+            content: ".";
+            text-indent: -2000px;
+            width:0;
+            height:0;
+            border-top:100px solid yellow;
+            border-left:100px solid transparent;
+            border-bottom:100px solid green;
+            border-right:100px solid transparent;
+            border-radius: 100px;
+            position: absolute;
+            left: -100px;
+            top: -100px;
+        }
+
+        .loading .icon{
+            width:0;
+            height: 0;
+            position: relative;
+            left: -50px;
+            top: -50px;
+            border-radius: 50px;
+            border: 50px solid #ccc;
+            -webkit-animation:rotate-reverse 4s linear infinite;
+            animation:rotate-reverse 4s linear infinite;
+        }
+        .loading .icon:before{
+            display: block;
+            content: ".";
+            text-indent: -2000px;
+            width:0; 
+            height:0;
+            position: absolute;
+            left: -15px;
+            top: -20px;
+            border-left:40px solid #000;
+            border-top:20px solid transparent;
+            border-bottom:20px solid transparent; 
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <div class="icon"></div>
+    </div>
+</body>
+</html>

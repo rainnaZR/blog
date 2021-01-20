@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>利用writing-mode实现元素的垂直居中</title>
+    <style>
+        .box{width:600px;height:400px;}
+        .box:nth-child(even){background:#eee;}
+        .box .item{width:200px;height:200px;background:red;}
+
+        .box-1{position:relative;}
+        .box-1 .item{position:absolute;left:50%;top:50%;-webkit-transform:translate(-50%,-50%);}
+
+        .box-2{display:table-cell;text-align:center;vertical-align:middle;}
+        .box-2 .item{display:inline-block;}
+
+        .box-3{-webkit-writing-mode:vertical-lr;}
+        .box-3 .item{margin:auto 0;}
+
+        .box-4{-webkit-writing-mode:vertical-lr;text-align:center;}
+
+        .box-5{-webkit-writing-mode:vertical-rl;text-align:center;}
+    </style>
+</head>
+
+<body>
+<div class="box box-1">
+    <div class="item">使用translate平移实现垂直居中</div>
+</div>
+
+<div class="box box-2">
+    <div class="item">使用table实现垂直居中</div>
+</div>
+
+<div class="box box-3">
+    <div class="item">使用writing-mode实现垂直居中</div>
+</div>
+
+<div class="box box-4">
+    <img width="100%" src="http://img14.360buyimg.com/da/jfs/t2743/193/1401009483/22503/58c5d328/573d5e05Nbcb6e2cd.jpg">
+</div>
+
+<div class="box box-5">
+    <div class="item">江雪<br />千山鸟飞绝<br />万径人踪灭<br />孤舟蓑笠翁<br />独钓寒江雪</div>
+</body>
+</html>

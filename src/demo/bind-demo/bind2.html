@@ -1,0 +1,79 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>前端数据对象劫持-数据变更检测</title>
+</head>
+
+<body>
+    <input q-value="value" type="text" id="input">
+    <span q-text="value" id="el"></span>
+
+    <script>
+        let elems = [document.getElementById('el'), document.getElementById('input')];
+        let data = {
+            value: 'hello'
+        };
+
+        //定义Directive
+        let directive = {
+            text(text){
+                this.innerHTML = text;
+            },
+
+            value(value){
+                this.setAttribute('value', value);
+            }
+        };
+
+        let bValue;
+        scan();
+        defineGetAndSet(data, 'value');
+
+        //扫描带指令的节点属性，并执行Directive里的方法
+        function scan(){
+            for(let elem of elems){
+                elem.directive = [];
+                for(let attr of elem.attributes){
+                    let nodeName = attr.nodeName;
+                    //有指令的属性
+                    if(nodeName.indexOf('q-') >= 0){
+                        directive[nodeName.slice(2)].call(elem, data[attr.nodeValue]);
+                        elem.directive.push(attr.nodeName.slice(2));
+                    }
+                }
+            }
+        }
+
+        //数据绑定监听
+        if(document.addEventListener){
+            elems[1].addEventListener('keyup', function(e){
+                data.value = e.target.value;
+            }, false);
+        }else{
+            elems[1].attachEvent('onkeyup', function(e){
+                data.value = e.target.value;
+            })
+        }
+
+        setTimeout(function(){
+            data.value = 'hello change';
+        }, 2000)
+
+        function defineGetAndSet(obj, propName){
+            Object.defineProperty(obj, propName, {
+                //访问该propName属性时，get()方法会被执行
+                get(){
+                    return bValue;
+                },
+                //当属性值修改时，触发执行set方法。有唯一的参数值，为该属性的新值
+                set(newValue){
+                    bValue = newValue;
+                    scan();
+                },
+                enumerable: true,
+                configurable: true
+            });
+        }
+    </script>
+</body>
+</html>
