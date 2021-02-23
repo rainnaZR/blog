@@ -1,0 +1,20 @@
+
+{
+    "data": [{
+        "key": "index",
+        "name": "首页",
+        "link": "./index.html"
+    },{
+        "key": "article",
+        "name": "文章",
+        "link": "./article.html"
+    },{
+        "key": "book",
+        "name": "书籍",
+        "link": "./book.html"
+    },{
+        "key": "demo",
+        "name": "Demo",
+        "link": "./demo.html"
+    }]
+}

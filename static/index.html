@@ -6,18 +6,22 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>ZRainna的博客</title>
-    <link type="text/css" rel="stylesheet" href="./base.css" />
-    <link type="text/css" rel="stylesheet" href="./page.css" />
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
   </head>
   
   <body>
-    <div class="g-page">
-      <div class="m-title">我的博客详情</div>
+    <div class="m-page">
+      <div class="m-box">
+        @include('./static/template/introduce.html')
+      </div>
       
-      <div class="m-detail-page">
-        <h3 id="我是测试-aaa">我是测试 aaa</h3>
-
+      <div class="m-box">
+        @include('./static/template/menu.html', './static/template/menu.json')
       </div>
     </div>
   </body>
 </html>
+
+
+
