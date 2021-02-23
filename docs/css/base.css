@@ -1,0 +1,225 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, input{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+a{
+  -webkit-backface-visibility: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  color:#4c4c4c;
+}
+li{
+  list-style: none;
+}
+body{
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font: 14px/1.5 Helvetica Neue,Helvetica,Arial,Hiragino Sans GB,\5FAE\8F6F\96C5\9ED1,tahoma,simsun,sans-serif;
+  background: #003251;
+  color:#4c4c4c;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+input, button, textarea, select{
+    border: 0 none;
+    outline: none;
+    text-decoration:none;
+    background: none;
+}
+input[type="search"]{
+  -webkit-appearance:none;
+}
+input[type="search"]::-webkit-search-cancel-button{
+  -webkit-appearance: none;
+}
+
+input[type=range]{
+  outline: none;
+  background: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0,#ccc),color-stop(100%,#ccc));
+  background-position: 50%;
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+  -webkit-appearance: none;
+
+}
+input[type=range]::-moz-focus-outer {
+  border: 0
+}
+input[type=range]::-webkit-slider-thumb {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 2px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2);
+  cursor: pointer;
+  -webkit-appearance: none;
+  border: 0
+}
+input[type=range]::-webkit-slider-thumb:before {
+  position: absolute;
+  top: 13px;
+  left: -2001px;
+  width: 2000px;
+  height: 2px;
+  background: #484746;
+  content: " ";
+}
+input[type=range]::-webkit-slider-thumb:after {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  padding: 30px;
+  content: " ";
+}
+input[type=range]::-ms-fill-lower {
+  height: 2px;
+  background: #484746;
+}
+option{
+    -webkit-appearance: none;   /* google */
+    -moz-appearance: none;  /* firefox */
+    appearance: none;
+}
+table{
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+img[src=""],img:not([src]){
+    opacity:0;
+}
+
+
+/* margins paddings */
+.f-mb5 { margin-bottom:5px; }
+.f-mr5 { margin-right:5px;  }
+.f-ml5 { margin-left:5px; }
+.f-mt5 { margin-top:5px; }
+.f-mb10 { margin-bottom:10px; }
+.f-mr10 { margin-right:10px;  }
+.f-ml10 { margin-left:10px; }
+.f-mt10 { margin-top:10px; }
+.f-mb15 { margin-bottom:15px; }
+.f-mr15 { margin-right:15px;  }
+.f-ml15 { margin-left:15px; }
+.f-mt15 { margin-top:15px; }
+.f-mb20 { margin-bottom:20px; }
+.f-mr20 { margin-right:20px;  }
+.f-ml20 { margin-left:20px; }
+.f-mt20 { margin-top:20px; }
+.f-ml25 { margin-left:25px; }
+.f-mb25 { margin-bottom:25px; }
+.f-ml30 { margin-left:30px; }
+.f-ml65 { margin-left:65px; }
+.f-pt5 {padding-top:5px;}
+.f-pt10 {padding-top:5px;}
+.f-pt15 {padding-top:5px;}
+.f-pt20 {padding-top:5px;}
+
+/* 布局 */
+.f-dn{display:none;}
+.f-oh{overflow: hidden;}
+.f-pr{position: relative;}
+
+/* 字号 */
+.f-fs12{font-size: 12px;}
+.f-fs14{font-size: 14px;}
+.f-fs16{font-size: 16px;}
+.f-fs26{font-size: 26px;}
+
+/* 外观 */
+.s-fc0{color: #fff;}
+.s-fc1{color:#f60;}
+.s-fc2{color: #ff3c44;}
+.s-fc3{color: #359f4e;}
+.s-fc4{color: #333;}
+.s-fc5{color: #666;}
+.s-fc6{color: #999;}
+
+/* 单行隐藏 */
+.f-txtell{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+}
+/* 多行隐藏 */
+.f-txtell2{
+    display:-webkit-box; display:-webkit-flex; display:-ms-flexbox;
+    -webkit-box-orient:vertical; box-orient: vertical;
+    -webkit-line-clamp:2; line-clamp: 2;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* 禁用鼠标事件 */
+.f-nopointer{
+    pointer-events: none;
+}
+/* 恢复鼠标点击事件 */
+.f-pointer{
+    pointer-events: auto;
+}
+
+.f-trans{
+    transition: all .3s;
+}
+
+/* 文字禁用选择 */
+.f-unselect{
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* 鼠标类型为指针类型 */
+.f-cursp{
+    cursor: pointer;
+}
+
+/* 布局 */
+.f-fl{float: left;}
+.f-fr{float: right}
+.f-flexr{display: flex;}
+.f-flex-1{flex: 1;}
+
+/* 对齐 */
+.f-tal{text-align: left;}
+.f-tac{text-align: center;}
+.f-tar{text-emphasis: right;}
+
+/* 显示 */
+.f-vs0{visibility: hidden;}
+.f-vs1{visibility: visible;}
+
+/* 定位 */
+.f-pf0{position: fixed;}
+
+/* 加粗 */
+.f-fw0{font-weight:normal;}
+.f-fw1{font-weight: bold;}
+
+/* 布局 */
+.f-db{display: block;}
+.f-di{display: inline-block;}
+
