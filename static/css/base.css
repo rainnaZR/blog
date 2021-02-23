@@ -31,8 +31,8 @@ body{
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font: 14px/1.5 Helvetica Neue,Helvetica,Arial,Hiragino Sans GB,\5FAE\8F6F\96C5\9ED1,tahoma,simsun,sans-serif;
-  /* background: #eee; */
-  color: #333;
+  background: #003251;
+  color:#4c4c4c;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -121,10 +121,12 @@ img[src=""],img:not([src]){
 .f-ml15 { margin-left:15px; }
 .f-mt15 { margin-top:15px; }
 .f-mb20 { margin-bottom:20px; }
-.f-mb25 { margin-bottom:25px; }
 .f-mr20 { margin-right:20px;  }
 .f-ml20 { margin-left:20px; }
 .f-mt20 { margin-top:20px; }
+.f-ml25 { margin-left:25px; }
+.f-mb25 { margin-bottom:25px; }
+.f-ml30 { margin-left:30px; }
 .f-ml65 { margin-left:65px; }
 .f-pt5 {padding-top:5px;}
 .f-pt10 {padding-top:5px;}
@@ -140,6 +142,7 @@ img[src=""],img:not([src]){
 .f-fs12{font-size: 12px;}
 .f-fs14{font-size: 14px;}
 .f-fs16{font-size: 16px;}
+.f-fs26{font-size: 26px;}
 
 /* 外观 */
 .s-fc0{color: #fff;}

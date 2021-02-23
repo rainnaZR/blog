@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/rainnaZR/blog#readme",
   "devDependencies": {
+    "chalk": "^4.1.0",
     "marked": "^1.2.7"
   },
   "dependencies": {
