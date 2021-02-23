@@ -21,5 +21,8 @@
   "homepage": "https://github.com/rainnaZR/blog#readme",
   "devDependencies": {
     "marked": "^1.2.7"
+  },
+  "dependencies": {
+    "fs-extra": "^9.1.0"
   }
 }

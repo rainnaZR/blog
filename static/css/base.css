@@ -197,6 +197,8 @@ img[src=""],img:not([src]){
 /* 布局 */
 .f-fl{float: left;}
 .f-fr{float: right}
+.f-flexr{display: flex;}
+.f-flex-1{flex: 1;}
 
 /* 对齐 */
 .f-tal{text-align: left;}
