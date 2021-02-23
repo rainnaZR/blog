@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>ZRainna的博客</title>
-    <link type="text/css" rel="stylesheet" href="./css/base.css" />
-    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <style>
+      @include('./static/css/base.css')
+      @include('./static/css/page.css')
+    </style>
   </head>
   
   <body>
@@ -15,7 +17,7 @@
       <div class="m-box">
         @include('./static/template/introduce.html')
       </div>
-      
+
       <div class="m-box">
         @include('./static/template/menu.html', './static/template/menu.json')
       </div>
