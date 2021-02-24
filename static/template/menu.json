@@ -16,5 +16,6 @@
         "key": "demo",
         "name": "Demo",
         "link": "./demo.html"
-    }]
+    }],
+    "currIndex": 0
 }
