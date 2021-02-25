@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <h2 id="前端模板nunjucks">前端模板Nunjucks</h2>
+<p>参考资料: 
+<a href="https://mozilla.github.io/nunjucks/">https://mozilla.github.io/nunjucks/</a></p>
+<p><a href="https://mozilla.github.io/nunjucks/templating.html">https://mozilla.github.io/nunjucks/templating.html</a></p>
+<p><a href="https://mozilla.github.io/nunjucks/api.html">https://mozilla.github.io/nunjucks/api.html</a></p>
+<h2 id="常用api">常用API</h2>
+<h3 id="render">render</h3>
+<p>nunjucks.render(name, [context], [callback])</p>
+<pre><code>var res = nunjucks.render(&#39;foo.html&#39;);
+
+var res = nunjucks.render(&#39;foo.html&#39;, { username: &#39;James&#39; });    
+
+nunjucks.render(&#39;async.html&#39;, function(err, res) {
+});</code></pre>
+<h3 id="renderstring">renderString</h3>
+<p>nunjucks.renderString(str, context, [callback]) 返回渲染后的原始字符串。</p>
+<pre><code>var res = nunjucks.renderString(&#39;Hello {{ username }}&#39;, { username: &#39;James&#39; });     //输出 Hello James</code></pre>
+<h3 id="configure">configure</h3>
+<p>nunjucks.configure([path], [opts]); path 默认当前路径,模板文件所在的路径。</p>
+<pre><code>nunjucks.configure(&#39;views&#39;, {       //views为模板文件所在的目录
+    autoescape: true,
+    express: app,
+    watch: true
+});</code></pre>
+<h3 id="gettemplate">getTemplate</h3>
+<p>env.getTemplate(name, [eagerCompile], [callback])  Retrieve the template named name</p>
+<pre><code>var tmpl = env.getTemplate(&#39;page.html&#39;, true);          //返回模板文件 page.html 的内容</code></pre>
+<h3 id="express">express</h3>
+<p>env.express(app)  用做服务端渲染</p>
+<pre><code>var app = express();
+env.express(app);
+
+app.get(&#39;/&#39;, function(req, res) {
+    res.render(&#39;index.html&#39;);
+});</code></pre>
+<h3 id="constructor">constructor</h3>
+<p>new Template(src, [env], [path], [eagerCompile])</p>
+<pre><code>var tmpl = new nunjucks.Template(&#39;Hello {{ username }}&#39;);
+
+tmpl.render({ username: &quot;James&quot; }); // -&gt; &quot;Hello James&quot;</code></pre>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
