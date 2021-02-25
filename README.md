@@ -35,6 +35,8 @@ This is a blog website including study files and blogs.
 
 
 
-todolist
+### todolist
 
-- css文件混淆压缩
+- 打包文件混淆压缩
+- 样式文件是否合并
+- 支持组件库的介绍，包括代码执行
