@@ -96,7 +96,7 @@ function onGetDocFiles({filePath, level}) {
             return {
                 ...option,
                 path: `${fileName}.html`,
-                title: path.basename(file),
+                title: path.basename(file, '.md'),
                 introduce: `${mdContent.substr(0, 150)}......`
             }
         }

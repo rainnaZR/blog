@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <h2 id="electron应用启动">electron应用启动</h2>
+<h3 id="1-项目安装">1. 项目安装</h3>
+<ul>
+<li>yarn init </li>
+<li>yarn config set ELECTRON_MIRROR <a href="https://cdn.npm.taobao.org/dist/electron/">https://cdn.npm.taobao.org/dist/electron/</a></li>
+<li>yarn add electron --dev --platform=win64</li>
+<li>package.json增加启动命令</li>
+</ul>
+<pre><code>&quot;scripts&quot;:{
+    &quot;start&quot;: &quot;electron ./index.js&quot;
+}</code></pre>
+<ul>
+<li>根目录下新建index.html，(vscode下使用!快速生成html模板)</li>
+<li>根目录下新建index.js，源代码参考根目录index.js</li>
+<li>yarn start</li>
+</ul>
+<h3 id="2-扩展阅读">2. 扩展阅读</h3>
+<p>Node.js有三种模块：</p>
+<ul>
+<li>核心模块：存在于Node.js环境内，比如fs,net等。</li>
+<li>项目模块：项目开发者手动提供，使用项目相对路径引用。</li>
+<li>第三方模块：使用yarn和npm工具来安装到项目里的。</li>
+</ul>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

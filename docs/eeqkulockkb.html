@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《ES6标准入门》阅读总结</p>
+<h1 id="第十二章-set和map数据结构">第十二章 Set和Map数据结构</h1>
+<h3 id="1-基本用法">1. 基本用法</h3>
+<p>ES6提供了新的数据结构-Set，类似于数组，但是成员的值都是唯一的，没有重复值。Set函数可以接受一个数组或类数组做为参数，用于初始化。Set实例的方法分为两大类：操作方法和遍历方法。</p>
+<p><strong>操作方法：</strong></p>
+<p>1）add(value): 添加某个值。</p>
+<p>2）delete(value): 删除某个值。</p>
+<p>3）has(value): 返回布尔值，value是否为Set的成员。</p>
+<p>4）clear(): 清除所有成员。</p>
+<pre><code>var s = new Set();
+s.add(1).add(2).add(2).add(3);
+
+s   //Set(3) {1, 2, 3}
+s = Array.from(s);  //Array.from方法可以将Set结构转换为数组
+s   //[1, 2, 3]</code></pre>
+<p><strong>遍历操作：</strong></p>
+<p>1）key(): 返回健名的遍历器。</p>
+<p>2）values(): 返回键值的遍历器。</p>
+<p>3）entries(): 返回键值对的遍历器。</p>
+<p>4）forEach(): 使用回调函数遍历每个成员。</p>
+<pre><code>var set = new Set([1, 2, 3]);
+set = new Set([...set].map(val =&gt; val * 2));
+
+set //{2, 4, 6}</code></pre>
+<pre><code>var set = new Set([1, 2, 3]);
+set = new Set(Array.from(set, val =&gt; val * 2));
+
+set   //{2, 4, 6}</code></pre>
+<h3 id="2-weakset">2. WeakSet</h3>
+<p>1）WeakSet的成员只能是对象，不能是其他类型的值。</p>
+<p>2）WeakSet中的对象都是弱引用。垃圾回收机制不考虑WeakSet对该对象的引用。WeakSet不能遍历。</p>
+<p><strong>WeakSet的三个方法：</strong></p>
+<p>1）WeakSet.prototype.add(value)</p>
+<p>2）WeakSet.prototype.delete(value)</p>
+<p>3）WeakSet.prototype.has(value)</p>
+<h3 id="3-map">3. Map</h3>
+<p>Map结构类似于对象，也是键值对的组合，但是键的范围不限于字符串，可以是任意类型。Object--&quot;字符串-值&quot;，Map结构--&quot;值-值&quot;。</p>
+<p><strong>Map实例属性和操作方法</strong></p>
+<p>1）size属性返回Map结构的成员总数。</p>
+<pre><code>let map = new Map();
+map.set(&#39;foo&#39;, true);
+map.set(&#39;age&#39;, 100);
+
+map.size  //2</code></pre>
+<p>2）set(key, value)</p>
+<p>设置key对应的键值，返回整个Map结构。</p>
+<p>3）get(key)</p>
+<p>读取key对应的键值，如果没有key值，返回undefined。</p>
+<p>4）has(key)</p>
+<p>has方法返回一个布尔值，表示某个值是否在Map数据结构中。</p>
+<p>5）delete(key)</p>
+<p>删除某个键值，返回true/false。</p>
+<p><strong>遍历方法：</strong></p>
+<p>1）keys()</p>
+<p>2）values()</p>
+<p>3）entries()</p>
+<p>4）forEach()</p>
+<p>Map结构转换为数组结构比较快速的方法是结合使用扩展运算符（...）。</p>
+<pre><code>var map = new Map([[1, &#39;one&#39;],[2, &#39;two&#39;],[3, &#39;three&#39;]]);
+
+[...map.keys()]  //[1, 2, 3]
+[...map.values()] //[&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></pre>
+<h3 id="4-weakmap">4. WeakMap</h3>
+<p>WeakMap与Map结构的唯一区别是只接受对象作为键名，不接受其他类型的值作为键名，键名所指的对象不计入垃圾回收机制。WeakMap专用的场合是：它的键所对应的对象将来可能会消失。WeakMap有四个方法：get(), set(), has(), delete()。</p>
+<p>WeakMap与Map在API上有两个区别：</p>
+<p>1）没有遍历操作，没有keys()，values()，entries()方法，没有size属性。</p>
+<p>2）WeakSet没有clear方法，无法被清空。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
