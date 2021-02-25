@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《深入浅出Node.js》阅读总结</p>
+<h1 id="产品化">产品化</h1>
+<h3 id="1-项目工程化">1. 项目工程化</h3>
+<p>项目工程化过程中，基本的几步是目录结构，构建工具，编码规范和代码审查等。</p>
+<p>1）目录结构</p>
+<p>例如：</p>
+<pre><code>tree
+    history.md  //项目改动历史
+    install.md //按照说明
+    Makefile  //Makefile文件
+    benchmark   //基准测试
+    controllers  //控制器
+    lib  //没有模块化的文件目录
+    middlewares //中间件
+    package.json  //包描述文件
+    proxy  //数据代理目录，类似MVC中的M
+    test  //测试目录
+    tools  //工具目录
+    views //视图目录
+    routes.js  //路由注册表
+    dispatch.js  //多进程管理
+    README.md  //项目说明文件
+    assets  //静态文件目录
+    assets.json  //静态文件与CDN路径的映射文件
+    bin  //可执行脚本
+    config  //配置目录
+    logs  //日志目录
+    app.js  //工作进程</code></pre>
+<p> 2）构建工具</p>
+<p>比如静态文件合并，压缩文件大小，打包应用，编译模块，这些工作可以交给构建工具来完成。主流的构建工具有Makefile和Grunt等。</p>
+<p>3）编码规范</p>
+<p>使用JSLint和JSHint工具制定代码提交规范。</p>
+<p>4）代码审查</p>
+<p>代码审查主要在请求合并的过程中完成，需要审查的点有功能是否正确完成，代码风格是否符合规范，单元测试是否同步添加等。如果不符合规范，则需要重新修改代码，然后再提交审查。</p>
+<h3 id="2-部署流程">2. 部署流程</h3>
+<h3 id="3-性能">3. 性能</h3>
+<p>大致分为动静分离，多进程架构，分布式，缓存等。</p>
+<p>1）动静分离</p>
+<p>静态资源走CDN或Nginx，动态请求让Node处理。</p>
+<p>2）启用缓存</p>
+<p>使用Redis或Memcached缓存服务器几乎是Web应用的标准配置。缓存数据避免不必要的计算。</p>
+<p>3）多进程架构</p>
+<p>可以使用Node的cluster模块，或者pm,foever,pm2等模块进行进程管理。</p>
+<p>4）读写分离</p>
+<p>进行数据库的读写分离，将数据库进行主从设计，读操作不受写操作的影响。</p>
+<h3 id="4-日志">4 日志</h3>
+<p>1）访问日志</p>
+<p>用Nginx或Apache进行反向代理时，完成访问日志的记录。在Node中可以使用中间件Connect的日志中间件记录。</p>
+<pre><code>var app = connect();
+
+//记录访问日志
+connect.logger.format(&#39;home&#39;, &#39;&quot;:user-agent&quot; :res[content-length]&#39;);
+
+app.use(connect.logger({
+    format: &#39;home&#39;,
+    stream: fs.creatWriteStream(__dirname + &#39;/logs/access.log&#39;)
+}))</code></pre>
+<p>2）异常日志</p>
+<p>Node中提供的console对象来记录日志。尽量由最上层的调用者捕获记录，底层调用或中间层调用中出现的异常只要正常的传递给上层的调用方即可。底层或中间层将错误传递给上层，由上层抛出。</p>
+<h3 id="5-监控报警">5. 监控报警</h3>
+<p>应用的监控有两类：业务逻辑型的监控，硬件型的监控。监控主要通过定时采样来进行记录。监控的指标主要有：日志监控，响应时间，进程监控，磁盘监控，内存监控，CPU占用监控，CPU load监控，I/O负载，网络监控，应用状态监控，DNS监控等。</p>
+<p>搭配监控系统的则是报警系统，普通的有邮件报警，IM报警，短信或电话报警。</p>
+<h3 id="6-稳定性">6. 稳定性</h3>
+<p>将Node按多进程的方式部署到多台机器中，分布式设计典型的水平扩展方式是：多进程，多机器，多机房。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

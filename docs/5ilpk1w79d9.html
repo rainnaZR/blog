@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>最近考虑到老项目代码的可维护性以及稳定性，决定引入ts做规范检测。因为介绍的东西比较基础，如果介绍的不对，麻烦指正。</p>
+<h2 id="1-简介">1. 简介</h2>
+<p>TypeScript 是 JavaScript 的一个超集，主要提供了类型系统和对 ES6 的支持。网上关于ts的学习资料很多，这里不做详细介绍。可参考的学习网站：</p>
+<p><a href="https://ts.xcatliu.com/">https://ts.xcatliu.com/</a></p>
+<p><a href="https://typescript.bootcss.com/">https://typescript.bootcss.com/</a></p>
+<h2 id="2-安装依赖包">2. 安装依赖包</h2>
+<pre><code>cnpm i typescript ts-loader --save-dev</code></pre>
+<h2 id="3-添加tsconfigjson文件">3. 添加tsconfig.json文件</h2>
+<p>在项目根目录下添加 tsconfig.json 文件。tsconfig.json 文件用来指定ts的编译选项。配置可参考：<a href="https://typescript.bootcss.com/tsconfig-json.html">https://typescript.bootcss.com/tsconfig-json.html</a></p>
+<p>项目工程 tsconfig.json 文件配置如下：（仅做参考）</p>
+<pre><code>{
+    &quot;compilerOptions&quot;: {
+        &quot;baseUrl&quot;: &quot;.&quot;,
+        &quot;experimentalDecorators&quot;: true,
+        &quot;emitDecoratorMetadata&quot;: true,
+        &quot;noEmitOnError&quot;: true,
+        &quot;target&quot;: &quot;esnext&quot;,
+        &quot;module&quot;: &quot;esnext&quot;,
+        &quot;strict&quot;: true,
+        &quot;allowJs&quot;: true,
+        &quot;noEmit&quot;: false,
+        &quot;noImplicitThis&quot;: true,
+        &quot;esModuleInterop&quot;: true,
+        &quot;sourceMap&quot;: true,
+        &quot;moduleResolution&quot;: &quot;node&quot;
+    },
+    &quot;include&quot;: [
+        &quot;src/**/*&quot;, &quot;types&quot;
+    ],
+    &quot;exclude&quot;: [
+        &quot;node_modules&quot;,
+        &quot;build&quot;
+    ]
+}</code></pre>
+<h2 id="4-webpack打包配置修改">4. webpack打包配置修改</h2>
+<p>webpack.config.js 打包文件修改，新增对.ts文件的打包配置。</p>
+<h3 id="41-入口文件后缀名由js修改为ts">4.1 入口文件后缀名由.js修改为.ts</h3>
+<pre><code>module.exports = {
+    entry: {
+        app: [&#39;@babel/polyfill&#39;, &#39;./src/main.ts&#39;]
+    }
+}</code></pre>
+<h3 id="42-extensions-文件扩展名增加-ts-tsx-文件的支持">4.2 extensions 文件扩展名增加 .ts, .tsx 文件的支持</h3>
+<p>tsx针对react项目文件的支持，因为我们的工程基于vue开发，支持.ts文件就可以了。</p>
+<pre><code>module.exports = {
+    resolve: {
+        extensions: [&#39;.js&#39;, &#39;.vue&#39;, &#39;.json&#39;, &#39;.css&#39;, &#39;.ts&#39;]
+    }
+}</code></pre>
+<h3 id="43-loader增加对ts文件的支持">4.3 loader增加对ts文件的支持</h3>
+<p>使用ts-loader来转换ts文件。</p>
+<pre><code>module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.ts?$/,
+                loader: &#39;ts-loader&#39;,
+                exclude: /node_modules/,
+                options: {
+                  appendTsSuffixTo: [/\.vue$/],
+                }
+            }
+        ]
+    }
+}</code></pre>
+<h2 id="5-eslint-添加对ts文件的检测">5. eslint 添加对ts文件的检测</h2>
+<h3 id="51-安装依赖包">5.1 安装依赖包</h3>
+<pre><code>cnpm i @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-typescript eslint-plugin-typescript --save-dev</code></pre>
+<p>@typescript-eslint/parser ts文件解析器</p>
+<p>@typescript-eslint/eslint-plugin 版本号需要与@typescript-eslint/parser的版本一致，解析器相关的配置选项</p>
+<p>eslint-config-typescript 针对ts项目配置的eslint检测规范</p>
+<h3 id="52-eslintrc配置文件修改">5.2 .eslintrc配置文件修改</h3>
+<p>.eslintrc配置文件修改，支持对ts的文件的校验。经过多次调整，我们工程的 .eslintrc 配置文件如下：</p>
+<pre><code>{
+    &quot;parserOptions&quot;: {
+        &quot;parser&quot;: &quot;@typescript-eslint/parser&quot;,
+        &quot;project&quot;: &quot;./tsconfig.json&quot;,
+        &quot;extraFileExtensions&quot;: [&quot;.vue&quot;],
+        &quot;ecmaVersion&quot;: 2017,
+        &quot;sourceType&quot;: &quot;module&quot;,
+        &quot;ecmaFeatures&quot;: {
+            &quot;modules&quot;: true
+        }
+    },
+    &quot;env&quot;: {
+      &quot;jest&quot;: true,
+      &quot;browser&quot;: true
+    },
+    &quot;settings&quot;: {
+      &quot;import/resolver&quot;: {
+        &quot;node&quot;: {
+          &quot;extensions&quot;: [&quot;.js&quot;, &quot;.jsx&quot;, &quot;.ts&quot;, &quot;.tsx&quot;, &quot;.eslintrc&quot;]
+        },
+        &quot;webpack&quot;: {
+          &quot;config&quot;: {
+            &quot;resolve&quot;: {
+              &quot;alias&quot;: {
+                &quot;src&quot;: &quot;src&quot;
+              }
+            }
+          }
+        }
+      }
+    },
+    &quot;plugins&quot;: [
+        &quot;vue&quot;,
+        &quot;babel&quot;,
+        &quot;@typescript-eslint&quot;
+    ],
+    &quot;extends&quot;: [
+        &quot;eslint:recommended&quot;,
+        &quot;plugin:vue/base&quot;,
+        &quot;typescript&quot;,
+        &quot;standard&quot;
+    ],
+    &quot;rules&quot;: {
+        &quot;func-names&quot;: 0,
+        &quot;one-var&quot;: [1, &quot;never&quot;],
+        &quot;prefer-const&quot;: 1,
+        &quot;no-unused-expressions&quot;: 1,
+        &quot;new-cap&quot;: 2,
+        &quot;prefer-arrow-callback&quot;: 2,
+        &quot;arrow-body-style&quot;: 0,
+        &quot;max-len&quot;: [
+            1,
+            {
+            &quot;code&quot;: 200,
+            &quot;ignoreStrings&quot;: true,
+            &quot;ignoreUrls&quot;: true,
+            &quot;ignoreRegExpLiterals&quot;: true
+            }
+        ],
+        &quot;consistent-return&quot;: &quot;off&quot;,
+        &quot;default-case&quot;: 2,
+        &quot;prefer-rest-params&quot;: 2,
+        &quot;no-script-url&quot;: 0,
+        &quot;no-console&quot;: [
+            2,
+            {
+            &quot;allow&quot;: [&quot;info&quot;, &quot;error&quot;, &quot;warn&quot;, &quot;log&quot;]
+            }
+        ],
+        &quot;no-duplicate-imports&quot;: 2,
+        &quot;newline-per-chained-call&quot;: 2,
+        &quot;no-underscore-dangle&quot;: 2,
+        &quot;eol-last&quot;: 2,
+        &quot;no-useless-rename&quot;: 2,
+        &quot;class-methods-use-this&quot;: 0,
+        &quot;prefer-destructuring&quot;: 0,
+        &quot;no-unused-vars&quot;: 0,
+        &quot;@typescript-eslint/no-unused-vars&quot;: 1,
+        &quot;no-plusplus&quot;: 0,
+        &quot;import/prefer-default-export&quot;: 0,
+        &quot;import/no-dynamic-require&quot;: 2,
+        &quot;@typescript-eslint/no-var-requires&quot;: 2,
+        &quot;no-use-before-define&quot;: [
+            &quot;error&quot;,
+            {
+            &quot;functions&quot;: false
+            }
+        ],
+        &quot;@typescript-eslint/no-use-before-define&quot;: 0,
+        &quot;@typescript-eslint/explicit-function-return-type&quot;: 0,
+        &quot;@typescript-eslint/interface-name-prefix&quot;: 0,
+        &quot;no-invalid-this&quot;: 0,
+        &quot;babel/no-invalid-this&quot;: 2,
+        &quot;no-await-in-loop&quot;: &quot;off&quot;,
+        &quot;array-callback-return&quot;: &quot;off&quot;,
+        &quot;no-restricted-syntax&quot;: &quot;off&quot;,
+        &quot;@typescript-eslint/no-explicit-any&quot;: 0,
+        &quot;import/no-extraneous-dependencies&quot;: 0,
+        &quot;import/no-unresolved&quot;: 0,
+        &quot;@typescript-eslint/explicit-member-accessibility&quot;: 0,
+        &quot;@typescript-eslint/no-object-literal-type-assertion&quot;: 0,
+        &quot;no-param-reassign&quot;: [
+            2,
+            {
+            &quot;props&quot;: false
+            }
+        ],
+        &quot;generator-star-spacing&quot;: &quot;off&quot;,
+        &quot;indent&quot;: [2, 4, {
+            &quot;SwitchCase&quot;: 1
+        }],
+        &quot;eqeqeq&quot;: 0,
+        &quot;no-else-return&quot;: 2,
+        &quot;arrow-parens&quot;: 0,
+        &quot;space-before-function-paren&quot;: [&quot;error&quot;, &quot;never&quot;],
+        &quot;comma-dangle&quot;: [2, &quot;never&quot;],
+        &quot;semi&quot;: [2, &quot;always&quot;]
+    }
+  }</code></pre>
+<p>注意&quot;extends&quot;: [&quot;plugin:vue/base&quot;], 只能选择vue/base，不能用vue/recommend。不然会有规则冲突。</p>
+<h2 id="6-项目文件转换">6. 项目文件转换</h2>
+<p>项目配置好后，开始对老代码进行改造，来支持ts的语法检测。</p>
+<h3 id="61-增加ts声明文件目录">6.1 增加ts声明文件目录</h3>
+<p>项目中总会依赖一些资源包，或是自己开发的一些组件，这些文件需要补充声明文件，声明文件就是将多个声明语句放在一起，这些声明文件可统一放到一个目录里。这个目录需要包含在 tsconfig.json 文件的include里。</p>
+<p>ms工程在根目录下新建 types 目录，目前包含 vue.d.ts, request.d.ts, dialog.d.ts, base.d.ts 等文件。</p>
+<h3 id="62-全局vuedts声明文件">6.2 全局vue.d.ts声明文件</h3>
+<p>需要在ts环境下识别vue文件，需要添加 vue.d.ts 全局声明文件，例子如下：</p>
+<pre><code>import VueRouter, { Route } from &#39;vue-router&#39;;
+import RequestAxios from &#39;./request&#39;;
+
+declare module &#39;*.vue&#39; {
+    import Vue from &#39;vue&#39;;
+    export default Vue;
+}
+declare module &#39;vue/types/vue&#39; {
+    interface Vue {
+        $router: VueRouter;
+        $route: Route;
+        $request: RequestAxios;
+        ....
+    }
+}</code></pre>
+<h3 id="62-vue文件的改造">6.2 vue文件的改造</h3>
+<p>vue文件的改造，只改造js部分，代码大致修改如下：</p>
+<pre><code>import { Vue, Component, Prop, Watch } from &#39;vue-property-decorator&#39;;
+
+@Component({
+    components: {
+        ....
+    }
+})
+export default class MyComponent extends Vue {
+    // prop
+    @Prop({ default: () =&gt; {} }) readonly pageInfo !: any
+
+    // data
+    private showAnimation : boolean = true;
+
+    // watch
+    @Watch(&#39;showModuleIndex&#39;)
+    onShowModuleIndexChanged(newValue: any) {
+        this.$emit(&#39;input&#39;, newValue);
+    }
+
+    // computed
+    get list() {
+        const { page, cityList } = this;
+        return page.cityList.split(&#39;,&#39;).map(
+            cityId =&gt; cityList.find(c =&gt; String(c.id) === cityId)
+        );
+    }
+
+    // mounted
+    private mounted() :void {
+        this.initEditor();
+    }
+
+    // methods
+    private initEditor() :void {
+        ....
+    }
+}
+&lt;/script&gt;</code></pre>
+<h3 id="63-js文件的改造">6.3 js文件的改造</h3>
+<p>将文件后缀名更改为.ts，然后加上类型就可以了。</p>
+<h2 id="7-踩坑总结">7. 踩坑总结</h2>
+<p>大部分都是eslint校验时的报错，按照提示修复就可以了。</p>
+<p>参考链接：
+<a href="https://www.yodfz.com/detail/43/webpack%20with%20invalid%20interface%20loaded%20as%20resolver.htmlc">https://www.yodfz.com/detail/43/webpack%20with%20invalid%20interface%20loaded%20as%20resolver.htmlc</a></p>
+<p>&quot;vue/html-indent&quot;: [2, 4]  eslint这条规则去掉</p>
+<p>&quot;plugin:vue/base&quot;与&quot;plugin:vue/recommend&quot;的区别</p>
+<p>...</p>
+<h2 id="8-总结">8. 总结</h2>
+<p>项目改造过程中，大部分时间都是在查配置兼容问题，配置这块解决了，改造起来速度还是挺快的。虽然前期会有一些改造成本，但是长远来看，还是有意义的。毕竟很多代码类型上的问题在开发阶段就可以暴露，不用等到运行时才发现了。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
