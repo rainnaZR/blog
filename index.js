@@ -5,6 +5,7 @@ const error = params => console.error(chalk.bold.red(params));
 const warning = params => console.log(chalk.orange(params));
 const success = params => console.log(chalk.greenBright(params));
 const marked = require('marked');
+const dayjs = require('dayjs');
 const OUTPUT_FILE_DIRECTORY = 'docs';
 const JSON_DATA_PATH = './static/data';
 const CSS_DATA_PATH = './static/css';
@@ -57,10 +58,10 @@ function onGetJsonData({data, path}){
  * **/
 function onGetDocFiles({filePath, level}) {
     let data = {
-        path: filePath,
-        name: path.basename(filePath),
         type: 'directory',
-        level
+        level,
+        title: path.basename(filePath),
+        path: filePath
     }
     let files = fs.readdirSync(filePath);
     level++;
@@ -71,10 +72,12 @@ function onGetDocFiles({filePath, level}) {
             return onGetDocFiles({filePath: subPath, level});
         }
 
+        let date = dayjs(stats.mtime || stats.ctime).format('YYYY/MM/DD').split('/');
         let option = {
             type: 'file',
             level,
-            modifyTime: stats.mtime || stats.ctime
+            date: `${date[1]}/${date[2]}`,
+            year: date[0]
         };
         let ext = path.extname(file);
         if(ext == '.md'){
@@ -93,8 +96,8 @@ function onGetDocFiles({filePath, level}) {
             return {
                 ...option,
                 path: `${fileName}.html`,
-                name: path.basename(file),
-                introduce: mdContent.substr(0, 100)
+                title: path.basename(file),
+                introduce: `${mdContent.substr(0, 150)}......`
             }
         }
     }).filter(i => i);

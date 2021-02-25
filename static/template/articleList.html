@@ -1,6 +1,15 @@
-<div class="m-list">
+<div class="m-list f-mt40">
     ${data.map((item, index) => {
-        return `<div class="item"><a href="${item.path}">${item.type}-${item.level}-${item.name}</a></div>`;
+        return `<div class="item f-flexr">
+            <div class="iteml f-mr30 f-tac">
+                <div class="s-fc7 f-fs36">${item.date}</div>
+                <div class="s-fc6 f-fs14">${item.year}年</div>
+            </div>
+            <a href="${item.path}" class="itemr f-flex-1">
+                <p class="f-mb10 f-fs26">${item.title}</p>
+                <span>${item.introduce}</span>
+            </a>
+        </div>`;
     }).join('')}
 </div>
 

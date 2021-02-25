@@ -30,7 +30,7 @@ li{
 body{
   -webkit-text-size-adjust: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font: 14px/1.5 Helvetica Neue,Helvetica,Arial,Hiragino Sans GB,\5FAE\8F6F\96C5\9ED1,tahoma,simsun,sans-serif;
+  font: 14px/1.8 Helvetica Neue,Helvetica,Arial,Hiragino Sans GB,\5FAE\8F6F\96C5\9ED1,tahoma,simsun,sans-serif;
   background: #003251;
   color:#4c4c4c;
   -webkit-font-smoothing: antialiased;
@@ -127,6 +127,8 @@ img[src=""],img:not([src]){
 .f-ml25 { margin-left:25px; }
 .f-mb25 { margin-bottom:25px; }
 .f-ml30 { margin-left:30px; }
+.f-mr30 { margin-right:30px;  }
+.f-mt40 { margin-top:40px; }
 .f-ml65 { margin-left:65px; }
 .f-pt5 {padding-top:5px;}
 .f-pt10 {padding-top:5px;}
@@ -143,6 +145,7 @@ img[src=""],img:not([src]){
 .f-fs14{font-size: 14px;}
 .f-fs16{font-size: 16px;}
 .f-fs26{font-size: 26px;}
+.f-fs36{font-size: 36px;}
 
 /* 外观 */
 .s-fc0{color: #fff;}
@@ -152,6 +155,7 @@ img[src=""],img:not([src]){
 .s-fc4{color: #333;}
 .s-fc5{color: #666;}
 .s-fc6{color: #999;}
+.s-fc7{color: #7dbfbd;}
 
 /* 单行隐藏 */
 .f-txtell{
