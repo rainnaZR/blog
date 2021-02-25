@@ -6,7 +6,8 @@ const warning = params => console.log(chalk.orange(params));
 const success = params => console.log(chalk.greenBright(params));
 const marked = require('marked');
 const OUTPUT_FILE_DIRECTORY = 'docs';
-const DATA_JSON_PATH = './static/data';
+const JSON_DATA_PATH = './static/data';
+const CSS_DATA_PATH = './static/css';
 
 String.prototype.interpolate = function (params) {
     const names = Object.keys(params);
@@ -20,12 +21,11 @@ function onBuildFiles({filePath}) {
     // 生成数据json文件-首页
     onGetJsonData({
         data: data.children,
-        path: `${DATA_JSON_PATH}/indexList.json`
+        path: `${JSON_DATA_PATH}/indexList.json`
     });
-    
     // 复制样式文件
     onCopyFiles({
-        filePath: './static/css',
+        filePath: CSS_DATA_PATH,
         outputFilePath: `${OUTPUT_FILE_DIRECTORY}/css`,
         fileType: 'css'
     })
@@ -116,13 +116,13 @@ async function onCopyFiles ({filePath, outputFilePath, fileType}) {
 /**
  * 打包输出html文件
  * **/
-async function onLoadHtml({ filePath, outputFilePath, outputFileName, outputFileContent = {} }){
+function onLoadHtml({ filePath, outputFilePath, outputFileName, outputFileContent = {} }){
     let fileExt = path.extname(filePath);
     outputFileName = outputFileName || path.basename(filePath, fileExt);
     outputFilePath = `${outputFilePath}/${outputFileName}${fileExt}`;
     
     try{
-        let res = await fs.readFile(filePath, 'utf-8');
+        let res = fs.readFileSync(filePath, 'utf-8');
         let reg = /(@include\('(\S+)(',\s(\S+))*'\))|(@markdown)/g;
         // 找到所有的引用标签
         let tags = res.match(reg)||[];
@@ -146,9 +146,9 @@ async function onLoadHtml({ filePath, outputFilePath, outputFileName, outputFile
             } 
             res = res.replace(i, html);   
         })
-        await fs.remove(outputFilePath);
+        fs.removeSync(outputFilePath);
         // 当全部加载完后，生成完整html文件
-        await fs.outputFile(outputFilePath, res);
+        fs.outputFileSync(outputFilePath, res);
         success(`==== ${outputFilePath} 生成成功！====`); 
     }catch(err){
         error(err);
