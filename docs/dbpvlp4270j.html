@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《深入浅出Node.js》阅读总结</p>
+<h2 id="异步io">异步I/O</h2>
+<p>Node特点：事件驱动，异步I/O。与其理念相近的还有Nginx，Nginx纯C编写。区别是：</p>
+<p>1）Nginx具备面向客户端管理连接的强大能力，背后受限于各种同步方式的编程语言。</p>
+<p>2）Node是全方位的，既可以作为服务器去处理客户端带来的大量并发请求，也能作为客户端向网络中的各个应用进行并发请求。</p>
+<h3 id="1-为什么选异步io">1. 为什么选异步I/O</h3>
+<p>多线程的代价在于创建线程和执行期线程上下文切换的开销较大。复杂业务中，多线程会经常面临死锁，状态同步等问题。多线程在多核CPU上能有效提高CPU的使用率。</p>
+<p>Node在单线程和多线程之间做出的折中方案：<strong>利用单线程，远离多线程死锁，状态同步等问题；利用异步I/O，让单线程远离阻塞，更好的利用CPU。</strong></p>
+<p>异步I/O的提出是 期望I/O的调用不再阻塞后续运算，将原有等待I/O完成的时间分配给其余需要的业务执行。</p>
+<h3 id="2-异步io的实现现状">2. 异步I/O的实现现状</h3>
+<p><strong>1）阻塞I/O</strong></p>
+<p>特点是调用之后等到系统内核层面完成所有操作，调用才结束。缺点是会造成CPU等待浪费。</p>
+<p><strong>2）非阻塞I/O</strong></p>
+<p>特点是调用之后会立即返回。缺点是需要轮询去频繁确认数据是否获取，使CPU处理状态判断，浪费CPU的资源。</p>
+<p><strong>3）理想的非阻塞异步I/O</strong></p>
+<p>应用程序发起非阻塞调用，无须通过遍历或事件唤醒等方式轮询，直接处理下一个任务，在I/O完成后通过信号或者回调数据传递给应用程序。</p>
+<p>应用层是调用方，实际数据请求是系统内核线程池在处理。</p>
+<h3 id="3-node的异步io">3. Node的异步I/O</h3>
+<p>完成整个异步I/O环节有事件循环，观察者，请求对象等。</p>
+<p><strong>1）事件循环</strong></p>
+<p>在进程启动时，Node会创建一个类似于while(true)的循环，每执行一次循环体的过程叫Tick，每次Tick时查看是否有事件处理，有就取出事件和其相关的回调函数，并执行它们；否则就退出进程。</p>
+<p><strong>2）观察者</strong></p>
+<p>每个Tick（每执行一次循环体的过程叫Tick）在执行时，通过观察者来判断是否有事件进行处理。</p>
+<p>每个事件循环有一个或多个观察者，向观察者询问是否有事件进行处理。</p>
+<p><strong>3）请求对象</strong></p>
+<p>JS发起调用 到 系统内核执行I/O的操作，中间过程中存在请求对象。</p>
+<p>所有请求对象都保存在这个对象中，包括送入线程池等待 以及 I/O操作完毕的回调处理。</p>
+<p><strong>4）执行回调</strong></p>
+<p>组装好请求对象，送入I/O线程池，线程池中的I/O操作调用完毕后，将回调结果返回。</p>
+<p>在Node中，JS的执行是单线程的，Node自身是多线程的，所有的I/O（磁盘I/O和网络I/O）都是可以并行的。</p>
+<h3 id="4-非io的异步api">4. 非I/O的异步API</h3>
+<p>与I/O无关的异步API：setTimeout(), setInterval(), setImmediate(), process.nextTick()</p>
+<p>优先使用proces.nextTick()来代替setTimeout(fn, 0)。因为定时器的调用要调用红黑树，使用setTimeout(fn, 0)较浪费性能。</p>
+<p>process.nextTick()属于idle观察者，setImmediate()属于check观察者。在每一轮循环检查中，idle观察者先于I/O观察者，I/O观察者先于check观察者。</p>
+<h3 id="5-事件驱动与高性能服务器">5. 事件驱动与高性能服务器</h3>
+<p>事件驱动的本质：通过主循环加事件触发的方式来运行程序。</p>
+<p>经典的服务器类型：</p>
+<p>1）同步式。一次处理一个请求，其他请求等待状态。</p>
+<p>2）每进程/每请求。每个请求启动一个进程，基于有限的系统资源，扩展性不强。</p>
+<p>3）每线程/每请求。每个请求启动一个线程，线程会占用内存，大并发请求时，内存耗光导致服务器缓慢。</p>
+<p><strong>Node模式：基于事件驱动的方式处理请求。无须创建线程和进程，性能较高。</strong></p>
+<p><strong>Node构建web服务器流程：</strong></p>
+<p>1）系统内核接受网络请求，发送给I/O观察者形成事件。</p>
+<p>2）libuv层处理事件，在每个Tick中，执行I/O观察者中事件的回调函数，确定是否有业务层回调，如果有，则执行回调函数，否则退出循环。进入下一个Tick中。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <h2 id="系统">系统</h2>
+<h3 id="1-打开文件">1. 打开文件</h3>
+<pre><code>async onOpenFile(){
+    let filePath = await remote.dialog.showOpenDialog({
+        title: &#39;我要选择一个文件&#39;,
+        buttonLabel: &#39;选择按钮&#39;,
+        defaultPath: remote.app.getPath(&#39;downloads&#39;),
+        files: [{
+            name: &#39;图片&#39;,
+            extensions: [&#39;jpg&#39;, &#39;png&#39;]
+        }]
+    });
+    console.log(&#39;onOpenFile&#39;, filePath);
+}</code></pre>
+<h3 id="2-设置目录">2. 设置目录</h3>
+<pre><code>onSettingMenu(){
+    let Menu = remote.Menu;
+    let templateArr = [{
+            label: &#39;&#39;
+        },{
+        label: &#39;菜单A&#39;,
+        submenu: [{
+            label: &#39;菜单A-1&#39;
+        },{
+            label: &#39;菜单A-2&#39;,
+            click(){
+                alert(&#39;菜单A-2点击&#39;);
+            }
+        },{
+            label: &#39;菜单A-3&#39;
+        }]
+    }];
+    let menu = Menu.buildFromTemplate(templateArr);
+    Menu.setApplicationMenu(menu);
+}</code></pre>
+<h3 id="3-事件监听">3. 事件监听</h3>
+<pre><code>onKeyboardClick(){
+    window.onkeydown = event =&gt; {
+        if((event.ctrlKey || event.metaKey) &amp;&amp; event.keyCode == 83){
+            alert(&#39;Ctrl+S 按键监听&#39;);
+        }
+    }
+}</code></pre>
+<h3 id="4-剪切板">4. 剪切板</h3>
+<p>clipboard模块是electron中少有的主进程和渲染进程能同时使用的模块，内容写入剪切板后，直接ctrl+v就可以将内容输出出来。</p>
+<pre><code>onCopyContent(type, value){
+    let { clipboard, nativeImage } = window.require(&#39;electron&#39;);
+    switch(type){
+        case &#39;text&#39;:
+            clipboard.writeText(value);
+            break;
+        case &#39;html&#39;:
+            clipboard.writeHTML(value);
+            break;
+        case &#39;img&#39;:
+            {
+            let imgPath = window.require(&#39;path&#39;).join(__dirname, &#39;favicon.ico&#39;);
+            let img = nativeImage.createFromPath(imgPath);
+            clipboard.writeImage(img);
+            break;
+            }
+    }
+}</code></pre>
+<p>清除剪切板的内容：</p>
+<pre><code>clipboard.clear();</code></pre>
+<p>读取剪切板内容：</p>
+<pre><code>onReadContent(type){
+    let { clipboard } = window.require(&#39;electron&#39;);
+    switch(type){
+        case &#39;text&#39;:
+            alert(clipboard.readText());
+            break;
+        case &#39;html&#39;:
+            alert(clipboard.readHTML());
+            break;
+    }
+}</code></pre>
+<h3 id="5-系统通知">5. 系统通知</h3>
+<p>通过remote模块访问主进程中Notification类型。</p>
+<pre><code>onSendNotice(){
+    let { Notification } = remote;
+    let notification = new Notification({
+        title: &#39;消息的标题&#39;,
+        body: &#39;消息的正文，消息的正文，消息的正文，消息的正文，消息的正文，消息的正文&#39;
+    })
+    notification.show(); // 需要调用show方法才能显示
+    notification.on(&#39;click&#39;, () =&gt; {
+        alert(&#39;用户点击了消息&#39;)
+    })
+}</code></pre>
+<h3 id="6-字体">6. 字体</h3>
+<p>CSS3提供的系统字体样式设置：</p>
+<pre><code>&lt;div style=&quot;font:caption&quot;&gt;我是标题&lt;/div&gt;
+&lt;div style=&quot;font:menu&quot;&gt;我是菜单&lt;/div&gt;
+&lt;div style=&quot;font:message-box&quot;&gt;我是对话框中的字体&lt;/div&gt;
+&lt;div style=&quot;font:status-bar&quot;&gt;我是状态栏中的字体&lt;/div&gt;</code></pre>
+<h2 id="扩展阅读">扩展阅读</h2>
+<ul>
+<li>clipboard-files模块可以用来操作剪切板里的内容。</li>
+<li>clipboard, shell等模块是主进程和渲染进程共有的。</li>
+<li>使用app.addRecentDocument方法，可以给应用增加一个最近打开的文件，参数是文件路径。</li>
+<li>app.clearRecentDocuments()方法可以清除最近打开的文件列表。</li>
+</ul>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

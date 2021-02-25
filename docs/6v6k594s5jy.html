@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>总结自：<a href="http://reactjs.cn/react/docs/thinking-in-react-zh-CN.html">http://reactjs.cn/react/docs/thinking-in-react-zh-CN.html</a></p>
+<p>当接到一个需求时,如何用react来实现? 以下几个步骤做参考。</p>
+<h3 id="第一步：把ui拆分为一个组件的层级">第一步：把UI拆分为一个组件的层级</h3>
+<p>组件拆分原则:单一功能原则（single responsibility principle），也就是一个组件在理想情况下只做一件事情。如果它最终增长了，它就应该被分解为更小的组件。</p>
+<h3 id="第二步：用react创建一个静态版本">第二步：用React创建一个静态版本</h3>
+<p>构建一个静态版本 app 来渲染你的数据模型,重用其它组件并利用 props 传递数据。可以自顶向下或自底向上的构建组件,也就是说，你可以既从较高的层级也可以从较低的层级开始构建组件。在较简单的例子里，通常自顶向下要容易一些，然而在更大的项目上，自底向上地构建更容易，并且更方便伴随着构建写测试。</p>
+<h3 id="第三步：确定最小但完备的ui-state值发生变化的">第三步：确定最小但完备的UI state值(发生变化的)</h3>
+<p>要让你的UI互动，你需要做到触发底层数据模型发生变化。React用 state 来让此变得容易。要正确的构建你的 app，你首先需要思考你的 app 需要的可变 state 的最小组。这里的关键是 DRY 原则：Don&#39;t Repeat Yourself(不要重复自己)。
+state值至少满足下面三个条件:</p>
+<ol>
+<li>不是从父级传递来的props</li>
+<li>随时间发生变化</li>
+<li>不能基于其他任何组件里的 state 或者 props 计算</li>
+</ol>
+<h3 id="第四步：确定你的-state-应该存在哪个组件里">第四步：确定你的 state 应该存在哪个组件里</h3>
+<p>React 总是在组件层级中单向数据流动的。
+对于你的应用里每一个数据块：</p>
+<ol>
+<li>确定哪些组件要基于 state 来渲染内容。</li>
+<li>找到一个共同的拥有者组件（在所有需要这个state组件的层次之上，找出共有的单一组件）。</li>
+<li>要么是共同拥有者，要么是其他在层级里更高级的组件应该拥有这个state。</li>
+<li>如果你不能找到一个组件让其可以有意义地拥有这个 state，可以简单地创建一个新的组件 hold 住这个state，并把它添加到比共同拥有者组件更高的层级上。</li>
+</ol>
+<p>找到共同拥有者的组件后:</p>
+<ol>
+<li>初始化state值。</li>
+<li>然后将state值传到需要调用的子组件里。</li>
+<li>子组件通过this.props.STATENAME拿到状态值,然后做相应的操作。</li>
+</ol>
+<h3 id="第五步：添加反向数据流">第五步：添加反向数据流</h3>
+<p>拥有者的组件以 props 和 state 沿着层级向下流动的功能正确渲染。现在增加另一种数据流动的方式: 在层级深处的某个子组件需要更新拥有者组件里的 state。</p>
+<ol>
+<li>由于组件应该只更新自己拥有的 state,父组件将会传递一个回调函数给子组件。每当子组件 state 应被更新时回调函数就会被调用。</li>
+<li>我们可以在子组件上定义事件来接受父组件的通知。父组件传递的回调函数将会调用 setState() ，然后应用将会被更新。</li>
+</ol>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

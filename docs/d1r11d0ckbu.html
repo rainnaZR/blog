@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>这个demo参考：<a href="https://github.com/unixzii/CyandevToys">https://github.com/unixzii/CyandevToys</a>
+文章介绍参考：<a href="http://www.jianshu.com/p/f5c0f9c4bc39">http://www.jianshu.com/p/f5c0f9c4bc39</a></p>
+<p>这是用canvas写的一个动画效果。页面上实现动画效果有多种方式，比如简单的动画用CSS3来实现，或者JS操作。复杂的则可以用canvas来做。
+这个效果可用于页面中较少文字的大背景，具有比较强的视觉冲击力，而且有一定的趣味性。看到网上的这个例子后，就想自己也研究下源代码，也写个类似的效果。</p>
+<p>摘抄下原文：
+这个效果就是个粒子系统，粒子间是用线条连接的，离得近的粒子线条颜色深，离的远的线条颜色浅。</p>
+<p>实现步骤：
+1.构建节点
+用nodes数组存储构建粒子节点需要的数据。（数据包括坐标，偏移量，半径）其中第一个粒子为鼠标跟随的粒子节点。
+用edges数组存储粒子节点之间线条的相关数据。（数据包括起始的粒子节点）</p>
+<p>2.开始动画
+遍历nodes数组，计算出每个粒子节点新的移动位置。如果新位置是在画布边缘外，则重新调整偏移方向。计算出新的位置后，执行步骤3，绘制新的线条以及新的粒子节点。
+利用window.requestAnimationFrame方法重复执行此方法。</p>
+<p>3.绘制
+遍历edges数组，绘制线条。遍历nodes数组，绘制粒子。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

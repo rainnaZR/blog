@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《图解HTTP》阅读总结：</p>
+<h1 id="第七章-https">第七章 HTTPS</h1>
+<h3 id="1-定义">1. 定义</h3>
+<p>抓包工具可以拦截HTTP协议的请求和响应的内容，然后对其进行解析。</p>
+<p>HTTP协议中没有加密机制，但是可以通过和SSL和TSL组合，加密HTTP的通信内容。与SSL组合的HTTP就是HTTPS。</p>
+<p>中间人攻击是指攻击人随意篡改请求和响应，而且让客户端和服务器端之间的通信看上去依旧正常。</p>
+<h3 id="2-http加密认证完整性保护--https">2. HTTP+加密+认证+完整性保护 = HTTPS</h3>
+<p>HTTPS是身披SSL外壳的HTTP。HTTP先和SSL通信，再由SSL和TCP通信。采用SSL后，HTTPS就具备了加密，证书，完整性保护等功能。</p>
+<p><strong>共享密钥：对称密钥加密</strong></p>
+<p>加密和解密使用同一个秘钥。</p>
+<p><strong>公开密钥加密：非对称秘钥</strong></p>
+<p>使用公开密钥加密方式，发送密文的一方使用对方的公开密钥加密，对方收到加密信息后，使用自己的私有密钥解密。公开密钥加密速度比共享密钥要慢。</p>
+<p><strong>HTTPS采用两种混合加密机制</strong></p>
+<p>HTTPS采用共享密钥加密和公开密钥加密两种混合的加密机制。在交换共享密钥环节使用公开密钥加密方式，建立通信交换报文阶段使用共享密钥加密方式。</p>
+<p>通过使用数字证书认证机构颁发的公开密钥证书来判断公开密钥是正确合法的，是源服务器发行的公开密钥。</p>
+<p><strong>数字证书认证机构的业务流程如下：</strong></p>
+<p>1）服务器的运营人员向数字证书机构提出公开密钥的申请。</p>
+<p>2）证书机构判明申请者的身份，然后对已申请的公开密钥进行签名，并分配这个公钥，将该公钥放入公钥证书绑定在一起，并颁发公钥证书。</p>
+<p>3）服务器会将这份公钥证书发送给客户端。多数浏览器会内部植入常用CA机构的公钥，所以公钥是安全的放入到客户端内。公钥证书也叫数字证书或证书。</p>
+<p>4）客户端接收到公钥证书后，对证书上的数字签名向CA机构进行验证。验证通过后说明该证书是CA机构颁发的有效证书，且服务器的公钥是值得信赖的。</p>
+<p>5）客户端使用服务器的公钥对报文进行加密后发送。</p>
+<p>6）服务器用私有密钥对报文解密。</p>
+<p><strong>SSL速度慢</strong></p>
+<p>1）通信慢。</p>
+<p>2）对通信进行加密解密处理，大量消耗CPU和内存资源，处理速度较慢。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

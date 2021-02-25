@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《图解HTTP》阅读总结：</p>
+<h1 id="第九章-基于http的功能追加协议">第九章 基于HTTP的功能追加协议</h1>
+<h3 id="1-http标准瓶颈">1. HTTP标准瓶颈</h3>
+<p><strong>HTTP标准的瓶颈：</strong></p>
+<p>1）一条连接上只可发送一个请求。</p>
+<p>2）请求只能从客户端开始。客户端不可以接收除响应以外的指令。</p>
+<p>3）请求/响应首部未经压缩就发送。首部信息越多延迟越大。</p>
+<p>4）发送冗长的首部。每次发送相同的首部浪费较多。</p>
+<p>5）可任意选择数据压缩格式。</p>
+<p><strong>Ajax的解决办法：</strong></p>
+<p>利用Ajax实时的从服务器获取内容，有可能会导致大量请求产生。</p>
+<p><strong>Comet的解决办法：</strong></p>
+<p>一旦服务端有内容更新，Comet不会让请求等待，而是直接给客户端响应。为了实现推送功能，Comet会先将响应置于挂起状态，为了保留响应，连接的持续时间变长了，为了维持连接所消耗的资源也会更多。</p>
+<h3 id="2-spdy">2. SPDY</h3>
+<p><strong>SPDY的设计：</strong></p>
+<p>SPDY可以消除HTTP瓶颈，它没有完全改写HTTP协议，而是在TCP/IP的应用层和传输层之间新加会话层运作。同时SPDY协议规定通信中使用SSL。</p>
+<p>SPDY以会话层的形式加入，控制对数据的流动，但还是采用HTTP建立通信连接。使用SPDY协议后，新增如下功能：</p>
+<p><strong>1）多路复用流</strong></p>
+<p>通过单一的TCP连接，可以无限制的处理多个HTTP请求。TCP处理效率增加。</p>
+<p><strong>2）赋予请求优先级</strong></p>
+<p>SPDY可以给请求分配优先级顺序。</p>
+<p><strong>3）压缩HTTP首部</strong></p>
+<p>压缩HTTP请求和响应的首部。</p>
+<p><strong>4）推送功能</strong></p>
+<p>支持服务器主动向客户端推送数据的功能。</p>
+<p><strong>5）服务器提示功能</strong></p>
+<p>服务器可以主动提示客户端请求所需的资源。提前发现缓存在客户端的资源，避免不必要请求的发送。</p>
+<p>SPDY协议只是将单个域名的通信多路复用，当网站上有多个域名存在时，优化效果受限。</p>
+<h3 id="3-websocket">3. WebSocket</h3>
+<p>WebSocket可以使用浏览器进行全双工通信。一旦服务器与客户端之间建立WebSocket协议的通信连接，之后所有的通信都会依靠这个专用协议进行。WebSocket是在HTTP基础上建立的协议，由客户端发起，一旦确立WebSocket连接，不论服务器还是客户端，任意一方都可以向对方发送报文。</p>
+<p>WebSocket协议特点：</p>
+<p><strong>1）推送功能</strong></p>
+<p>支持由服务器向客户端推送数据的推送功能。</p>
+<p><strong>2）减少通信量</strong></p>
+<p>只要建立起WebSocket连接，就会一直保持连接状态。</p>
+<p>为了实现WebSocket通信，需要用到HTTP的Upgrade首部字段，告知服务器通信协议发生改变。成功握手确立WebSocket连接后，通信时不再使用HTTP的数据帧，而是WebSocket独立的数据帧。</p>
+<pre><code>var socket = new WebSocket(&#39;ws://game.com&#39;);
+socket.onopen = function(){
+    setInterval(function(){
+        if(socket.bufferedAmount == 0){
+            socket.send(getUpdateData());
+        ]
+    }, 50)
+};</code></pre>
+<h3 id="4-http2">4. HTTP2</h3>
+<p>HTTP2建立在SPDY和WebSocket基础之上。存在7个讨论。</p>
+<p>1）多路复用</p>
+<p>2）TLS义务化</p>
+<p>3）协商</p>
+<p>4）服务器推送</p>
+<p>5）流量控制</p>
+<p>6）WebSocket</p>
+<h3 id="5-webdav">5. WebDAV</h3>
+<p>WebDAV基于万维网的分布式创作和版本控制，是一个可对WEB服务器上的内容直接进行文件复制，编辑等操作的分布式操作系统。WebDAV客户端直接对服务器上的文件进行操作。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

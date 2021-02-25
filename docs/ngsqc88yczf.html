@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《深入浅出Node.js》读书总结</p>
+<h1 id="测试">测试</h1>
+<h3 id="1-单元测试">1. 单元测试</h3>
+<p><strong>编写可测试代码的原则：</strong></p>
+<p> 1）单一职责。</p>
+<p> 2）接口抽象。</p>
+<p> 3）层次分离。分层后，逐层测试，逐层保证。</p>
+<p> <strong>单元测试具体包括：</strong></p>
+<p>单元测试主要包括断言，测试框架，测试用例，测试覆盖率，mock，持续集成，异步代码测试，私有方法测试等几个方面。</p>
+<p>1）断言</p>
+<p>断言就是单元测试中用来保证最小单元是否正常的检测方法。node中的assert模块实现断言部分。</p>
+<p>2）测试框架</p>
+<p>断言检测失败后，记录下抛出的异常并继续执行，最后生成测试报告。这个任务的承担者就是测试框架。测试框架用于管理测试用例和生成测试报告。比如测试框架mocha。</p>
+<p>TDD风格：（测试驱动开发，使用decribe和it组织）</p>
+<pre><code>describe(&#39;Array&#39;, function(){
+    before(function(){
+        ...
+    });
+
+    describe(&#39;#indexOf()&#39;, function(){
+        it(&#39;should return -1 when not present&#39;, function(){
+            [1,2,3].indexOf(4).should.equal(-1);
+        });
+    });
+});</code></pre>
+<p>BDD风格：（行为驱动开发，使用suite和test完成）</p>
+<pre><code>suite(&#39;Array&#39;, function(){
+    setup(function(){
+        ...
+    });
+
+    suite(&#39;#indexof()&#39;, function(){
+        test(&#39;should return -1 when not present&#39;, function(){
+            assert.equal(-1, [1,2,3].indexof(4));
+        });
+    });
+})</code></pre>
+<p>3）测试用例</p>
+<p>分为异步测试和超时设置。使用mocha --reporters可以查看所有的报告形式。mocha给所有涉及异步的测试用例添加超时限制，如果一个用例的执行时间炒过了预期时间，则会记录一个超时错误，然后执行下一个测试用例。</p>
+<pre><code>it(&#39;should take less than 500 ms&#39;, function(done){
+    this.timeout(500);   //对单个用例设置超时时间
+
+    setTimeout(done, 300);
+})</code></pre>
+<p>4）测试覆盖率</p>
+<p>查看单元测试覆盖率可以使用blanket模块实现。node将.js文件的编译逻辑封装在require.extensions[&#39;.js&#39;]中，blanket在这个环节实现文件的编译，将单元测试覆盖率的追踪代码插入到原始代码中，然后由原始模块处理逻辑。对原模块的代码没有额外侵入。</p>
+<p>5）mock</p>
+<p>使用before()和after()钩子函数。</p>
+<p>6）私有方法的测试</p>
+<p>使用rewire模块实现对私有方法的访问。原理是利用闭包的诀窍，在eval()执行时，实现对模块内部局部变量的访问，从而可以将局部变量导出给测试用例调用执行。</p>
+<h3 id="2-性能测试">2. 性能测试</h3>
+<p>性能测试包括负载测试，压力测试，基准测试等。</p>
+<p>1）基准测试</p>
+<p>基准测试要统计的是在多少时间内执行了多少次某个方法。一般以次数为参照物，然后比较时间来判断性能的差距。对基本的方法进行测试。</p>
+<p>2）压力测试</p>
+<p>对网络接口进行压力测试以判断网络接口的性能。指标有吞吐率，响应时间和并发数。最常用的工具有ab, siege, http_load等。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

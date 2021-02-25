@@ -1,0 +1,6 @@
+<div class="m-list">
+    ${data.map((item, index) => {
+        return `<div class="item"><a href="${item.path}">${item.type}-${item.level}-${item.name}</a></div>`;
+    }).join('')}
+</div>
+

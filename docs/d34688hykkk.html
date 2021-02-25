@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <h2 id="主进程与渲染进程">主进程与渲染进程</h2>
+<h3 id="概念">概念</h3>
+<p>Electron应用程序区分主进程和渲染进程。线程是进程的子集，进程不共享内存，线程可以共享内存，一个进程会创建多个线程。例子中yarn start执行index.js中的代码就是在Electron的主进程中，主进程负责创建窗口并加载index.html，而index.html中编写的代码运行在Electron的渲染进程中。</p>
+<ul>
+<li>主进程负责完成监听应用程序的生命周期事件，启动窗口，加载页面，应用程序关闭后回收资源，退出程序等工作。主进程管理窗口及其渲染进程。</li>
+<li>渲染进程负责完成渲染界面，接收用户输入，响应用户交互等工作。</li>
+</ul>
+<p>一个Electron应用只会有一个主进程，多个渲染进程。一个BrowserWindow实例代表一个渲染进程。</p>
+<p>JS的事件循环机制使得JS适合处理高IO的应用，不适合处理CPU密集型的任务，所以一般使用Node.js来接管web请求（IO操作），复杂的业务逻辑（CPU操作）由node.js转交给java执行。</p>
+<h3 id="进程互访">进程互访</h3>
+<ul>
+<li>渲染进程访问主进程：渲染进程使用electron.remote来调用主进程的方法。除了remote.getCurrentWindow()和remote.getCurrentWebContents()外，还可以通过remote对象访问主进程的app,BrowserWindow等对象和类型。渲染进程无法直接访问BrowserWindow等对象和类型。</li>
+<li>主进程访问渲染进程对象。</li>
+</ul>
+<h3 id="进程间消息传递">进程间消息传递</h3>
+<ul>
+<li>渲染进程向主进程发送消息：渲染进程使用electron内置的ipcRenderer模块向主进程发送消息。</li>
+</ul>
+<pre><code>// 第一个参数是消息管道的名称，后面的参数是消息传递的数据
+// 渲染进程发送消息
+let { ipcRenderer } = require(&#39;electron&#39;);
+ipcRenderer.send(&#39;msg&#39;, {
+    name: &#39;name1&#39;
+},{
+    name: &#39;name2&#39;
+})
+
+// 主进程接收消息
+let { ipcMain } = require(&#39;electron&#39;);
+ipcMain.on(&#39;msg&#39;, (event, param) =&gt; {
+    console.log(event.sender, param);
+})</code></pre>
+<p>消息传递的原理都是进程间通信，通信过程中随消息发送的json对象会被序列化和反序列化，所以JSON对象中包含的方法和原型上的数据不会被传送。</p>
+<h3 id="扩展阅读">扩展阅读</h3>
+<ul>
+<li>mac下使用 Alt+Command+I 即可打开渲染进程的调试窗口。</li>
+<li>mac下使用 Command+R 刷新页面</li>
+<li>使用 win.webContents.openDevTools(); 可以在页面启动时打开开发者工具</li>
+</ul>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

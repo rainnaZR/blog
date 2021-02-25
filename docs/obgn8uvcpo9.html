@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>学习文档(按优先级排列)
+<a href="http://reactjs.cn/react/docs/tutorial-zh-CN.html">http://reactjs.cn/react/docs/tutorial-zh-CN.html</a>
+<a href="http://www.cnblogs.com/Mrs-cc/p/4969755.html">http://www.cnblogs.com/Mrs-cc/p/4969755.html</a> (es5与es6的兼容性写法)</p>
+<h4 id="reactcreateclass">React.createClass()</h4>
+<p>我们在一个 JavaScript 对象中传递一些方法到 React.createClass() 来创建一个新的React组件。这些方法中最重要的是 render，该方法返回一颗 React 组件树，并不是实际的HTML,这棵组件树最终将会渲染成 HTML。</p>
+<h4 id="reactdomrender">ReactDOM.render()</h4>
+<p>ReactDOM.render() 实例化根组件，启动框架，注入标记到原始的 DOM 元素中，作为第二个参数提供。
+ReactDOM 模块暴露了 DOM 相关的方法， 而 React 保有被不同平台的 React 共享的核心工具 （例如 React Native）。</p>
+<h4 id="thisprops">this.props</h4>
+<p>在 JSX 中,通过将 JavaScript 表达式放在大括号中（作为属性或者子节点）,你可以把文本或者 React 组件放置到树中。我们以 this.props 的 keys 访问传递给组件的命名属性，以 this.props.children 访问任何嵌套的元素。
+props 是不可变的：它们从父级传来并被父级“拥有”。</p>
+<h4 id="thispropsdatamap">this.props.data.map()</h4>
+<p>var names = [&#39;Alice&#39;, &#39;Emily&#39;, &#39;Kate&#39;];
+names.map(function (name) {
+    return <div>Hello, {name}!</div>
+})</p>
+<h4 id="thisstate">this.state</h4>
+<p>为了实现交互，我们给组件引进了可变的 state。state 仅仅是为互动性，也就是随时间变化的数据所预留的。this.state 是组件私有的，可以通过调用 this.setState() 改变它。每当state更新，组件就重新渲染自己。</p>
+<h4 id="getinitialstate">getInitialState()</h4>
+<p>getInitialState() 在生命周期里只执行一次，并设置组件的初始状态。</p>
+<p>//es5
+getInitialState: function(){
+    return {liked: false};
+}
+//es6
+constructor(props){
+    super(props);
+    this.state = {liked: false};
+}</p>
+<h4 id="thissetstate">this.setState()</h4>
+<p>设置组件内部state的值。动态更新的关键是对this.setState()的调用。</p>
+<h4 id="componentdidmount">componentDidMount()</h4>
+<p>componentDidMount()是一个当组件被渲染时被React自动调用的方法。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

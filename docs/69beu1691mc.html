@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <h1 id="后端优化方案">后端优化方案</h1>
+<h3 id="呈现系统优化方案">呈现系统优化方案</h3>
+<p>方案的核心点在于首屏要快且铺满整屏，除首屏外的页面数据要求并发请求。</p>
+<h4 id="拆分出首屏请求，定义新接口，由后端来取出首屏数据和此时到达的区块id">拆分出首屏请求，定义新接口，由后端来取出首屏数据和此时到达的区块id</h4>
+<p>涉及到的点有</p>
+<ul>
+<li>定义首屏数据大小 </li>
+<li>首屏接口定义 </li>
+<li>搭建后台需要支持 </li>
+<li>资源投放需要支持 </li>
+<li>静态化，首屏接口的后缀也为.shtml,且需要后端统一封装静态化失效时间  </li>
+</ul>
+<h4 id="非首屏的获取投放数据接口">非首屏的获取投放数据接口</h4>
+<ul>
+<li>基本保持不变，仍然由前端并发请求，区别在于需要等首屏数据回来，依赖已经到达的区块id去请求下一个区块id  </li>
+<li>投放数据返回值格式需要改动，具体和首屏的返回值保持一致  </li>
+<li>前端需要区分是id类还是非id类区块，非id类一次请求5个，id类一次请求1个（性能考虑） </li>
+</ul>
+<h4 id="框架数据的改动">框架数据的改动</h4>
+<ul>
+<li>在返回值中加上每个区块是否为id类的标识 </li>
+<li>电梯导航的问题, 电梯导航会先出现，但是只有等到该导航的模块数据加载完成，此导航才可以点击生效  </li>
+<li>商品区块的数据限制, 目前展示限制为50</li>
+</ul>
+<h4 id="后续考虑的优化点">后续考虑的优化点</h4>
+<ul>
+<li>首屏数据合进框架数据，甚至合进同步数据</li>
+<li>另起域名访问投放数据</li>
+</ul>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

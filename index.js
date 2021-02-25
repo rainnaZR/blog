@@ -22,11 +22,17 @@ function onBuildFiles({filePath}) {
         data: data.children,
         path: `${DATA_JSON_PATH}/indexList.json`
     });
-    // 生成数据json文件-文章
-    onGetJsonData({
-        data: data.children.filter(i => i.name == 'article'),
-        path: `${DATA_JSON_PATH}/articleList.json`
-    });
+    
+    // 复制样式文件
+    onCopyFiles({
+        filePath: './static/css',
+        outputFilePath: `${OUTPUT_FILE_DIRECTORY}/css`,
+        fileType: 'css'
+    })
+    onLoadHtml({
+        filePath: './static/index.html',
+        outputFilePath: `${OUTPUT_FILE_DIRECTORY}`,
+    });  
 }
 
 /**
@@ -40,7 +46,9 @@ function onGetJsonData({data, path}){
         return list.concat(onLoopData(i.children||[]))
     }, []);
     fs.removeSync(path);
-    fs.writeJsonSync(path, onLoopData(data));
+    fs.writeJsonSync(path, {
+        data: onLoopData(data)
+    });
 }
 
 /**
@@ -84,7 +92,7 @@ function onGetDocFiles({filePath, level}) {
             })
             return {
                 ...option,
-                path: `${OUTPUT_FILE_DIRECTORY}/${fileName}.html`,
+                path: `${fileName}.html`,
                 name: path.basename(file),
                 introduce: mdContent.substr(0, 100)
             }
@@ -113,45 +121,40 @@ async function onLoadHtml({ filePath, outputFilePath, outputFileName, outputFile
     outputFileName = outputFileName || path.basename(filePath, fileExt);
     outputFilePath = `${outputFilePath}/${outputFileName}${fileExt}`;
     
-    let res = await fs.readFile(filePath, 'utf-8');
-    let reg = /(@include\('(\S+)(',\s(\S+))*'\))|(@markdown)/g;
-    // 找到所有的引用标签
-    let tags = res.match(reg)||[];
-    tags.map(i => {
-        let html = '';
-        // 如果是 @include 标签
-        if(i.startsWith('@include')){
-            let result = i.match(/@include\('(\S+)(',\s'(\S+))*'\)/);
-            let tagPath = result[1];
-            let jsonPath = result[3];
-            html = fs.readFileSync(tagPath, 'utf-8');
-            // 如果有JSON路径，就读取jons文件作为数据来源
-            if(jsonPath){
-                let json = fs.readJsonSync(jsonPath);
-                html = html.interpolate(json);
+    try{
+        let res = await fs.readFile(filePath, 'utf-8');
+        let reg = /(@include\('(\S+)(',\s(\S+))*'\))|(@markdown)/g;
+        // 找到所有的引用标签
+        let tags = res.match(reg)||[];
+        tags.map(i => {
+            let html = '';
+            // 如果是 @include 标签
+            if(i.startsWith('@include')){
+                let result = i.match(/@include\('(\S+)(',\s'(\S+))*'\)/);
+                let tagPath = result[1];
+                let jsonPath = result[3];
+                html = fs.readFileSync(tagPath, 'utf-8');
+                // 如果有JSON路径，就读取jons文件作为数据来源
+                if(jsonPath){
+                    let json = fs.readJsonSync(jsonPath);
+                    html = html.interpolate(json);
+                }
             }
-        }
-        // 如果是 @markdown 标签
-        if(i.startsWith('@markdown')){
-            html = outputFileContent[i];
-        } 
-        res = res.replace(i, html);   
-    })
-    await fs.remove(outputFilePath);
-    // 当全部加载完后，生成完整html文件
-    await fs.outputFile(outputFilePath, res);
-    success(`==== ${outputFilePath} 生成成功！====`);           
+            // 如果是 @markdown 标签
+            if(i.startsWith('@markdown')){
+                html = outputFileContent[i];
+            } 
+            res = res.replace(i, html);   
+        })
+        await fs.remove(outputFilePath);
+        // 当全部加载完后，生成完整html文件
+        await fs.outputFile(outputFilePath, res);
+        success(`==== ${outputFilePath} 生成成功！====`); 
+    }catch(err){
+        error(err);
+    }          
 }
 
 onBuildFiles({
     filePath: './src'
-});
-onCopyFiles({
-    filePath: './static/css',
-    outputFilePath: `${OUTPUT_FILE_DIRECTORY}/css`,
-    fileType: 'css'
-})
-onLoadHtml({
-    filePath: './static/index.html',
-    outputFilePath: `${OUTPUT_FILE_DIRECTORY}`,
 });
