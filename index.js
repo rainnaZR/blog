@@ -4,359 +4,154 @@ const chalk = require('chalk');
 const error = params => console.error(chalk.bold.red(params));
 const warning = params => console.log(chalk.orange(params));
 const success = params => console.log(chalk.greenBright(params));
-const OUTPUT_FILE_DIRECTORY = 'docs';
- 
-
-
 const marked = require('marked');
-
+const OUTPUT_FILE_DIRECTORY = 'docs';
+const DATA_JSON_PATH = './static/data';
 
 String.prototype.interpolate = function (params) {
     const names = Object.keys(params);
     const vals = Object.values(params);
     return new Function(...names, `return \`${this}\`;`)(...vals);
 };
+ 
+function onBuildFiles({filePath}) {
+    // 获取页面完整数据
+    let data = onGetDocFiles({filePath, level: 0});
+    // 生成数据json文件-首页
+    onGetJsonData({
+        data: data.children,
+        path: `${DATA_JSON_PATH}/indexList.json`
+    });
+    // 生成数据json文件-文章
+    onGetJsonData({
+        data: data.children.filter(i => i.name == 'article'),
+        path: `${DATA_JSON_PATH}/articleList.json`
+    });
+}
 
-async function copyFiles ({filePath, newFilePath, fileType}) {
+/**
+ * 根据目录数据生成页面需要展示的数据
+*/
+function onGetJsonData({data, path}){
+    let onLoopData = children => children.reduce((list, i) => {
+        if(i.type == 'file'){
+            return list.concat(i);
+        }
+        return list.concat(onLoopData(i.children||[]))
+    }, []);
+    fs.removeSync(path);
+    fs.writeJsonSync(path, onLoopData(data));
+}
+
+/**
+ * 1. 生成文件目录数据
+ * 2. 将md文件转成html文件并输出
+ * **/
+function onGetDocFiles({filePath, level}) {
+    let data = {
+        path: filePath,
+        name: path.basename(filePath),
+        type: 'directory',
+        level
+    }
+    let files = fs.readdirSync(filePath);
+    level++;
+    data.children = files.map(file => {
+        let subPath = path.join(filePath, file);
+        let stats = fs.statSync(subPath);
+        if(stats.isDirectory()){
+            return onGetDocFiles({filePath: subPath, level});
+        }
+
+        let option = {
+            type: 'file',
+            level,
+            modifyTime: stats.mtime || stats.ctime
+        };
+        let ext = path.extname(file);
+        if(ext == '.md'){
+            let mdContent = fs.readFileSync(subPath, 'utf-8');
+            let htmlContent = marked(mdContent.toString());
+            let fileName = Math.random().toString(36).substr(2);
+            // markdown 文件生成 html 文件
+            onLoadHtml({
+                filePath: './static/detail.html',
+                outputFilePath: `${OUTPUT_FILE_DIRECTORY}`,
+                outputFileName: fileName,
+                outputFileContent: {
+                    '@markdown': htmlContent
+                }
+            })
+            return {
+                ...option,
+                path: `${OUTPUT_FILE_DIRECTORY}/${fileName}.html`,
+                name: path.basename(file),
+                introduce: mdContent.substr(0, 100)
+            }
+        }
+    }).filter(i => i);
+    return data;
+}
+
+/**
+ * 复制文件
+ * **/
+async function onCopyFiles ({filePath, outputFilePath, fileType}) {
     try{
-        await fs.copy(filePath, newFilePath);
-        success(`${fileType}文件已成功复制到打包目录！`);
+        await fs.copy(filePath, outputFilePath);
+        success(`==== ${fileType} 文件已成功复制到打包目录！====`);
     }catch(err){
         error(err);
     }
 }
 
-async function loadHtml({ filePath }){
+/**
+ * 打包输出html文件
+ * **/
+async function onLoadHtml({ filePath, outputFilePath, outputFileName, outputFileContent = {} }){
     let fileExt = path.extname(filePath);
-    let fileName = path.basename(filePath, fileExt);
-    let outputPath = `${OUTPUT_FILE_DIRECTORY}/${fileName}${fileExt}`;
+    outputFileName = outputFileName || path.basename(filePath, fileExt);
+    outputFilePath = `${outputFilePath}/${outputFileName}${fileExt}`;
+    
     let res = await fs.readFile(filePath, 'utf-8');
-    let reg = /@include\('(\S+)(',\s(\S+))*'\)/g;
-    // 找到所有的include标签
-    let tags = res.match(reg);
-    await fs.remove(outputPath);
-    if(!tags || !tags.length){
-        await fs.outputFile(`${OUTPUT_FILE_DIRECTORY}/${fileName}${fileExt}`, res);
-        success('文件生成成功！');
-        return;
-    }
-
-    let index = 0;
-    let total = tags.length;
-    tags.map(async i => {
-        let result = i.match(/@include\('(\S+)(',\s'(\S+))*'\)/);
-        let tagPath = result[1];
-        let jsonPath = result[3];
-        try{
-            let html = await fs.readFile(tagPath, 'utf-8');
+    let reg = /(@include\('(\S+)(',\s(\S+))*'\))|(@markdown)/g;
+    // 找到所有的引用标签
+    let tags = res.match(reg)||[];
+    tags.map(i => {
+        let html = '';
+        // 如果是 @include 标签
+        if(i.startsWith('@include')){
+            let result = i.match(/@include\('(\S+)(',\s'(\S+))*'\)/);
+            let tagPath = result[1];
+            let jsonPath = result[3];
+            html = fs.readFileSync(tagPath, 'utf-8');
             // 如果有JSON路径，就读取jons文件作为数据来源
             if(jsonPath){
-                let json = await fs.readJson(jsonPath);
+                let json = fs.readJsonSync(jsonPath);
                 html = html.interpolate(json);
             }
-            index ++;
-            res = res.replace(i, html);
-            if(index < total) return;
-            // 当全部加载完后，生成完整html文件
-            await fs.outputFile(outputPath, res);
-            success('文件生成成功！');
-        }catch(err){
-            error(err);
         }
+        // 如果是 @markdown 标签
+        if(i.startsWith('@markdown')){
+            html = outputFileContent[i];
+        } 
+        res = res.replace(i, html);   
     })
-
-   
-    
-    
-
-
-
-    
-    
-
-
-    //                 // let templateStr = template.match(/\<template\>\w+/g);
-    //                 let templateStr = `${data.children.map(item => {
-    //                     return `<div class="blogs-item">
-    //                                             <a href="${item.name}.html">目录层级${item.level}-${item.name}</a>
-    //                                         </div>`;
-    //                   }).join('')}`;
-    //                   template = template.replace('@template', templateStr)      
-    //                     fs.access('docs',(err)=>{
-    //                         // 目录存在时
-    //                         // if(!err) fs.rmdir('dist');
-    //                         // fs.mkdir('dist', err => {
-    //                             // if(err) return;
-    //                             fs.writeFile('docs/index.html', template, err => {
-    //                                 if(!err) console.log("success")  
-    //                             })
-    //                         // })
-    //                     }); 
-    //             }
-    //         })
+    await fs.remove(outputFilePath);
+    // 当全部加载完后，生成完整html文件
+    await fs.outputFile(outputFilePath, res);
+    success(`==== ${outputFilePath} 生成成功！====`);           
 }
 
-copyFiles({
+onBuildFiles({
+    filePath: './src'
+});
+onCopyFiles({
     filePath: './static/css',
-    newFilePath: `${OUTPUT_FILE_DIRECTORY}/css`,
+    outputFilePath: `${OUTPUT_FILE_DIRECTORY}/css`,
     fileType: 'css'
 })
-loadHtml({
-    filePath: './static/index.html'
+onLoadHtml({
+    filePath: './static/index.html',
+    outputFilePath: `${OUTPUT_FILE_DIRECTORY}`,
 });
-
-
-
-
-
-
-
-// String.prototype.interpolate = function (params) {
-//     const names = Object.keys(params);
-//     const vals = Object.values(params);
-
-//     return new Function(...names, `return \`${this}\`;`)(...vals);
-// };
-
-// function onGetFiles(filePath, level, excludeFilePath, fileExtension) {
-//     let data = {
-//         path: filePath,
-//         name: path.basename(filePath),
-//         type: 'directory',
-//         level
-//     };
-//     let files = fs.readdirSync(filePath);
-//     level ++; 
-//     data.children = files.map(file => {
-//         // 过滤文件
-//         if(excludeFilePath.includes(file)) return;
-//         // 获取文件相对路径
-//         let subPath = path.join(filePath, file);  
-//         // 读取文件信息对象
-//         let stats = fs.statSync(subPath);
-//         // 如果是文件夹
-//         if(stats.isDirectory()){
-//             return onGetFiles(subPath, level, excludeFilePath, fileExtension);
-//         }
-//         // 后缀验证
-//         let ext = path.extname(file);
-//         if(fileExtension && !fileExtension.includes(ext)) return;
-        
-//         let option = {
-//             path: subPath,
-//             name: file,
-//             type: 'file',
-//             level
-//         };
-//         onGetMdHtml(option);
-//         return option
-//     }).filter(i => i);
-//     return data;
-// }
-
-// function onGetHtml(templatePath, data){
-//     fs.readFile(templatePath, 'utf-8', (err, template)=>{
-//         if(err){  
-//             throw err;
-//         }else{
-//             // let templateStr = template.match(/\<template\>\w+/g);
-//             let templateStr = `${data.children.map(item => {
-//                 return `<div class="blogs-item">
-//                                         <a href="${item.name}.html">目录层级${item.level}-${item.name}</a>
-//                                     </div>`;
-//               }).join('')}`;
-//               template = template.replace('@template', templateStr)      
-//                 fs.access('docs',(err)=>{
-//                     // 目录存在时
-//                     // if(!err) fs.rmdir('dist');
-//                     // fs.mkdir('dist', err => {
-//                         // if(err) return;
-//                         fs.writeFile('docs/index.html', template, err => {
-//                             if(!err) console.log("success")  
-//                         })
-//                     // })
-//                 }); 
-//         }
-//     })
-// }
-
-// function onGetMdHtml({ path, name }){
-//     console.log(path)
-//     let templatePath = './static/template/detail.html';
-//     fs.readFile(templatePath, 'utf-8', (err, template)=>{
-//         console.log(template);
-//         if(err){  
-//             throw err;
-//         }else{
-//             fs.readFile(path, 'utf8', (err,markContent)=>{  
-//                 if(err){  
-//                     throw err  
-//                 }else{  
-//                     // 转化好的html字符串  
-//                     let htmlStr = marked(markContent.toString())  
-//                     // 将html模板文件中的 '@markdown' 替换为html字符串  
-//                     template = template.replace('@markdown', htmlStr)  
-//                     // 将新生成的字符串template重新写入到文件中==>模板文件地址  
-//                     fs.writeFile(`docs/${name}.html`, template, err=>{  
-//                         if(err){  
-//                             throw err  
-//                         }else{  
-//                             console.log("success2")  
-//                         }  
-//                     })  
-//                 }  
-//             })
-            
-//         }
-//     })
-// }
-
-// function init({ filePath, excludeFilePath, fileExtension, templatePath }){
-//     let data = onGetFiles(filePath, 0, excludeFilePath, fileExtension);
-//     let html = onGetHtml(templatePath, data);
-// }
-
-// init({
-//     filePath: './src',
-//     fileExtension: ['.md'],
-//     excludeFilePath: [''],
-//     theme: 'default',
-//     templatePath: './static/template/index.html'
-// })
-
-
-
-
-
-// const fs = require('fs');
-// const marked = require('marked');
-
-
-
-// // 模板文件地址
-// fs.readFile('./template.html', 'utf8', (err, template)=>{  
-//     if(err){  
-//         throw err  
-//     }else{  
-//         // 源文件地址
-//         fs.readFile('./src/test.md', 'utf8', (err,markContent)=>{  
-//             if(err){  
-//                 throw err  
-//             }else{  
-//                 // 转化好的html字符串  
-//                 let htmlStr = marked(markContent.toString())  
-//                 // 将html模板文件中的 '@markdown' 替换为html字符串  
-//                 template = template.replace('@markdown', htmlStr)  
-//                 // 将新生成的字符串template重新写入到文件中==>模板文件地址  
-//                 fs.writeFile('./index.html', template, err=>{  
-//                     if(err){  
-//                         throw err  
-//                     }else{  
-//                         console.log("success")  
-//                     }  
-//                 })  
-//             }  
-//         })  
-//     }  
-// })
-
-/**
- * 思路
- * 1. 传入文件路径，文件格式，要排除的文件目录等
- * 2. 根据文件路径生成目录数据
- * 3. 根据目录数据生成html内容
- * 4. 根据html内容生成完整的html文件
- * 5. 定制该html文件的样式，支持样式文件和内联样式
- * 5. 启动本地服务，访问该html文件
-*/
-// let fs = require('fs');
-// let path = require('path');
-
-// /**
-//  * options
-//  *  filePath 文件路径
-//  *  fileExtension 文件后缀
-//  *  excludeFilePath 排除的文件路径
-//  *  theme 主题样式
-//  * **/
-// class fileLoader {
-//     constructor(options){
-//         let { filePath, theme } = options;
-//         this.options = options;
-//         this.files = this.onGetFiles(filePath, 0);
-//         this.htmlTemplate = this.onGetHtmlTemplate(this.files, theme);
-//         console.log(this.htmlTemplate);
-//     }
-
-//     /**
-//      * 根据文件路径生成目录数据
-//     */
-//     onGetFiles(filePath, level){
-//         let { excludeFilePath, fileExtension}  = this.options;
-//         let data = {
-//             path: filePath,
-//             name: path.basename(filePath),
-//             type: 'directory',
-//             level
-//         };
-//         let files = fs.readdirSync(filePath);
-//         level ++; 
-//         data.children = files.map(file => {
-//             // 过滤文件
-//             if(excludeFilePath.includes(file)) return;
-//             // 获取文件相对路径
-//             let subPath = path.join(filePath, file);  
-//             // 读取文件信息对象
-//             let stats = fs.statSync(subPath);
-//             // 如果是文件夹
-//             if(stats.isDirectory()){
-//                 return this.onGetFiles(subPath, level);
-//             }
-//             // 后缀验证
-//             let ext = path.extname(file);
-//             if(fileExtension && !fileExtension.includes(ext)) return;
-//             return {
-//                 path: subPath,
-//                 name: file,
-//                 type: 'file',
-//                 level
-//             }
-//         }).filter(i => i);
-//         return data;
-//     }
-
-//     /**
-//      * 根据目录数据生成html内容
-//     */
-//    onGetHtmlTemplate(files, theme = 'default'){
-//        if(!files) return;
-//        this.html = '';
-
-//        return `<div class="m-blogs-${theme}">
-//         <div class="blogs-title">主页${files.name}</div>
-//         <div class="blogs-list">
-//             ${this.onGetItemTemplate(files.children)}
-//         </div>
-//        </div>`;
-//    }
-
-//    /**
-//     * 获取模板内容
-//    */
-//   onGetItemTemplate(list = []){
-//     list.map(item => {
-//         this.html += `<div class="blogs-item">
-//                         <a href="${item.path}">目录层级${item.level}-${item.name}</a>
-//                     </div>`;
-//         item.children && item.children.length && this.onGetItemTemplate(item.children);
-//     })
-//     return this.html;
-//   }
-// }
-
-// module.exports = new fileLoader({
-//     filePath: './',
-//     fileExtension: ['md', 'html'],
-//     excludeFilePath: [''],
-//     theme: 'default'
-// })
