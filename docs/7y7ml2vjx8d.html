@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><p>CommonJS模块规范使用require语句导入模块，module.exports导出模块，输出的是值的拷贝，模块导入的也是输出值的拷贝，也就是说，一旦输出这个值，这个值在模块内部的变化是监听不到的。</p>
+<p>ES6模块的规范是使用import语句导入模块，export语句导出模块，输出的是对值的引用。ES6模块的运行机制和CommonJS不一样，遇到模块加载命令import时不去执行这个模块，只会生成一个动态的只读引用，等真的需要用到这个值时，再到模块中取值，也就是说原始值变了，那输入值也会发生变化。</p>
+<h3 id="那commonjs和es6模块规范针对模块的循环加载处理机制有什么不同呢？">那CommonJS和ES6模块规范针对模块的循环加载处理机制有什么不同呢？</h3>
+<p>循环加载指的是a脚本的执行依赖b脚本，b脚本的执行依赖a脚本。</p>
+<h3 id="1-commonjs模块的加载原理">1. CommonJS模块的加载原理</h3>
+<p>CommonJS模块就是一个脚本文件，require命令第一次加载该脚本时就会执行整个脚本，然后在内存中生成该模块的一个说明对象。</p>
+<pre><code>{
+    id: &#39;&#39;,  //模块名，唯一
+    exports: {  //模块输出的各个接口
+        ...
+    },
+    loaded: true,  //模块的脚本是否执行完毕
+    ...
+}</code></pre>
+<p>以后用到这个模块时，就会到对象的exports属性中取值。即使再次执行require命令，也不会再次执行该模块，而是到缓存中取值。</p>
+<p>CommonJS模块是加载时执行，即脚本代码在require时就全部执行。一旦出现某个模块被“循环加载”，就只输出已经执行的部分，没有执行的部分不会输出。</p>
+<p><strong>案例说明：</strong></p>
+<p>案例来源于Node官方说明：<a href="https://nodejs.org/api/modules.html#modules_cycles">https://nodejs.org/api/modules.html#modules_cycles</a></p>
+<pre><code>//a.js
+exports.done = false;
+
+var b = require(&#39;./b.js&#39;);
+console.log(&#39;在a.js中，b.done = %j&#39;, b.done);
+
+exports.done = true;
+console.log(&#39;a.js执行完毕！&#39;)</code></pre>
+<pre><code>//b.js
+exports.done = false;
+
+var a = require(&#39;./a.js&#39;);
+console.log(&#39;在b.js中，a.done = %j&#39;, a.done);
+
+exports.done = true;
+console.log(&#39;b.js执行完毕！&#39;)</code></pre>
+<pre><code>//main.js
+var a = require(&#39;./a.js&#39;);
+var b = require(&#39;./b.js&#39;);
+
+console.log(&#39;在main.js中，a.done = %j, b.done = %j&#39;, a.done, b.done);</code></pre>
+<p><strong>输出结果如下：</strong></p>
+<pre><code>//node环境下运行main.js
+node main.js
+
+在b.js中，a.done = false
+b.js执行完毕！
+在a.js中，b.done = true
+a.js执行完毕！
+在main.js中，a.done = true, b.done = true</code></pre>
+<p><strong>JS代码执行顺序如下：</strong></p>
+<p>1）main.js中先加载a.js，a脚本先输出done变量，值为false，然后加载b脚本，a的代码停止执行，等待b脚本执行完成后，才会继续往下执行。</p>
+<p>2）b.js执行到第二行会去加载a.js，这时发生循环加载，系统会去a.js模块对应对象的exports属性取值，因为a.js没执行完，从exports属性只能取回已经执行的部分，未执行的部分不返回，所以取回的值并不是最后的值。</p>
+<p>3）a.js已执行的代码只有一行，exports.done = false;所以对于b.js来说，require a.js只输出了一个变量done，值为false。往下执行console.log(&#39;在b.js中，a.done = %j&#39;, a.done);控制台打印出：</p>
+<pre><code>在b.js中，a.done = false</code></pre>
+<p>4）b.js继续往下执行，done变量设置为true，console.log(&#39;b.js执行完毕！&#39;)，等到全部执行完毕，将执行权交还给a.js。此时控制台输出：</p>
+<pre><code>b.js执行完毕！</code></pre>
+<p>5）执行权交给a.js后，a.js接着往下执行，执行console.log(&#39;在a.js中，b.done = %j&#39;, b.done);控制台打印出：</p>
+<pre><code>在a.js中，b.done = true</code></pre>
+<p>6）a.js继续执行，变量done设置为true，直到a.js执行完毕。</p>
+<pre><code>a.js执行完毕！</code></pre>
+<p>7）main.js中第二行不会再次执行b.js，直接输出缓存结果。最后控制台输出：</p>
+<pre><code>在main.js中，a.done = true, b.done = true</code></pre>
+<p><strong>总结：</strong></p>
+<p>1）在b.js中，a.js没有执行完毕，只执行了第一行，所以循环加载中，只输出已执行的部分。</p>
+<p>2）main.js第二行不会再次执行，而是输出缓存b.js的执行结果。exports.done = true;</p>
+<h3 id="2-es6模块的循环加载">2. ES6模块的循环加载</h3>
+<p>ES6模块与CommonJS有本质区别，ES6模块对导出变量，方法，对象是动态引用，遇到模块加载命令import时不会去执行模块，只是生成一个指向被加载模块的引用，需要开发者保证真正取值时能够取到值，只要引用是存在的，代码就能执行。</p>
+<p><strong>案例说明：</strong></p>
+<pre><code>//even.js
+import {odd} from &#39;./odd&#39;;
+
+var counter = 0;
+export function even(n){
+    counter ++;
+    console.log(counter);
+
+    return n == 0 || odd(n-1);
+}</code></pre>
+<pre><code>//odd.js
+import {even} from &#39;./even.js&#39;;
+
+export function odd(n){
+    return n != 0 &amp;&amp; even(n-1);
+}</code></pre>
+<pre><code>//index.js
+import * as m from &#39;./even.js&#39;;
+
+var x = m.even(5);
+console.log(x);
+
+var y = m.even(4);
+console.log(y);</code></pre>
+<p><strong>执行index.js，输出结果如下：</strong></p>
+<pre><code>babel-node index.js
+
+1
+2
+3
+false
+4
+5
+6
+true</code></pre>
+<p>可以看出counter的值是累加的，ES6是动态引用。如果上面的引用改为CommonJS代码，会报错，因为在odd.js里，even.js代码并没有执行。改成CommonJS规范加载的代码为：</p>
+<pre><code>//even.js
+var odd = require(&#39;./odd.js&#39;);
+
+var counter = 0;
+module.exports = function even(n){
+    counter ++;
+    console.log(counter);
+
+    return n == 0 || odd(n-1);
+}</code></pre>
+<pre><code>//odd.js
+var even = require(&#39;./even.js&#39;);
+
+module.exports = function odd(n){
+    return n != 0 &amp;&amp; even(n-1);
+}</code></pre>
+<pre><code>//index.js
+var even = require(&#39;./even.js&#39;);
+
+var x = even(5);
+console.log(x);
+
+var y = even(5);
+console.log(y);</code></pre>
+<p><strong>执行index.js，输出结果如下：</strong></p>
+<pre><code>$ babel-node index.js
+1
+/Users/name/Projects/node/ES6/odd.1.js:6
+    return n != 0 &amp;&amp; even(n - 1);
+                     ^
+
+TypeError: even is not a function
+    at odd (/Users/name/Projects/node/ES6/odd.1.js:4:22)</code></pre>
+<h3 id="3-总结">3. 总结</h3>
+<p>1）CommonJS模块是加载时执行。一旦出现某个模块被“循环加载”，就只输出已经执行的部分，没有执行的部分不会输出。</p>
+<p>2）ES6模块对导出模块，变量，对象是动态引用，遇到模块加载命令import时不会去执行模块，只是生成一个指向被加载模块的引用。</p>
+<p>CommonJS模块规范主要适用于后端Node.js，后端Node.js是同步模块加载，所以在模块循环引入时模块已经执行完毕。推荐前端工程中使用ES6的模块规范，通过安装Babel转码插件支持ES6模块引入的语法。</p>
+<p><strong>页面内容主要来源于《ES6标准入门》Module 这一章的介绍。如果有描述不清楚或错误的地方，欢迎留言指证。</strong></p>
+<p><strong>参考资料：</strong></p>
+<p><a href="https://github.com/rainnaZR/blog/blob/master/src/%E3%80%8AES6%E6%A0%87%E5%87%86%E5%85%A5%E9%97%A8%E3%80%8B%E4%B9%8BModule.md">《ES6标准入门》之Module</a></p>
+<p><a href="https://nodejs.org/api/modules.html#modules_cycles">Node.js Cycle</a></p>
+<p><a href="https://github.com/ModuleLoader/es-module-loader">ES-Module-Loader</a></p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

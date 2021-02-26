@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><p>《ES6标准入门》阅读总结</p>
+<h1 id="第十一章-二进制数组">第十一章 二进制数组</h1>
+<h3 id="1-概述">1. 概述</h3>
+<p>WebGL，就是浏览器与显卡之间的通信接口，为了满足JS与显卡之间大量，实时的数据交换，它们之间的数据通信必须是二进制，而不能是文本形式。</p>
+<p>二进制数组大大增强JS处理二进制数据的能力，使开发者可能通过JS与操作系统的原生接口进行二进制通信。<strong>二进制数组包括3类对象：</strong></p>
+<p>1）ArrayBuffer对象：内存中的一段二进制数据。</p>
+<p>2）TypedArray视图。</p>
+<p>3）DataView视图：自定义复合格式的视图。</p>
+<p>ArrayBuffer代表原始的二进制数据，TypedArray视图用于读/写简单类型的二进制数据，DataView视图用于读/写复杂类型的二进制数据。</p>
+<p><strong>浏览器操作的API用到了二进制数组操作二进制数据：</strong></p>
+<p>1）File API</p>
+<p>2）XMLHttpRequest</p>
+<p>3）Fetch API</p>
+<p>4）Canvas</p>
+<p>5）WebSocket</p>
+<h3 id="2-arraybuffer对象">2. ArrayBuffer对象</h3>
+<p>ArrayBuffer对象代表存储二进制数据的一段内存。不能直接读写，只能通过视图（TypedArray视图和DataView视图）读写。原始内存的ArrayBuffer对象默认所有位都是0。ArrayBuffer构造函数的参数是指所需内存的大小，单位是字节。</p>
+<pre><code>//生成32字节的内存，为了读取内存，给内存指定DataView视图，然后以不带符号的8位整数格式读取第一个元素，输出结果0
+var buf = new ArrayBuffer(32);
+var dataView = new DataView(buf);
+
+dataView.getUint8(0);
+//输出0</code></pre>
+<p>1）ArrayBuffer.prototype.byteLength</p>
+<p>返回所分配的内存区域的字节长度。</p>
+<p>2）ArrayBuffer.prototype.slice()</p>
+<p>该方法将内存区域的一部分复制生成一个新的ArrayBuffer对象。除了slice方法，ArrayBuffer对象不提供任何直接读取内存的写法，只能通过建立视图来读写。</p>
+<pre><code>var buffer = new ArrayBuffer(8);
+var newBuffer = buffer.slice(0, 3);</code></pre>
+<p>3）ArrayBuffer.isView(arg)</p>
+<p>静态方法isView用来判断arg参数是否是ArrayBuffer的视图实例，也就是TypedArray实例和DataView实例。</p>
+<h3 id="3-typedarray-视图">3. TypedArray 视图</h3>
+<p>同一段内存，不同数据有不同的解读方式，就叫“视图”。TypedArray数组只是视图，本身不存储数据，数据都存储在底层的ArrayBuffer中。TypedArray里的数组成员都是同一组数据类型。</p>
+<p><strong>TypedArray提供的9种类型：</strong></p>
+<p>1）Int8Array: 8位有符号整数，1个字节。</p>
+<p>2）Uint8Array: 8位无符号整数，1个字节。</p>
+<p>3）Uint8ClampedArray: 8位无符号整数。溢出处理不同，1个字节。</p>
+<p>4）Int16Array: 16位有符号整数，2个字节。</p>
+<p>5）Uint16Array: 16位无符号整数，2个字节。</p>
+<p>6）Int32Array: 32位有符号整数，4个字节。</p>
+<p>7）Uint32Array: 32位无符号整数，4个字节。</p>
+<p>8）Float32Array: 32位浮点数，4个字节。</p>
+<p>9）Float64Array: 64位浮点数，8个字节。</p>
+<p><strong>TypedArray(length)</strong></p>
+<p>视图可以直接通过分配内存生成，length指数组成员的个数。</p>
+<pre><code>var b = new Float64Array(8);  //生成一个包含8个成员的Float64Array数组。参数8指个数，总共生成64个字节的内存。</code></pre>
+<pre><code>var buffer = new ArrayBuffer(32);  //分配32字节的内存
+var newBuf = new Float64Array(buffer);  //建立64位浮点数的视图，每个64位占8个字节，所以总共可以写入32/8 = 4个字符
+
+newBuf  //[0, 0, 0, 0]</code></pre>
+<p><strong>TypedArray.prototype.byteLength，TypedArray.prototye.byteOffset，TypedArray.prototye.length</strong></p>
+<p>TypedArray.prototype.byteLength返回TypedArray数组占据的内存长度，单位为字节。
+TypedArray.prototye.length表示TypedArray数组有多少个成员，指数组的长度。</p>
+<pre><code>var b = new ArrayBuffer(32);
+var v1 = new Int8Array(b);
+var v2 = new Float32Array(b, 8);
+var v3 = new Int16Array(b, 2, 2);
+
+v1.byteLength;  //32，依然是32个字节
+v1.length;  //32，Int8Array占1个字节，总字节数是32，所以共有32个成员
+
+v2.byteLength;    //24，从第8个字节开始算，32-8=24，返回24个字节
+v2.length;  //6，Float32Array每个成员占4个字节，总字节数24，所以成员总数是24/4=6
+
+v3.byteLength;   //4，从第2个字节开始算，长度为2个字节，所以总字节是2+2=4
+v3.length;  //2，Int16Array每个成员是2个字节，所以数组成员总数是4/2=2</code></pre>
+<h3 id="4-复合视图">4. 复合视图</h3>
+<p>视图的构造函数可以指定起始位置和长度，所以在同一段内存中存放不同类型的数据，叫复合视图。</p>
+<pre><code>var buffer = new ArrayBuffer(32);
+
+var idView = new Uint32Array(buffer, 0, 3);  //最后一个参数3表示数组的长度
+//idView.byteLength  12
+//idView.length   3
+var nameView = new Float32Array(buffer, 12, 4);
+//nameView.byteLength  4
+//nameView.length   16</code></pre>
+<h3 id="5-dataview视图">5. DataView视图</h3>
+<p>DataView视图可以用于处理网络设备传来的数据，所以大端字节序和小端字节序可以自行设定。</p>
+<p><strong>DataView实例提供8个方法读取内存：</strong></p>
+<p>1）getInt8: 读取1个字节，返回一个8位整数。</p>
+<p>2）getUint8: 读取1个字节，返回一个无符号的8位整数。</p>
+<p>3）getInt16: 读取2个字节，返回一个16位整数。</p>
+<p>4）getUint16: 读取2个字节，返回一个无符号的16位整数。</p>
+<p>5）getInt32: 读取4个字节，返回一个32位整数。</p>
+<p>6）getUint32: 读取4个字节，返回一个无符号的32位整数。</p>
+<p>7）getFloat32: 读取4个字节，返回一个32位浮点数。</p>
+<p>8）getFloat64: 读取8个字节，返回一个64位浮点数。</p>
+<pre><code>var buffer = new BufferArray(32);
+var dv = new DataView(buffer);
+
+//从第一个字节读取一个8位无符号整数
+var v1 = dv.getUint8(0)</code></pre>
+<p>除了get方法外，还有set方法用于设值：第一个参数是索引值，表示从第几个字节开始写入；第二个参数表示写入的数据；第三个参数表示是否用小端字节序写入。</p>
+<h3 id="6-二进制数组的运用">6. 二进制数组的运用</h3>
+<p><strong>Ajax</strong></p>
+<p>如果明确知道接口返回的是二进制数据，可以把返回类型responseType设置为arraybuffer，如果不知道，设置为blob。</p>
+<pre><code>var xhr = new XMLHttpRequest();
+xhr.open(&#39;GET&#39;, url);
+xhr.responseType = &#39;arraybuffer&#39;;  //定义响应的数据类型
+
+xhr.onload = function(){
+    let buffer = xhr.response;
+    ....
+};
+xhr.send();</code></pre>
+<p><strong>Canvas</strong></p>
+<p>网页Canvas元素输出的二进制像素数据就是TypedArray数据。</p>
+<p><strong>WebSocket</strong></p>
+<p>WebSocket可以通过ArrayBuffer发送或接收二进制数据。</p>
+<pre><code>var socket = new WebSocket(&#39;ws://127.0.0.1:3333&#39;);
+socket.binaryType = &#39;arraybuffer&#39;;
+
+//Wait until socket is open
+socket.addEventListener(&#39;open&#39;, function(){
+    var typedArray = new Unit8Array(4);
+    socket.send(typedArray.buffer);
+});
+
+//Receive Data
+socket.addEventListener(&#39;message&#39;, function(event){
+    var arrayBuffer = event.data;
+    ...
+})</code></pre>
+<p><strong>Fetch API</strong></p>
+<p>Fetch API取回的数据就是ArrayBuffer对象。</p>
+<p><strong>File API</strong></p>
+<p>如果知道一个文件的二进制数据类型，可以将这个文件读取为ArrayBuffer对象。</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

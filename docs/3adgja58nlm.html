@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><p>《你不知道的JS》上卷 第一部分 作用域和闭包</p>
+<h1 id="第三章-函数作用域和块作用域">第三章 函数作用域和块作用域</h1>
+<h2 id="1-函数中的作用域">1. 函数中的作用域</h2>
+<p>JS具有基于函数的作用域。函数作用域是指：属于这个函数的全部变量都可以在整个函数的范围内使用及复用。</p>
+<pre><code>function a(){
+    var b = 1
+}</code></pre>
+<h2 id="2-隐藏内部实现">2. 隐藏内部实现</h2>
+<p><strong>全局命名空间</strong></p>
+<p>在全局作用域中声明一个对象，这个对象可以用作库的命名空间，将所有需要暴露给外界的功能都封装在这个对象内。</p>
+<p><strong>模块管理</strong></p>
+<p>利用作用域的规则将标识符保存在私有，无冲突的作用域中。</p>
+<h2 id="3-函数作用域">3. 函数作用域</h2>
+<p><strong>函数声明</strong></p>
+<pre><code>// 函数声明
+function foo(){
+    ...
+}</code></pre>
+<p><strong>函数表达式</strong></p>
+<pre><code>// 函数表达式
+var foo = function(){
+    ...
+}</code></pre>
+<p><strong>匿名函数</strong></p>
+<pre><code>// 匿名函数表达式
+function(){
+    ...
+}</code></pre>
+<p><strong>具名函数</strong></p>
+<pre><code>function foo(){
+    ...
+}</code></pre>
+<p><strong>IIFE 立即执行函数表达式</strong></p>
+<pre><code>(function (){
+    ...
+})()</code></pre>
+<h2 id="4-块作用域">4. 块作用域</h2>
+<pre><code>for(var i=0; i&lt;10; i++){
+    ...
+}</code></pre>
+<p>块作用域是将代码从在函数中隐藏的信息扩展为在块中隐藏信息。</p>
+<p>以下具有块级作用域的写法：</p>
+<p><strong>with</strong></p>
+<p><strong>try/catch</strong></p>
+<pre><code>try{
+    undefined();
+} catch(err) { // 块级作用域
+    ....
+}</code></pre>
+<p><strong>let</strong></p>
+<pre><code>if(foo){
+    {  // 显式的块
+        let a = 1
+    }
+}</code></pre>
+<p>在声明中的任何位置都可以使用{ ... } 括号来为let创建一个用于绑定的作用域块。let进行的声明不会存在块作用域中提升。为变量显式声明块级作用域，可利用JS的垃圾回收。</p>
+<p><strong>const</strong></p>
+<p>const也可以创建块级作用域，只能定义常量。</p>
+<h2 id="5-小结">5. 小结</h2>
+<p>函数是JS常见的作用域单元，但是函数不是唯一的作用域单元，还有块级作用域，也就是属于某个代码块内（通常指{...}内部）。</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

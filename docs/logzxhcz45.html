@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><p>git: <a href="https://github.com/rainnaZR/svg-animations/tree/master/src/pages/step2/letter.change">https://github.com/rainnaZR/svg-animations/tree/master/src/pages/step2/letter.change</a></p>
+<h2 id="说明">说明</h2>
+<p>这个页面实现了两个动画。</p>
+<h3 id="字母切换">字母切换</h3>
+<p>字母切换的方式通过修改 stroke-dasharray 的值来实现动画。是从无到有的动画。</p>
+<p>css 代码如下:</p>
+<pre><code>.txt{
+    stroke:#FFEB3B;
+    stroke-width:2px;
+    -webkit-animation:animate1 3s ease-in-out forwards;
+}
+
+@keyframes animate1{
+    0%{
+        stroke-dasharray:0% 30%;
+    }
+    80%{
+        stroke-dasharray:50% 0%;
+        fill:#E91E63;
+    }
+    100%{
+        stroke-dasharray:50% 0%;
+        fill:#FFEB3B;
+    }
+}</code></pre>
+<p>html 代码如下:</p>
+<pre><code>&lt;svg version=&quot;1.2&quot; xml:space=&quot;default&quot;&gt;
+    &lt;symbol id=&quot;letter&quot;&gt;
+        &lt;text x=&quot;38%&quot; y=&quot;50%&quot;&gt;A&lt;/text&gt;
+    &lt;/symbol&gt;
+
+    &lt;g&gt;
+        &lt;use xlink:href=&quot;#letter&quot; class=&quot;txt&quot;&gt;&lt;/use&gt;
+    &lt;/g&gt;
+&lt;/svg&gt;</code></pre>
+<h3 id="数字切换">数字切换</h3>
+<p>数字切换的方式是通过修改 path 路径来实现动画。是直接修改 path 的路径。</p>
+<p>css 代码如下:</p>
+<pre><code>.path{
+    -webkit-animation:animation2 10s ease-in-out infinite;
+}
+
+@keyframes animation2 {
+    0%,
+    7% {
+        d: path(&#39;M0,100 L50,100 L50,50 L50,0 L0,0 L0,50 L50,50&#39;)
+    }
+    11%,
+    17% {
+        d: path(&#39;M0,0 L50,0 L50,100 L0,100 L0,0 L0,50 L50,50&#39;)
+    }
+    21%,
+    27% {
+        d: path(&#39;M0,0 L50,0 L50,20 L50,40 L50,60 L50,80 L50,100&#39;)
+    }
+    31%,
+    37% {
+        d: path(&#39;M50,0 L0,0 L0,50 L0,100 L50,100, L50,50 L0,50&#39;)
+    }
+    41%,
+    47% {
+        d: path(&#39;M50,0 L0,0 L0,50 L25,50 L50,50 L50,100 L0,100&#39;)
+    }
+    51%,
+    57% {
+        d: path(&#39;M0,0 L0,50 L50,50 L50,0 L50,35 L50,70 L50,100&#39;)
+    }
+    61%,
+    67% {
+        d: path(&#39;M0,0 L50,0 L50,100 L0,100 L50,100 L50,50 L0,50&#39;)
+    }
+    71%,
+    77% {
+        d: path(&#39;M0,0 L50,0 L50,50 L25,50 L0,50 L0,100 L50,100&#39;)
+    }
+    81%,
+    87% {
+        d: path(&#39;M50,0 L50,15 L50,30 L50,45 L50,60 L50,75 L50,100&#39;)
+    }
+    91%,
+    96% {
+        d: path(&#39;M0,0 L50,0 L50,50 L50,100 L0,100 L0,25 L0,0&#39;)
+    }
+}</code></pre>
+<p>html 代码如下:</p>
+<pre><code>&lt;svg version=&quot;1.2&quot; xml:space=&quot;default&quot;&gt;
+    &lt;path class=&quot;path&quot; fill=&quot;none&quot; stroke=&quot;#FFEB3B&quot; stroke-width=&quot;2px&quot; d=&quot;M0,0 L50,0 L50,50 L50,100 L0,100 L0,25 L0,0&quot;&gt;&lt;/path&gt;
+&lt;/svg&gt;</code></pre>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

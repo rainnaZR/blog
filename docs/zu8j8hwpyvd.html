@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><p>《图解HTTP》阅读总结：</p>
+<h1 id="第五章-与http协作的web服务器">第五章 与HTTP协作的Web服务器</h1>
+<p>一台服务器可搭建多个独立域名的web网站，也可作为通信路径上的中转服务器提升传输效率。</p>
+<h3 id="1-用单台虚拟主机实现多个域名">1. 用单台虚拟主机实现多个域名</h3>
+<p>使用虚拟主机的功能，虚拟主机可以寄存多个不同的主机名和域名的web网站。当在相同IP地址下，HTTP请求时需要在HOST首部内指定完整的主机名或域名的URI来做区分。</p>
+<h3 id="2-通信数据转发">2. 通信数据转发</h3>
+<p>HTTP通信时，除了客户端和服务器外，还有一些用于通信数据转发的应用程序，比如代理，网关，隧道等。</p>
+<p><strong>代理</strong></p>
+<p>接收从客户端发来的请求并转发给服务器，同时接收服务器的响应并转发给客户端。代理不改变请求URI。</p>
+<p>使用代理的理由：利用缓存技术减少带宽的流量，组织内部对特定网站的访问控制等等。代码方法如下：</p>
+<p>1）缓存代理</p>
+<p>代理转发响应时，缓存代理预先将资源副本缓存在代理服务器上，下次再访问时直接代理服务器返回，不需要经过源服务器。</p>
+<p>2）透明代理</p>
+<p>转发请求或响应时，对报文不做任何处理。对报文进行处理的代理叫非透明代理。</p>
+<p><strong>网关</strong></p>
+<p>接收从客户端发来的请求，转发其他服务器通信数据的服务器。它可以像源服务器一样对请求进行处理。其工作机制跟代理类似。网关能使通信线路上的服务器提供非HTTP协议服务。</p>
+<p><strong>隧道</strong></p>
+<p>在相隔甚远的服务器和客户端之间进行中转，确保安全通信。隧道本身不解析HTTP请求，请求保持原样传输。</p>
+<h3 id="3-缓存">3. 缓存</h3>
+<p>缓存服务器向源服务器确认资源的有效性。如果失效，则缓存服务器会向源服务器拉取新资源。分为服务端缓存和客户端缓存。</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

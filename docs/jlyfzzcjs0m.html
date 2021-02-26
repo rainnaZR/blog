@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><p>资料来源: 
+<a href="http://javascript.ruanyifeng.com/nodejs/koa.html">http://javascript.ruanyifeng.com/nodejs/koa.html</a>
+<a href="http://book.apebook.org/minghe/koa-action/start/router.html">http://book.apebook.org/minghe/koa-action/start/router.html</a></p>
+<p>使用 koa 编写 web 应用，通过组合不同的 generator，可以免除重复繁琐的回调函数嵌套，并极大地提升错误处理的效率。Koa 应用是一个包含一系列中间件 generator 函数的对象。 这些中间件函数基于 request 请求以一个类似于栈的结构组成并依次执行。
+Koa 包含了像 content-negotiation（内容协商）、cache freshness（缓存刷新）、proxy support（代理支持）和 redirection（重定向）等常用任务方法。 与提供庞大的函数支持不同，Koa只包含很小的一部分，因为Koa并不绑定任何中间件。</p>
+<h4 id="applisten">app.listen(...)</h4>
+<p>Koa 应用并非是一个 1-to-1 表征关系的 HTTP 服务器。 一个或多个Koa应用可以被挂载到一起组成一个包含单一 HTTP 服务器的大型应用群。</p>
+<p>如下为一个绑定3000端口的简单 Koa 应用，其创建并返回了一个 HTTP 服务器。</p>
+<pre><code>var koa = require(&#39;koa&#39;);
+var app = koa();
+app.listen(3000);</code></pre>
+<h4 id="appcallback">app.callback()</h4>
+<p>返回一个适合 http.createServer() 方法的回调函数用来处理请求。 您也可以使用这个回调函数将您的app挂载在 Connect/Express 应用上。</p>
+<h4 id="appusefunction">app.use(function)</h4>
+<p>为应用添加指定的中间件,<a href="https://github.com/koajs/koa/wiki#middleware">https://github.com/koajs/koa/wiki#middleware</a></p>
+<h4 id="appkeys">app.keys</h4>
+<p>设置签名Cookie密钥，该密钥会被传递给 KeyGrip。</p>
+<p>自己生成秘钥实例:</p>
+<pre><code>app.keys = [&#39;im a newer secret&#39;, &#39;i like turtle&#39;];
+app.keys = new KeyGrip([&#39;im a newer secret&#39;, &#39;i like turtle&#39;], &#39;sha256&#39;);</code></pre>
+<h4 id="错误处理">错误处理</h4>
+<p>默认情况下Koa会将所有错误信息输出到 stderr，除非 NODE_ENV 是 &quot;test&quot;。为了实现自定义错误处理逻辑（比如 centralized logging），您可以添加 &quot;error&quot; 事件监听器。</p>
+<pre><code>app.on(&#39;error&#39;, function(err, ctx){
+  log.error(&#39;server error&#39;, err, ctx);
+});</code></pre>
+<h4 id="context上下文">Context(上下文)</h4>
+<p>Koa Context 将 node 的 request 和 response 对象封装在一个单独的对象里面，其为编写 web 应用和 API 提供了很多有用的方法。</p>
+<p>context 在每个 request 请求中被创建，在中间件中作为接收器(receiver)来引用，或者通过 this 标识符来引用：</p>
+<pre><code>app.use(function *(){
+  this; // is the Context
+  this.request; // is a koa Request
+  this.response; // is a koa Response
+});</code></pre>
+<h4 id="api">API</h4>
+<ul>
+<li><p>ctx.req
+Node 的 request 对象。</p>
+</li>
+<li><p>ctx.res
+Node 的 response 对象。</p>
+</li>
+<li><p>ctx.request
+Koa 的 Request 对象。</p>
+</li>
+<li><p>ctx.response
+Koa 的 Response 对象。</p>
+</li>
+<li><p>ctx.app
+应用实例引用。</p>
+</li>
+<li><p>ctx.cookies.get(name, [options])
+获得 cookie 中名为 name 的值,options 为可选参数：</p>
+<ul>
+<li>&#39;signed&#39;: 如果为 true，表示请求时 cookie 需要进行签名。</li>
+</ul>
+</li>
+<li><p>ctx.cookies.set(name, value, [options])
+设置 cookie 中名为 name 的值，options 为可选参数：</p>
+<ul>
+<li>signed: 是否要做签名</li>
+<li>expires: cookie 有效期时间</li>
+<li>path: cookie 的路径，默认为 /&#39;</li>
+<li>domain: cookie 的域</li>
+<li>secure: false 表示 cookie 通过 HTTP 协议发送，true 表示 cookie 通过 HTTPS 发送。</li>
+<li>httpOnly: true 表示 cookie 只能通过 HTTP 协议发送</li>
+</ul>
+</li>
+<li><p>ctx.throw(msg, [status])
+抛出包含 .status 属性的错误，默认为 500。该方法可以让 Koa 准确的响应处理状态。</p>
+</li>
+</ul>
+<h4 id="请求requestapi">请求(Request)API</h4>
+<p>Koa Request 对象是对 node 的 request 进一步抽象和封装，提供了日常 HTTP 服务器开发中一些有用的功能。</p>
+<ul>
+<li><p>req.header
+请求头对象</p>
+</li>
+<li><p>req.method
+请求方法</p>
+</li>
+<li><p>req.method=
+设置请求方法，在实现中间件时非常有用，比如 methodOverride()。</p>
+</li>
+<li><p>req.length
+以数字的形式返回 request 的内容长度(Content-Length)，或者返回 undefined。</p>
+</li>
+<li><p>req.url
+获得请求url地址。</p>
+</li>
+<li><p>req.url=
+设置请求地址，用于重写url地址时。</p>
+</li>
+<li><p>req.originalUrl
+获取请求原始地址。</p>
+</li>
+<li><p>req.path
+获取请求路径名。</p>
+</li>
+<li><p>req.path=
+设置请求路径名，并保留请求参数(就是url中?后面的部分)。</p>
+</li>
+<li><p>req.querystring
+获取查询参数字符串(url中?后面的部分)，不包含 ?。</p>
+</li>
+<li><p>req.querystring=
+设置查询参数。</p>
+</li>
+<li><p>req.search
+获取查询参数字符串，包含 ?。</p>
+</li>
+<li><p>req.search=
+设置查询参数字符串。</p>
+</li>
+<li><p>req.host</p>
+</li>
+<li><p>req.hostname</p>
+</li>
+<li><p>req.charset</p>
+</li>
+<li><p>req.query
+将查询参数字符串进行解析并以对象的形式返回，如果没有查询参数字字符串则返回一个空对象。</p>
+</li>
+<li><p>req.query=
+根据给定的对象设置查询参数字符串。</p>
+</li>
+<li><p>req.fresh
+检查请求缓存是否 &quot;fresh&quot;(内容没有发生变化)。该方法用于在 If-None-Match / ETag, If-Modified-Since 和 Last-Modified 中进行缓存协调。当在 response headers 中设置一个或多个上述参数后，该方法应该被使用。</p>
+</li>
+</ul>
+<pre><code>this.set(&#39;ETag&#39;, &#39;123&#39;);
+
+// cache is ok
+if (this.fresh) {
+  this.status = 304;
+  return;
+}
+
+// cache is stale
+// fetch new data
+this.body = yield db.find(&#39;something&#39;);  </code></pre>
+<ul>
+<li><p>req.stale
+与 req.fresh 相反。</p>
+</li>
+<li><p>req.protocol
+返回请求协议，&quot;https&quot; 或者 &quot;http&quot;。 当 app.proxy 设置为 true 时，支持 X-Forwarded-Host。</p>
+</li>
+<li><p>req.secure
+简化版 this.protocol == &quot;https&quot;，用来检查请求是否通过 TLS 发送。</p>
+</li>
+<li><p>req.ip
+请求远程地址。 当 app.proxy 设置为 true 时，支持 X-Forwarded-Host。</p>
+</li>
+<li><p>req.is(type)
+检查请求所包含的 &quot;Content-Type&quot; 是否为给定的 type 值。 如果没有 request body，返回 undefined。 如果没有 content type，或者匹配失败，返回 false。 否则返回匹配的 content-type。</p>
+<pre><code>// With Content-Type: text/html; charset=utf-8
+this.is(&#39;html&#39;); // =&gt; &#39;html&#39;
+this.is(&#39;text/html&#39;); // =&gt; &#39;text/html&#39;
+this.is(&#39;text/*&#39;, &#39;text/html&#39;); // =&gt; &#39;text/html&#39;
+
+// When Content-Type is application/json
+this.is(&#39;json&#39;, &#39;urlencoded&#39;); // =&gt; &#39;json&#39;
+this.is(&#39;application/json&#39;); // =&gt; &#39;application/json&#39;
+this.is(&#39;html&#39;, &#39;application/*&#39;); // =&gt; &#39;application/json&#39;
+
+this.is(&#39;html&#39;); // =&gt; false</code></pre>
+</li>
+<li><p>req.accepts(types)
+检查给定的类型 types(s) 是否可被接受，当为 true 时返回最佳匹配，否则返回 false。type 的值可以是一个或者多个 mime 类型字符串。</p>
+</li>
+<li><p>req.acceptsEncodings(encodings)
+检查 encodings 是否可以被接受，当为 true 时返回最佳匹配，否则返回 false。 注意：您应该在 encodings 中包含 identity。</p>
+<pre><code>// Accept-Encoding: gzip
+this.acceptsEncodings(&#39;gzip&#39;, &#39;deflate&#39;, &#39;identity&#39;);
+// =&gt; &quot;gzip&quot;
+
+this.acceptsEncodings([&#39;gzip&#39;, &#39;deflate&#39;, &#39;identity&#39;]);
+// =&gt; &quot;gzip&quot;</code></pre>
+</li>
+<li><p>req.acceptsCharsets(charsets)
+检查 charsets 是否可以被接受，如果为 true 则返回最佳匹配， 否则返回 false。</p>
+<pre><code>// Accept-Charset: utf-8, iso-8859-1;q=0.2, utf-7;q=0.5
+this.acceptsCharsets(&#39;utf-8&#39;, &#39;utf-7&#39;);
+// =&gt; &quot;utf-8&quot;
+
+this.acceptsCharsets([&#39;utf-7&#39;, &#39;utf-8&#39;]);
+// =&gt; &quot;utf-8&quot;</code></pre>
+</li>
+<li><p>req.socket
+返回请求的socket。</p>
+</li>
+<li><p>req.get(field)<br>返回请求 header 中对应 field 的值。</p>
+</li>
+</ul>
+<h4 id="响应responseapi">响应(Response)API</h4>
+<p>Koa Response 对象是对 node 的 response 进一步抽象和封装，提供了日常 HTTP 服务器开发中一些有用的功能。</p>
+<ul>
+<li><p>res.header
+Response header 对象。</p>
+</li>
+<li><p>res.socket
+Response socket。</p>
+</li>
+<li><p>res.status
+获取 response status。不同于 node 在默认情况下 res.statusCode 为200，res.status 并没有赋值。</p>
+</li>
+<li><p>res.statusString
+Response status 字符串。</p>
+</li>
+<li><p>res.status=
+通过数字状态码或者不区分大小写的字符串来设置response status.</p>
+</li>
+<li><p>res.length=
+通过给定值设置 response Content-Length。</p>
+</li>
+<li><p>res.length
+如果 Content-Length 作为数值存在，或者可以通过 res.body 来进行计算，则返回相应数值，否则返回 undefined。</p>
+</li>
+<li><p>res.body
+获得 response body。</p>
+</li>
+<li><p>res.body=</p>
+</li>
+<li><p>res.get(field)
+获取 response header 中字段值，field 不区分大小写。</p>
+<pre><code>var etag = this.get(&#39;ETag&#39;);</code></pre>
+</li>
+<li><p>res.set(field, value)
+设置 response header 字段 field 的值为 value。</p>
+</li>
+</ul>
+<pre><code>this.set(&#39;Cache-Control&#39;, &#39;no-cache&#39;);</code></pre>
+<ul>
+<li><p>res.set(fields)
+使用对象同时设置 response header 中多个字段的值。</p>
+<pre><code>this.set({
+&#39;Etag&#39;: &#39;1234&#39;,
+&#39;Last-Modified&#39;: date
+});</code></pre>
+</li>
+<li><p>res.remove(field)<br>移除 response header 中字段 filed。</p>
+</li>
+<li><p>res.type
+获取 response Content-Type，不包含像 &quot;charset&quot; 这样的参数。</p>
+</li>
+<li><p>res.type= 
+通过 mime 类型的字符串或者文件扩展名设置 response Content-Type.</p>
+</li>
+<li><p>res.redirect(url, [alt])
+执行 [302] 重定向到对应 url。</p>
+</li>
+<li><p>res.lastModified
+如果存在 Last-Modified，则以 Date 的形式返回。</p>
+</li>
+<li><p>res.lastModified=<br>以 UTC 格式设置 Last-Modified。您可以使用 Date 或 date 字符串来进行设置。</p>
+</li>
+<li><p>res.append(field, val)
+在 header 的 field 后面 追加 val。</p>
+</li>
+<li><p>res.vary(field)
+相当于执行res.append(&#39;Vary&#39;, field)。</p>
+</li>
+</ul>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

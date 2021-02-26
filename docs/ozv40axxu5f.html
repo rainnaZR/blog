@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><p>《前端工程化体系设计与实践》阅读总结：</p>
+<h1 id="部署">部署</h1>
+<h3 id="1-原则">1. 原则</h3>
+<p>1） 可配置化。部署的模板服务器，路径信息应该与项目一一对应，并且可供负责部署的人员进行配置。</p>
+<p>2）操作简化。</p>
+<p>部署队列就是将所有的部署请求按照顺序形成一个队列，由专门的部署人员负责，如果审查通过则允许部署，否则拒绝此处部署请求。</p>
+<p>开发人员只保留请求部署的权限，项目部署到哪台服务器，具体路径等都不知道。</p>
+<p>审查人员对提交部署的代码进行严格审查，审查通过后执行具体的部署行为。</p>
+<h3 id="2-前端静态资源的部署策略">2. 前端静态资源的部署策略</h3>
+<p>HTML文件使用协商缓存，必须发请求。其他资源，比如CSS, images, Js更适用于强制缓存。</p>
+<p>协商缓存，HTTP协议Header中设置为：</p>
+<p>1）Expires为0</p>
+<p>2）Cache-control设置为 no-cache, max-age:0</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

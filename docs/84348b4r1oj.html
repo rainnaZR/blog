@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h3 id="小程序的架构方案">小程序的架构方案</h3>
+<p><img src="https://img2018.cnblogs.com/blog/644387/201809/644387-20180904182051790-1459650976.jpg" alt=""></p>
+<p>整个小程序由两个 webview 组成，代码分为 UI 层和逻辑层。UI 层运行在第一个 WebView 当中，执行 DOM 操作和交互事件的响应，里面是 WAWebview.js 代码及编译后的内容。逻辑层执行在（第二个webview 中）独立的 JS 引擎中（iOS：JavaScriptCore, android：X5 JS解析器；统称 JSCore；开发工具中，nwjs Chrome 内核），WAService.js 代码和业务逻辑。</p>
+<p>当我们对 view 层进行事件操作后，会通过 WeixinJSBridge 将数据传递到 Native 系统层。Native 系统层决定是否要用 native 处理，然后丢给 逻辑层进行用户的逻辑代码处理。逻辑层处理完毕后会将数据通过 WeixinJSBridge 返给 View 层。View 渲染更新视图。</p>
+<p>参考链接： <a href="https://mp.weixin.qq.com/s/o5MJHozQqCcwUl4yVgUGPA">https://mp.weixin.qq.com/s/o5MJHozQqCcwUl4yVgUGPA</a></p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
