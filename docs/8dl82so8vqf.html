@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《ES6标准入门》阅读总结</p>
+<h1 id="第二十章-编程风格">第二十章 编程风格</h1>
+<p>下面内容主要参考Airbnb的JS风格规范。</p>
+<h3 id="1-块级作用域">1. 块级作用域</h3>
+<p><strong>let取代var</strong></p>
+<p>1）使用var命令容易生成全局变量。</p>
+<p>2）var命令存在变量提升，let命令不会。</p>
+<p><strong>全局常量和线程安全</strong></p>
+<p>使用const声明常量。所有的函数应该声明为常量。</p>
+<h3 id="2-字符串">2. 字符串</h3>
+<p>字符串使用单引号或反引号。</p>
+<h3 id="3-解构赋值">3. 解构赋值</h3>
+<p>对数组成员使用解构赋值。如果函数有多个值，优先使用对象的解构赋值，这样就跟顺序无关。</p>
+<h3 id="4-对象">4. 对象</h3>
+<p>对象尽量静态化，一旦定义不得随意添加新的属性。如果必须要添加新属性，可以使用Object.assign方法。如果对象的属性名是动态的，可以在创造对象时使用属性表达式定义。</p>
+<h3 id="5-数组">5. 数组</h3>
+<p>使用扩展运算符（...）复制数组。</p>
+<pre><code>var a = [1,2,3,4];
+var b = [...a];
+b  //[1, 2, 3, 4]</code></pre>
+<p>使用Array.from将类数组转换成真正的数组。</p>
+<pre><code>var p = document.querySelectorAll(&#39;p&#39;);
+var s = Array.from(p);</code></pre>
+<h3 id="6-函数">6. 函数</h3>
+<p>1）使用函数表达式的场合可以尽量用箭头函数代替。注意箭头函数没有自己的this。简单的，单行的，不会复用的函数，建议采用箭头函数；如果函数较为复杂，采用传统的函数写法。</p>
+<p>2）函数体内采用rest（...）运算符来代替参数的取值。</p>
+<p>3）给函数参数设置默认值。</p>
+<h3 id="7-map结构">7. Map结构</h3>
+<p>需要模拟实体对象时采用Object，如果只是需要key: value的数据结构，则使用Map，Map有内建的遍历机制。</p>
+<h3 id="8-class">8. Class</h3>
+<p>用Class代替prototype的操作。而且类中可以使用extends关键字实现继承。</p>
+<h3 id="9-模块">9. 模块</h3>
+<p>使用import和export来引入JS模块。如果一个模块只有一个输出值，可以使用export default；如果一个模块有多个输出值，就只能使用export关键字。</p>
+<p>如果模块默认输出一个函数，函数首字母小写。如果模块默认输出一个对象，对象名的首字母大写。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

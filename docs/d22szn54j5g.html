@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《图解HTTP》阅读总结：</p>
+<h1 id="第三章-http报文">第三章 HTTP报文</h1>
+<h3 id="1-http报文">1. HTTP报文</h3>
+<p>用于HTTP协议交互的信息成为HTTP报文，分为请求报文和响应报文。HTTP报文分为报文首部和报文主体两块。</p>
+<p>1）报文首部</p>
+<p>服务器端或客户端需要处理的请求或响应的内容及属性。分为通用首部，请求首部，响应首部，实体首部。</p>
+<p>2）报文主体</p>
+<p>应被发送的数据。不一定会有。</p>
+<h3 id="2-编码提升传输效率">2. 编码提升传输效率</h3>
+<p><strong>报文主体与实体主体</strong></p>
+<p>1）报文：是HTTP通信中的基本单位，由8位组字节流组成，通过HTTP通信传输。</p>
+<p>2）实体：作为请求或响应的有效载荷数据被传输。其内容由实体首部和实体主体组成。</p>
+<p>HTTP的报文用于传输请求或响应的实体主体。通常报文主体等于实体主体，只有传输中进行编码操作时，实体主体的内容会发生变化，与报文主体不一致。</p>
+<p><strong>压缩传输的内容编码</strong></p>
+<p>服务器对实体内容进行编码，客户端接收后解码。常用的编码形式：</p>
+<p>1）gzip</p>
+<p>2）compress</p>
+<p>3）deflate</p>
+<p>4）identity（不进行编码）</p>
+<p><strong>分割发送的分块传输编码</strong></p>
+<p>把实体主体分块的功能叫分块传输编码。分割的每一块都会用十六进制标记块大小，最后一块用“0(CR+LF)”来标记。</p>
+<h3 id="3-多类型数据">3. 多类型数据</h3>
+<p>MIME（多用途因特网邮件机制）机制可以定义多种不同的数据格式。使用MIME描述标记数据类型，在报头中定义，比如图片或文本文件上传时使用。</p>
+<p>1）multipart/form-data</p>
+<p>web表单上传时使用。</p>
+<p>2）multiple/byteranges</p>
+<p>状态码206，部分内容，响应报文包含多个范围的内容时使用。</p>
+<p>在HTTP报文中使用多部分对象集合时，需要在首部字段里加上Content-type。</p>
+<h3 id="4-范围请求">4. 范围请求</h3>
+<p>范围请求就是指从之前下载中断的地方恢复下载。指定下载的实体范围。范围请求响应状态码为206 Partial Content。</p>
+<pre><code>//请求报文
+GET /tip.jgp HTTP/1.1
+Host: www.cdn.com
+Range: bytes =50001-10000  //指定资源的byte范围</code></pre>
+<h3 id="5-内容协商">5. 内容协商</h3>
+<p>内容协商会以响应资源的语言，字符集，编码方式作为判断依据。字段如下：</p>
+<p>1）Accept</p>
+<p>2）Accept-Charset</p>
+<p>3）Accept-Encoding</p>
+<p>4）Accept-Language</p>
+<p>5）Content-Language</p>
+<p>服务端会根据上面这些字段返回给客户端不同的内容，比如站点是中文的还是英文的。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《你不知道的JS》上卷 第一部分 作用域和闭包</p>
+<h1 id="第二章-词法作用域">第二章 词法作用域</h1>
+<p>作用域有两种工作模型：词法作用域和动态作用域。</p>
+<h2 id="1-词法阶段">1. 词法阶段</h2>
+<p>词法作用域是在写代码时将变量和块作用域写在哪里来决定的。无论函数在哪里被调用，无论函数如何被调用，它的词法作用域都由函数被声明时所处的位置决定。</p>
+<h2 id="2-欺骗词法">2. 欺骗词法</h2>
+<p>如果想动态修改词法作用域，有两种机制：eval, with。欺骗词法作用域会导致性能下降。</p>
+<p><strong>eval</strong>：JS中的eval可以接收一个字符串作为参数。用来执行动态创建的代码。</p>
+<p><strong>with</strong></p>
+<p>eval和with会在运行时创建新的作用域，副作用是引擎无法在编译时对作用域进行查找优化。</p>
+<h2 id="3-小结">3. 小结</h2>
+<p>词法作用域意味着作用域是由书写代码时函数声明的位置来决定的。在代码编译的第一阶段词法分析时就基本知道全部标识符是如何声明的。作用域包含了标识符（变量，函数）的定义。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

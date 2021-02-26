@@ -1,14 +1,15 @@
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
+const marked = require('marked');
+const dayjs = require('dayjs');
 const error = params => console.error(chalk.bold.red(params));
 const warning = params => console.log(chalk.orange(params));
 const success = params => console.log(chalk.greenBright(params));
-const marked = require('marked');
-const dayjs = require('dayjs');
 const OUTPUT_FILE_DIRECTORY = 'docs';
 const JSON_DATA_PATH = './static/data';
 const CSS_DATA_PATH = './static/css';
+
 
 String.prototype.interpolate = function (params) {
     const names = Object.keys(params);
@@ -17,39 +18,37 @@ String.prototype.interpolate = function (params) {
 };
  
 function onBuildFiles({filePath}) {
-    // 获取页面完整数据
-    let data = onGetDocFiles({filePath, level: 0});
-    // 生成数据json文件-首页
-    onGetJsonData({
-        data: data.children,
-        path: `${JSON_DATA_PATH}/indexList.json`
-    });
-    // 复制样式文件
+    // 删除打包目录
+    fs.removeSync(OUTPUT_FILE_DIRECTORY);
+
+    // 样式输出到打包目录
     onCopyFiles({
         filePath: CSS_DATA_PATH,
         outputFilePath: `${OUTPUT_FILE_DIRECTORY}/css`,
         fileType: 'css'
     })
-    onLoadHtml({
+
+    // 获取文档完整的目录数据
+    let data = onGetDocFiles({filePath, level: 0});
+    // 首页输出到打包目录
+    onBuildFile({
+        data: data.children,
+        dataPath: `${JSON_DATA_PATH}/indexList.json`,
         filePath: './static/index.html',
-        outputFilePath: `${OUTPUT_FILE_DIRECTORY}`,
-    });  
+        outputFilePath: OUTPUT_FILE_DIRECTORY
+    });
 }
 
 /**
- * 根据目录数据生成页面需要展示的数据
-*/
-function onGetJsonData({data, path}){
-    let onLoopData = children => children.reduce((list, i) => {
-        if(i.type == 'file'){
-            return list.concat(i);
-        }
-        return list.concat(onLoopData(i.children||[]))
-    }, []);
-    fs.removeSync(path);
-    fs.writeJsonSync(path, {
-        data: onLoopData(data)
-    });
+ * 复制文件
+ * **/
+async function onCopyFiles ({filePath, outputFilePath, fileType}) {
+    try{
+        await fs.copy(filePath, outputFilePath);
+        success(`==== ${fileType} 文件已成功复制到打包目录！====`);
+    }catch(err){
+        error(err);
+    }
 }
 
 /**
@@ -105,15 +104,34 @@ function onGetDocFiles({filePath, level}) {
 }
 
 /**
- * 复制文件
+ * 输出单个打包文件
  * **/
-async function onCopyFiles ({filePath, outputFilePath, fileType}) {
-    try{
-        await fs.copy(filePath, outputFilePath);
-        success(`==== ${fileType} 文件已成功复制到打包目录！====`);
-    }catch(err){
-        error(err);
-    }
+function onBuildFile({ data, dataPath, filePath, outputFilePath }) {
+    // 生成数据
+    onGetJsonData({
+        data,
+        path: dataPath
+    });
+    // 生成页面
+    onLoadHtml({
+        filePath,
+        outputFilePath
+    });  
+}
+
+/**
+ * 根据目录数据生成页面需要展示的数据
+*/
+function onGetJsonData({data, path}){
+    let onLoopData = children => children.reduce((list, i) => {
+        if(i.type == 'file'){
+            return list.concat(i);
+        }
+        return list.concat(onLoopData(i.children||[]))
+    }, []);
+    fs.writeJsonSync(path, {
+        data: onLoopData(data)
+    });
 }
 
 /**
@@ -149,7 +167,6 @@ function onLoadHtml({ filePath, outputFilePath, outputFileName, outputFileConten
             } 
             res = res.replace(i, html);   
         })
-        fs.removeSync(outputFilePath);
         // 当全部加载完后，生成完整html文件
         fs.outputFileSync(outputFilePath, res);
         success(`==== ${outputFilePath} 生成成功！====`); 

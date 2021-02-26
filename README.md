@@ -40,4 +40,5 @@ This is a blog website including study files and blogs.
 - 打包文件混淆压缩
 - 样式文件是否合并
 - 支持组件库的介绍，包括代码执行
-- 页面地址名唯一
+- 页面地址根据标题生成唯一地址
+- 自定义markdown样式

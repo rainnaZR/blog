@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>原文链接:<a href="http://www.cnblogs.com/zourong/p/5943224.html">http://www.cnblogs.com/zourong/p/5943224.html</a></p>
+<p>通常我们使用npm init命令来创建一个npm程序时，会自动生成一个package.json文件。package.json文件会描述这个NPM包的所有相关信息，包括作者、简介、包依赖、构建等信息，格式是严格的JSON格式。</p>
+<h4 id="属性介绍">属性介绍</h4>
+<h5 id="name">name</h5>
+<p>name和version是package.json中最重要的两个字段，也是发布到NPM平台上的唯一标识，如果没有正确设置这两个字段，包就不能发布和被下载。</p>
+<h5 id="version">version</h5>
+<p>包的版本号。如&quot;1.0.0&quot;。</p>
+<h5 id="description">description</h5>
+<p>包的描述信息，将会在npm search的返回结果中显示，以帮助用户选择合适的包。</p>
+<h5 id="keywords">keywords</h5>
+<p>包的关键词信息，是一个字符串数组，同上也将显示在npm search的结果中。</p>
+<h5 id="homepage">homepage</h5>
+<p>包的主页地址。</p>
+<h5 id="bugs">bugs</h5>
+<p>包的bug跟踪主页地址。</p>
+<h5 id="license">license</h5>
+<p>包的开源协议名称。</p>
+<h5 id="author">author</h5>
+<p>包的作者。</p>
+<h5 id="contributors-maintainers">contributors, maintainers</h5>
+<p>包的贡献者，是一个数组。</p>
+<h5 id="files较少用">files(较少用)</h5>
+<p>包所包含的所有文件，可以取值为文件夹。通常我们还是用.npmignore来去除不想包含到包里的文件。</p>
+<h5 id="main">main</h5>
+<p>包的入口文件。</p>
+<h5 id="bin较少用">bin(较少用)</h5>
+<p>如果你的包里包含可执行文件，通过设置这个字段可以将它们包含到系统的PATH中，这样直接就可以运行，很方便。</p>
+<h5 id="man较少用">man(较少用)</h5>
+<p>为系统的man命令提供帮助文档。帮助文件的文件名必须以数字结尾，如果是压缩的，需要以.gz结尾。</p>
+<h5 id="directories较少用">directories(较少用)</h5>
+<p>CommonJS包所要求的目录结构信息，展示项目的目录结构信息。字段可以是：lib, bin, man, doc, example。值都是字符串。</p>
+<h5 id="repository">repository</h5>
+<p>包的仓库地址。</p>
+<pre><code>&quot;repository&quot;: {
+    &quot;type&quot;: &quot;git&quot;,
+    &quot;url&quot;: &quot;git+https://github.com/rainnaZR/es6-react.git&quot;
+  },</code></pre>
+<h5 id="scripts">scripts</h5>
+<p>通过设置这个可以使NPM调用一些命令脚本，封装一些功能。</p>
+<pre><code>&quot;scripts&quot;: {&quot;start&quot;: &quot;babel-node src/pages/index.js&quot;,
+    &quot;build&quot;: &quot;webpack --config config/webpack.config.js&quot;,
+    &quot;watch&quot;: &quot;webpack-dev-server --config config/webpack.config.js --hot --inline --progress&quot;
+  }</code></pre>
+<h5 id="config">config</h5>
+<p>添加一些设置，可以供scripts读取用，同时这里的值也会被添加到系统的环境变量中。</p>
+<pre><code>&quot;config&quot;: {
+  &quot;port&quot;: &quot;8080&quot;
+}</code></pre>
+<p>npm start的时候会读取到npm_package_config_port环境变量。</p>
+<h5 id="dependencies">dependencies</h5>
+<p>指定依赖的其它包，这些依赖是指包发布后正常执行时所需要的，也就是线上需要的包。使用下面的命令来安装：</p>
+<p>npm install --save packageName
+如果是开发中依赖的包，可以在devDependencies设置。</p>
+<h5 id="devdependencies">devDependencies</h5>
+<p>这些依赖只有在开发时候才需要。使用下面的命令来安装：</p>
+<p>npm install --save-dev packageName </p>
+<h5 id="peerdependencies">peerDependencies</h5>
+<p>相关的依赖，如果你的包是插件，而用户在使用你的包时候，通常也会需要这些依赖（插件），那么可以将依赖列到这里。</p>
+<p>如karma, 它的package.json中有设置，依赖下面这些插件：</p>
+<pre><code>&quot;peerDependencies&quot;: {
+  &quot;karma-jasmine&quot;: &quot;~0.1.0&quot;,
+  &quot;karma-requirejs&quot;: &quot;~0.2.0&quot;,
+  &quot;karma-coffee-preprocessor&quot;: &quot;~0.1.0&quot;,
+  &quot;karma-html2js-preprocessor&quot;: &quot;~0.1.0&quot;,
+  &quot;karma-chrome-launcher&quot;: &quot;~0.1.0&quot;,
+  &quot;karma-firefox-launcher&quot;: &quot;~0.1.0&quot;,
+  &quot;karma-phantomjs-launcher&quot;: &quot;~0.1.0&quot;,
+  &quot;karma-script-launcher&quot;: &quot;~0.1.0&quot;
+}</code></pre>
+<h5 id="bundleddependencies">bundledDependencies</h5>
+<p>绑定的依赖包，发布的时候这些绑定包也会被一同发布。</p>
+<h5 id="optionaldependencies（较少用）">optionalDependencies（较少用）</h5>
+<p>即使这些依赖没有，也可以正常安装使用。</p>
+<h5 id="engines（较少用）">engines（较少用）</h5>
+<p>指定包运行的环境。</p>
+<pre><code>&quot;engines&quot;: {
+  &quot;node&quot;: &quot;&gt;=0.10.3 &lt; 0.12&quot;,
+  &quot;npm&quot;: &quot;~1.0.20&quot;
+}</code></pre>
+<h5 id="os（较少用）">os（较少用）</h5>
+<p>指定你的包可以在哪些系统平台下运行。</p>
+<pre><code>&quot;os&quot;: [ &quot;darwin&quot;, &quot;linux&quot;, &quot;!win32&quot; ]</code></pre>
+<h5 id="cpu（较少用）">cpu（较少用）</h5>
+<p>可以指定包运行的cpu架构。</p>
+<h5 id="private">private</h5>
+<p>设为true这个包将不会发布到NPM平台下。</p>
+<h5 id="publishconfig（较少用）">publishConfig（较少用）</h5>
+<p>这个字段用于设置发布时候的一些设定。尤其方便你希望发布前设定指定的tag或registry。</p>
+<p>如下：</p>
+<pre><code>{
+  &quot;name&quot;: &quot;react&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Command line instructions&quot;,
+  &quot;keywords&quot;: [
+    &quot;react&quot;,
+    &quot;es6&quot;,
+    &quot;react with es6&quot;
+  ],
+  &quot;homepage&quot;: &quot;https://github.com/rainnaZR/es6-react&quot;,
+  &quot;bugs&quot;: {
+    &quot;url&quot;: &quot;https://github.com/rainnaZR/es6-react&quot;,
+    &quot;email&quot;: &quot;111@163.com&quot;
+  },
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;author&quot;: &quot;ZRainna&quot;,
+  &quot;main&quot;: &quot;src/pages/index.js&quot;,
+  &quot;directories&quot;: {
+    &quot;tests&quot;: &quot;tests&quot;,
+    &quot;lib&quot;:&quot;lib&quot;,
+    &quot;docs&quot;:&quot;docs&quot;
+  },
+  &quot;repository&quot;: {
+    &quot;type&quot;: &quot;git&quot;,
+    &quot;url&quot;: &quot;git+https://github.com/rainnaZR/es6-react.git&quot;
+  },
+  &quot;scripts&quot;: {&quot;start&quot;: &quot;babel-node src/pages/index.js&quot;,
+    &quot;build&quot;: &quot;webpack --config config/webpack.config.js&quot;,
+    &quot;watch&quot;: &quot;webpack-dev-server --config config/webpack.config.js --hot --inline --progress&quot;
+  },
+  &quot;babel&quot;: {
+    &quot;presets&quot;: [
+      &quot;es2015-node5&quot;
+    ]
+  },
+  &quot;devDependencies&quot;: {
+    &quot;webpack&quot;: &quot;^1.13.2&quot;,
+    &quot;webpack-dev-server&quot;: &quot;^1.16.1&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;babel-loader&quot;: &quot;^6.2.5&quot;,
+    &quot;babel-preset-es2015&quot;: &quot;^6.14.0&quot;,
+    &quot;babel-preset-react&quot;: &quot;^6.11.1&quot;,
+    &quot;react&quot;: &quot;^15.3.2&quot;,
+    &quot;react-dom&quot;: &quot;^15.3.2&quot;,
+    &quot;react-redux&quot;: &quot;^4.4.5&quot;,
+    &quot;react-router&quot;: &quot;^2.8.1&quot;,
+    &quot;redux&quot;: &quot;^3.6.0&quot;
+  }
+}</code></pre>
+<p>参考：
+<a href="https://www.ijser.cn/npm-package-json-document/">https://www.ijser.cn/npm-package-json-document/</a></p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

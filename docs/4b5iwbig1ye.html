@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《前端架构设计》阅读总结：</p>
+<h1 id="第十一章-测试核心-视觉还原测试">第十一章 测试核心-视觉还原测试</h1>
+<h3 id="1-简介">1. 简介</h3>
+<p>视觉还原测试让我们将正在开发的版本或者即将部署的版本（新版本）与正确的版本（基线版本）进行视觉对比。这个过程只不过是抓取基线版本的截图，与最新版本进行对比，并找出像素层面的差异。视觉还原测试可以检测出视觉改变。大多数的视觉还原工具分为以下几类：</p>
+<p>1）基于页面的比较</p>
+<p>Wraith(<a href="https://github.com/BBC-News/wraith">https://github.com/BBC-News/wraith</a>) 基于页面比较的例子。使用YAML作为设置文件，可以轻松的比较两个不同来源的页面列表的差异。</p>
+<p>2）基于组件的比较</p>
+<p>BackstopJS是基于组件比较的例子，它可以抓取页面独立的片段进行比较，这样可以写出更有针对性的测试，防止误报。</p>
+<p>3）CSS单位测试</p>
+<p>Quixote工具用于比较CSS单位的差异，而不是视觉上的差异。</p>
+<p>4）基于无头浏览器的测试</p>
+<p>Gemini是可以使用PhantomJS的工具，可以在抓取截图之前加载Web页面。PhantomJS是JS实现的Webkit内核的浏览器。</p>
+<p>5）基于桌面浏览器的测试</p>
+<p>Gemini支持在传统的桌面浏览器上运行测试用例。Gemini使用Selenim服务器打开并操作系统中安装的浏览器，测试更接近真实浏览器。</p>
+<p>6）包含脚步库文件</p>
+<p>GasperJS可以和PhantomJS协同工作，该工具可以和在浏览器打开的文件进行交互。使用它，可以模拟点击，填充表单等交互操作，而且对结果进行截图。</p>
+<p>7）基于图形用户界面的比较工具，支持更改确认</p>
+<p>Diffux项目存储历史测试数据，并在web界面中提供测试结果的反馈。</p>
+<p>8）基于命令行的比较工具</p>
+<p>PhantomCSS是一款基于组件的比较工具。测试结果会输出在命令行终端里。</p>
+<h3 id="2-测试工具集">2. 测试工具集</h3>
+<p>PhantomCSS是下列三种工具的合体：</p>
+<p>1）PhantomJS基于webkit的无核浏览器，可以快速渲染页面，并对页面截图。</p>
+<p>2）CasperJS是一个导航和脚本工具，对PhantomJS渲染的页面进行交互。用于功能测试。</p>
+<p>3）ResembleJS是一个比较引擎，对比两张图片，并找出是否有像素级别的差异。用于UI测试。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

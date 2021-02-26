@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <h1 id="呈现系统简介">呈现系统简介</h1>
+<p>呈现系统的作用就是显示搭建系统配出来的页面。搭建系统的页面是由模块搭出来的。所以呈现系统的开发就是模块/组件的开发。</p>
+<h2 id="页面结构">页面结构</h2>
+<p><img src="https://user-images.githubusercontent.com/5309877/27817035-a223d55e-60c1-11e7-978b-c55cf27d4638.png" alt="default"></p>
+<p>页面的主体内容是以模块为单位显示的，每个模块内包含不同的组件。呈现系统开发的最小粒度是组件的开发。</p>
+<p><strong>组件和模块的区别</strong></p>
+<ol>
+<li>模块包含组件，模块是组件的架子，组件不可被拆分</li>
+<li>不同的模块可能会包含重复的组件，不同的组件随机组合，会生成新的模块。</li>
+<li>开发以组件为单位开发，开发完成后，组合成模块，添加到模块库，提供给运营来配置页面。</li>
+<li>模块不包含业务逻辑，所有的业务逻辑写在组件里面。</li>
+</ol>
+<h2 id="数据流程图">数据流程图</h2>
+<p>见下面流程图：</p>
+<p><img src="https://user-images.githubusercontent.com/5309877/27817329-1e19a656-60c3-11e7-9f8e-4bc41b6c5f37.png" alt="default"></p>
+<p>呈现系统里静态资源走cdn缓存。动态资源走valish缓存。</p>
+<h2 id="页面渲染原理">页面渲染原理</h2>
+<p><img src="https://user-images.githubusercontent.com/5309877/27817173-5137b9de-60c2-11e7-80fd-6149b9ae5cdd.png" alt="default"></p>
+<p>第一步： 请求活动页面 <a href="http://pages.kaola.com/pages/index/j3poay4ypagerw.shtml">http://pages.kaola.com/pages/index/j3poay4ypagerw.shtml</a></p>
+<p>第二步： 后端返回html页面，包含页头页脚内容。同步数据（除去页头页脚）为</p>
+<pre><code>{
+  &quot;frameDataUrl&quot;: &quot;pages/frame/data/definedUrl/eTag.shtml&quot;,    
+  &quot;isDevelopment&quot;: 1
+}</code></pre>
+<p>frameDataUrl 是请求框架数据的jsonp链接。
+isDevelopment 区分是否开发环境，应用不同的打包配置。</p>
+<p>第三步： 执行init.js 脚本。主要操作包括：定义jsonp请求拿取框架数据的回调函数，获取到框架数据后请求组件合并样式，组件合并脚本，设置页面标题，分享信息，添加模块样式，页面显示模块框架等操作。</p>
+<p>第四步： 执行页面自定义脚本index.js。PC和H5页面脚本公共的逻辑包括组件的加载和显示。这块公共逻辑抽离成了module.load.js脚本里。
+因为页头页尾是用的主站的包，打包后文件较大，所以将页头页尾的渲染操作放在组件渲染的后面，避免阻塞组件渲染。</p>
+<h2 id="组件开发">组件开发</h2>
+<p>每个组件的目录结构为:</p>
+<pre><code>- data.json
+- index.entry.js
+- index.mcss
+- view.html</code></pre>
+<ul>
+<li>data.json: 定义组件需要的假数据。本地启动mock server时需要用到这里的数据。必填。</li>
+<li>index.entry.js: 组件打包的入口文件，需要以 .entry.js 结尾。</li>
+<li>index.mcss: 组件需要的样式文件。</li>
+<li>view.html: 组件需要的模板文件。</li>
+</ul>
+<p>整个组件被打包后输出 index.js, index.js的打包路径会配置在搭建系统组件jsPath的字段里。这个路径用于加载组件脚本。</p>
+<h2 id="工程目录结构">工程目录结构</h2>
+<pre><code>- dist  打包输出的静态资源文件
+- doc   文档输出
+- mock  mock假数据
+- src   
+    - base   基础脚本，比如tools.js等
+    - components  组件脚本
+    - pages  页面相关的业务脚本
+- view   ftl视图文件
+    - src
+        - common
+        - h5
+        - pc </code></pre>
+<h2 id="mock数据配置">mock数据配置</h2>
+<h3 id="启动步骤">启动步骤</h3>
+<p>像主站的公共包，还有KMUI的组件库都需要从公司私有仓库npm里获取，先定义别名nenpm。</p>
+<p>参考： <a href="http://npm.hz.netease.com/">http://npm.hz.netease.com/</a> </p>
+<pre><code>alias nenpm=&#39;cnpm --registry=http://rnpm.hz.netease.com/ --registryweb=http://npm.hz.netease.com/ --cache=$HOME/.nenpm/.cache --userconfig=$HOME/.nenpmrc&#39;
+
+nenpm i
+npm start</code></pre>
+<p>mock server 使用的是 foxman。对应的配置文件是foxman.config.js。</p>
+<h3 id="mock-数据配置">mock 数据配置</h3>
+<p><strong>框架数据</strong></p>
+<p>文件路径：kaola-pages-web-starter/src/main/resources/web/mock/async/get/pages/frame/data/definedUrl/pageModulesConfig.json 只需要配置页面所包含的模块类型和页面请求来源即可。</p>
+<pre><code>{
+    &quot;moduleTypes&quot;: [30002, 1001, 10001, 1001, 10001, 1001, 1001],
+    &quot;requestSource&quot;: 1
+}</code></pre>
+<p>kaola-pages-web-starter/src/main/resources/web/mock/async/get/pages/frame/data/definedUrl/_moduleTypeToData 里需要增加模块的配置属性。</p>
+<p><strong>组件数据</strong></p>
+<p>文件路径：kaola-pages-web-starter/src/main/resources/web/mock/async/get/pages/region/detail/regionTypeToPathConfig.json 配置regionType跟文件目录的对应关系。</p>
+<pre><code>{
+  &quot;1001&quot;: &quot;type_1001_goods&quot;,
+  &quot;10001&quot;: &quot;type_10001_img_hotarea&quot;,
+  &quot;30002&quot;: &quot;type_30002_nav&quot;
+}</code></pre>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

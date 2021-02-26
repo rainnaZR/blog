@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《JS语言精粹》阅读总结</p>
+<h1 id="第四章-函数">第四章 函数</h1>
+<p><strong>函数对象</strong></p>
+<p>JS中的函数就是对象。对象字面量产生的对象链接到Object.prototype，函数对象链接到Function.prototype。每个函数在创建时会附加两个隐藏属性：函数的上下文和实现函数行为的代码。</p>
+<p><strong>函数字面量</strong></p>
+<pre><code>var add = function(a, b){
+    return a + b;
+}</code></pre>
+<p>一个内部函数除了可以访问自己的参数和变量，也可以访问嵌套在其中的父函数的参数和变量。通过函数字面量创建的函数对象包含一个连到外部上下文的连接，这种成为闭包。</p>
+<p><strong>调用</strong></p>
+<p>除了形参，函数调用时还接收两个附加的参数：this, arguments。函数在JS中调用有四种形式：方法调用模式，函数调用模式，构造函数调用模式，apply调用模式。</p>
+<p><strong>方法调用模式</strong></p>
+<p>函数保存为对象的一个属性时，称为方法。当方法被调用时，this指向该方法所在的对象。</p>
+<pre><code>let obj = {
+    getName(){
+        return this.name;
+    }
+}
+
+//方法调用,this指向obj
+obj.getName();  </code></pre>
+<p><strong>函数调用模式</strong></p>
+<p>当一个函数并非一个对象的属性时，它就是被当做函数来调用的，this指向window，是绑定到全局对象的。</p>
+<pre><code>let getName = function(){
+    ...
+}
+
+//函数调用，this指向全局变量
+getName();</code></pre>
+<p><strong>构造函数调用模式</strong></p>
+<p>如果在一个函数前面加上new来调用，那么会在该函数的prototype原型链上继承一个新函数，同时this会绑定到这个新函数上。</p>
+<pre><code>let Func = function(name){
+    this.name = name;
+};
+
+Func.prototype.getName = function(){
+    return this.name;
+}
+
+//构造函数继承
+let newFunc = new Func(&#39;newFuncOKOKOK&#39;);
+newFunc.getName();</code></pre>
+<p><strong>apply调用模式</strong></p>
+<p>apply方法提供两个参数，第一个是this值，第二个是参数数组。apply方法可以改变this指向。</p>
+<pre><code>var aa = {
+    status: &#39;okokokok&#39;
+};
+
+var bb = function(){};
+
+bb.prototype.getStatus = function(){
+    return this.status;
+}
+
+var cc = bb.prototype.getStatus.apply(aa);
+
+console.log(cc)   //输出okokokok</code></pre>
+<p><strong>参数</strong></p>
+<p>函数被调用时，arguments表示传入的参数列表，arguments是个伪数组，不具备数组的方法。</p>
+<p><strong>返回</strong></p>
+<p>使用return可以提前返回。没有指定返回值则会返回undefined。</p>
+<p><strong>异常</strong></p>
+<p>使用try...cathc来捕获异常。</p>
+<p><strong>递归</strong></p>
+<p>递归就是直接或间接的调用自身的一种函数。</p>
+<p><strong>作用域</strong></p>
+<p>在编程语言中，作用域控制着变量和参数的可见性和生命周期。在函数内定义的参数和变量在函数外部是不可见的。作用域的好处是内部函数可以访问定义它们的外部函数的参数和变量。</p>
+<p><strong>闭包</strong></p>
+<pre><code>//案例一  
+//函数里定义了value变量，value对getValue方法是可用的，但是函数的作用域使得value这个变量对其他的程序来说是不可见的
+var myObject = (function(){
+    var value = 1;
+
+    return {
+        getValue(){
+            return value;
+        }
+    }
+}());
+
+//案例二
+var fade = function(node){
+    var lever = 1;
+    var step = function(){
+        var hex = lever.toString(16);
+        node.style.backgroundColor = &quot;#ff00&quot; + hex + hex;
+        if(lever &lt; 15){
+            lever += 1;
+            setTimeout(step, 100);
+        }
+    }
+    setTimeout(step, 100)
+}
+
+fade(document.body)</code></pre>
+<p><strong>回调</strong></p>
+<p>发起异步请求时，定义一个回调函数。</p>
+<p><strong>模块</strong></p>
+<p>模块模式利用函数作用域和闭包来创建被绑定对象与私有成员的关联。模块模式的一般形式是：一个定义了私有变量和函数的函数；利用闭包创建可以访问私有变量和函数的特权函数；最后返回这个特权函数，或者把它们保存到一个可访问到的地方。</p>
+<p>使用模块模式可以摈弃全局变量的使用，对应用程序的封装，或者构造其他单例对象，非常有效。</p>
+<pre><code>//info为私有属性，使用闭包可以访问私有属性
+var func = (function(){
+    var info = {
+        name: &#39;aa&#39;,
+        age: 19,
+        sex: &#39;female&#39;
+    };
+
+    return function(){
+        return info;
+    }
+}())</code></pre>
+<p><strong>级联</strong></p>
+<p>一个接口只做一件简单的事，接口调用返回this。</p>
+<p><strong>柯里化</strong></p>
+<p>柯里化允许把函数和参数结合在一起，返回一个新的函数。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

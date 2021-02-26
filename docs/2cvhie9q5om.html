@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <h1 id="《js设计模式》之创建型设计模式-简单工厂模式">《js设计模式》之创建型设计模式-简单工厂模式</h1>
+<p>创建型设计模式是一类处理对象创建等设计模式。</p>
+<h2 id="1-简单工厂模式">1. 简单工厂模式</h2>
+<p>简单工厂模式的概念就是创建对象。创建一个简单对象的基类，通过对这个对象大量扩展方法和属性，并最终将一个新的对象返回出来。不是通过继承的方式实现，而是通过扩展的方式实现。</p>
+<pre><code>function createModal(type, content){
+  var o = new Object();
+  o.content = content;
+  o.show = function(){};
+
+  if(type == &#39;alert&#39;){
+    ....
+  }
+  if(type == &#39;dialog&#39;){
+    ....
+  }
+
+  return o;
+}
+
+let dialogModal = createModal(&#39;dialog&#39;, &#39;我是对话框&#39;);</code></pre>
+<p>代码复用是面向对象编程的准则，通过简单工厂创建对象，让这些对象共用一些资源而又私有一些资源，是不错的实践。</p>
+<h2 id="2-简单工厂模式和类的差异">2. 简单工厂模式和类的差异</h2>
+<p>简单工厂模式是通过创建一个新的对象，然后对新对象添加方法和属性来进行扩展，是独立创建的，是单独的对象。</p>
+<p>类则是通过实例化对象创建的，如果这个类有父类，则被创建的对象会继承父类的属性和方法。</p>
+<p>具体选择哪一种就看需求了。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

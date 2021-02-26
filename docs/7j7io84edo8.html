@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>官方介绍：<a href="https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html">https://developers.weixin.qq.com/miniprogram/dev/component/web-view.html</a></p>
+<p>最近跟小程序对接，遇到一些通信问题，现总结如下：</p>
+<h3 id="1-小程序webview传递数据到h5页面">1. 小程序webview传递数据到h5页面</h3>
+<p>根据官方文档介绍，如果h5页面想要获取小程序内的信息，比如地理位置等信息。需要通过在webview里给h5链接添加参数实现。</p>
+<p>h5页面在链接上截取小程序添加的参数，获得值。但是也要注意url的长度，不能无节制的在h5链接上添加参数。</p>
+<pre><code>/**
+ * 获取URL参数
+ */
+function getQueryString() {
+    const search = window.location.search.substring(1);
+    const param = {};
+    const arr = search.split(&#39;&amp;&#39;);
+
+    for (let i = 0; i &lt; arr.length; i++) {
+        const item = arr[i].split(&#39;=&#39;);
+        param[item[0]] = decodeURIComponent(item[1]);
+    }
+
+    return param;
+}</code></pre>
+<h3 id="2-h5页面传递数据到小程序接收">2. h5页面传递数据到小程序接收</h3>
+<p>查了下，小程序内在webview上监听bindmessage事件，h5页面触发postMessage方法来传递参数。页面脚本如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;https://res.wx.qq.com/open/js/jweixin-1.3.2.js&quot;&gt;&lt;/script&gt;
+
+
+wx.miniProgram.postMessage({
+    data
+});</code></pre>
+<blockquote>
+<p>网页向小程序 postMessage 时，会在特定时机（小程序后退、组件销毁、分享）触发并收到消息。e.detail = { data }，data是多次 postMessage 的参数组成的数组。</p>
+</blockquote>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

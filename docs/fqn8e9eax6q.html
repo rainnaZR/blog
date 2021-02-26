@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <p>《你不知道的JS》上卷 第一部分 作用域和闭包</p>
+<h1 id="第一章-作用域是什么">第一章 作用域是什么</h1>
+<p><strong>储存</strong>和<strong>访问</strong>变量的值的能力带给程序不同的状态。JS里储存变量的规则就是作用域，在作用域内可以方便的找到变量。</p>
+<h2 id="1-编译原理">1. 编译原理</h2>
+<p>传统语言的流程中，程序的源代码在执行前会经历三个步骤，叫做编译：</p>
+<ul>
+<li>分词/词法分析：代码分解成代码块</li>
+<li>解析/语法分析：根据代码块生成AST</li>
+<li>代码生成：将AST转换成计算机可执行的代码</li>
+</ul>
+<p>JS的编译过程要复杂的多，是一边执行，一边编译。</p>
+<h2 id="2-理解作用域">2. 理解作用域</h2>
+<p><strong>引擎</strong>：负责整个JS程序的编译和执行过程。</p>
+<p><strong>编译器</strong>：负责语法分析及代码生成等脏活累活。</p>
+<p><strong>作用域</strong>：负责收集并维护所有标识符组成的一系列查询，确定当前执行的代码对标识符的访问权限。</p>
+<p>变量的赋值操作会执行如下两个动作：<strong>首先编译器会在当前作用域中声明一个变量；然后JS引擎在运行时会在作用域中查找这个变量，并赋值。</strong></p>
+<h2 id="3-作用域嵌套">3. 作用域嵌套</h2>
+<p>作用域是根据名称查找变量的一套规则。当一个块或函数嵌套在另一个块或函数中，就发生了作用域嵌套。</p>
+<p>遍历嵌套作用域链的规则是：引擎从当前的执行作用域开始查找变量，如果找不到，就向上一级查找，当抵达最外层的全局作用域时，查找就会停止。</p>
+<h2 id="4-异常">4. 异常</h2>
+<p>ReferenceError同作用域判别失败相关，而TypeError则代表作用域判别成功了，但是对结果的操作是非法或不合理的。</p>
+<h2 id="5-总结">5. 总结</h2>
+<p>作用域是一套规则，用于查找变量，如果查找的变量是对变量赋值，则使用LHS查询；如果目的是获取变量的值，则使用RHS查询。</p>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
