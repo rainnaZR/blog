@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>《指尖上行》之技术创意形式</h1><p>《指尖上行》阅读总结：</p>
+<h1 id="第二章-技术创意形式">第二章 技术创意形式</h1>
+<h2 id="1-动画">1. 动画</h2>
+<p><strong>1）CSS3</strong></p>
+<p>使用transform来实现动画效果，主要包括rotate, scale, translate, skew, matrix。</p>
+<p>使用transition在一定的时间段内平滑的过渡。</p>
+<pre><code>transition: all .5s ease 0.5s;</code></pre>
+<p>使用Animation实现关键帧动画。</p>
+<pre><code>@keyframes AnimationName{
+    0%{...}
+    100%{...}
+}
+
+.demo{
+    -webkit-animation: AnimationName 10s ease 2s 10 alternate;
+}</code></pre>
+<p><strong>2）帧动画</strong></p>
+<p>主要有三种形式：一种通过CSS3动画来控制；一种是通过JS控制canvas；一种是通过JS控制CSS.</p>
+<p>通过CSS3 animation来控制，使用timing-function里的steps()函数实现。在animation里定义多个关键帧。</p>
+<p>通过canvas来制作帧动画的原理是用drawImage方法将图片绘制到canvas上，不断擦除重绘就能实现动画效果。一个做法是通过剪切图像的形式进行帧动画的播放控制；另一个做法是通过改变画布上放置图像的坐标位置来操作。</p>
+<pre><code>context.drawImage(img, sx, sy, swidth, sheight, x, y, width, height);
+
+//img: 要使用的图片或视频
+//sx: 开始剪切的x坐标
+//sy: 开始剪切的y坐标
+//swidth: 被剪切图像的宽度
+//sheight: 被剪切图像的高度
+//x: 画布上放置图像的x坐标
+//y: 画布上放置图像的y坐标
+//width: 要使用图像的宽度
+//height: 要使用图像的高度</code></pre>
+<p>通过JS来控制CSS，就是不断改变图片的background-position来实现动画的播放。</p>
+<p><strong>3）Canvas</strong></p>
+<p>想要操作Canvas元素，就必须先获取Canvas的2D渲染上下文。</p>
+<pre><code>var canvas = document.getElementById(&#39;canvas&#39;);
+var context = canvas.getContext(&#39;2d&#39;);</code></pre>
+<p>canvas动画的本质就是一连串的图像，每个图像之间差距微小，并且它们以很快的速度连续显示。</p>
+<p><strong>4）SVG</strong></p>
+<p>SVG是可伸缩矢量图形的简称。SVG是一个XML文件，具备独立的文档流。SVG元素一般分为图形元素，动画元素，容器元素，描述性元素，滤镜元素，渐变元素，文本内容元素等；SVG属性一般包括图形属性，动画属性，条件处理属性，核心属性，文档事件属性，过滤器元素属性，外观属性，变换函数属性，XLink属性等。</p>
+<p>SVG属性包括：图形属性（圆形，椭圆形，矩形，多边形，折线，直线，路径，文本，图片等）</p>
+<p><strong>5）Three.js</strong></p>
+<p>Three.js是一款基于JS的3D框架，通过了Canvas,SVG,CSS 3D及WebGL 4种渲染器。</p>
+<h2 id="2-移动设备web-api详解">2. 移动设备Web API详解</h2>
+<h3 id="21-视频video">2.1 视频Video</h3>
+<p>事件介绍：</p>
+<p>1）play: 播放视频。</p>
+<p>2）progress: 当前已下载的buffered值。</p>
+<p>3）canplay: 视频准备就绪，开始播放。</p>
+<p>4）canPlayThrough: 视频有足够的缓冲可以持续播放。</p>
+<p>5）playing: 视频播放中。</p>
+<p>6）timeUpdate: 视频事件流的变化，可以获取当前播放的时间指。</p>
+<h3 id="22-音频audio">2.2 音频Audio</h3>
+<pre><code>&lt;audio src=&quot;a.mp3&quot; controls&gt;&lt;/audio&gt;</code></pre>
+<h3 id="23-web-speech">2.3 Web Speech</h3>
+<p> 通过语音就能让用户与web进行交互，用户可以使用语音搜索，基于语音的网站交互模式，甚至可以跟浏览器直接对话。</p>
+<h3 id="24-地理定位">2.4 地理定位</h3>
+<p> Geolocation API用于将用户当前的地理位置信息共享给信任的站点，位置信息来源包括GPS,IP地址，RFID,WIFI,蓝牙的MAC地址，以及GSM/CDMS的ID等。IOS10需要HTTPS协议才能使用Geolocation API。</p>
+<p> Geolocation API两个常用的方法：getCurrentPosition()和watchPosition()。getCurrentPosition()用于获取一次用户的当前地理位置；watchPosition()用于持续获取用户的当前地理位置，直到使用clearWatch()方法取消。</p>
+<h3 id="25-陀螺仪">2.5 陀螺仪</h3>
+<p><strong>1）deviceOrientation API</strong></p>
+<p>deviceOrientation封装了方向传感器数据的事件，可以获取用户设备静止状态下的方向数据，比如手机所处的角度，方位，朝向等。</p>
+<p><strong>2）deviceMotion API</strong></p>
+<p>deviceMotion封装了运动传感器数据事件，可以获取手机运动状态下的运动加速度数据。</p>
+<p>基于上面API，可以判断用户设备移动的角度实现视差效果，参考开源组件Parallax.js，全景漫游，控制游戏等。</p>
+<h3 id="26-设备震动">2.6 设备震动</h3>
+<p>Vibration API在W3C的标准里处于建议阶段，只有Android 4.4版本以上的浏览器才部分支持。</p>
+<p>参数duration代表时间毫秒或以毫秒为单位的数组，指震动的时长。</p>
+<pre><code>navigator.vibrate(duration)</code></pre>
+<h3 id="27-电池状态">2.7 电池状态</h3>
+<p>Battery可以获取用户移动设备的电池状态信息，使用前先确认当前设备是否支持该API。</p>
+<pre><code>var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery || navigator.msBatter;</code></pre>
+<p>获得电池电量信息后，可以在电量不足时提醒用户进入省电模式，或者屏幕切换到暗色主题，禁用非关键CSS或JS等。</p>
+<h3 id="28-环境光">2.8 环境光</h3>
+<p>Ambient API提供源于周围光亮程度的信息，是由设备的光感应器来测量，设备的光感应器提供辉度信息。</p>
+<pre><code>if(&#39;ondevicelight&#39; in window){
+    window.addEventListener(&#39;devicelight&#39;, function(event){
+        console.log(`当前环境的光强度为${event.value}`)
+    }
+}</code></pre>
+<h3 id="29-网络信息">2.9 网络信息</h3>
+<p>通过两种方式获取网络信息：一是通过navigator.online/navigator.offline；二是通过获取Network Information API里的navigator.connection对象。</p>
+<p><strong>1）navigator.onLine/navigator.offLine</strong></p>
+<p><strong>2）navigator.connection事件</strong></p>
+<pre><code>navigator.connection.type</code></pre>
+<p>利用online/offline判断是否连接网络，如果没有连接网络，可以先把服务器请求进入队列等候。利用connection.type判断网络种类，从而判断浏览器请求不同的资源，比如图片的清晰度，图片大小等。</p>
+<h2 id="3-webvr">3. WebVR</h2>
+<h3 id="31-a-frame">3.1 A-frame</h3>
+<p>A-frame是基于threeJS的封装，通过特定的标签快速创建VR网页；缺点是提供的组件有限，难以完成复杂的项目。</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

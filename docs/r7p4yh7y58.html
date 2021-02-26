@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>《狼书》之Node.js初识</h1><p>《狼书》阅读总结</p>
+<h1 id="第一章-nodejs初识">第一章 Node.js初识</h1>
+<h2 id="1-引子">1. 引子</h2>
+<p>npm-run-all 是一个用于并行或串行执行npm scripts的命令行辅助工具。</p>
+<h2 id="2-js">2. JS</h2>
+<h2 id="3-nodejs">3. node.js</h2>
+<p>Node.js是js的运行时环境，是基于Chrome V8引擎构建的，由事件循环Event Loop分发I/O任务，最终工作线程Work Thread会将任务放到线程池子Thread Pool中执行，事件循环只要等待执行结果就行了。</p>
+<p>Node.js在接受任务的时候是单线程的，无须切换进程/线程，但是在执行具体任务的时候是多线程的。</p>
+<p>Node的特点： 适合构建web应用，高性能，简单，可扩展。</p>
+<h3 id="31-构建rpc服务">3.1 构建RPC服务</h3>
+<ol>
+<li>构建RPC远程过程调用协议服务，最常见的做法是将数据库访问返回的数据进行包裹，以TCP形式传输给调用方，而非HTTP的方式。著名的RPC服务有Dubbo,gRPC等。</li>
+<li>组装多个RPC服务，完成某项业务。</li>
+<li>将RPC服务包装成HTTP API。</li>
+</ol>
+<h3 id="32-高性能">3.2 高性能</h3>
+<ol>
+<li>执行速度快。</li>
+<li>天生异步。</li>
+<li>适用于I/O密集的网路应用开发。</li>
+</ol>
+<h3 id="33-简单">3.3 简单</h3>
+<ol>
+<li>语法简单。</li>
+<li>并发编程简单。</li>
+<li>部署运维简单。</li>
+<li>开发简单。</li>
+</ol>
+<h3 id="34-可扩展">3.4 可扩展</h3>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

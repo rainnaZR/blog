@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>呈现系统-tab导航技术评审(4)</h1><h1 id="tab导航技术评审">tab导航技术评审</h1>
+<h2 id="需求背景">需求背景</h2>
+<p>活动页面新增tab导航模块，页面上配置导航模块后，导航里点击不同的tab会切换显示不同的模块，效果类似于MS后台配置的标签切换式导航，区别是MS后台的导航关联模块只能选择一个，而搭建这边可以对应多个，比较灵活。
+一个页面上可以配置多个tab导航，电梯导航可以与tab导航组合使用。电梯导航可以定位tab导航，tab导航不能内嵌tab导航。</p>
+<h2 id="页面交互">页面交互</h2>
+<p>搭建后台交互：<a href="https://163.lu/k/KGzQo3">https://163.lu/k/KGzQo3</a></p>
+<h2 id="实现方案">实现方案</h2>
+<h3 id="方案一：">方案一：</h3>
+<p><strong>实现步骤</strong></p>
+<ol>
+<li>tab导航模块当做普通模块来处理，并非特殊模块。</li>
+<li>页面进来时按序加载所有模块的框架，同时隐藏所有跟tab导航关联的模块框架。（如果页面配置了5个tab导航，则隐藏5个tab导航关联的所有模块）</li>
+<li>加载首屏模块的数据。</li>
+<li>加载非首屏模块的数据。</li>
+<li>点击tab导航时，抛出事件，并把tab对应显示的模块ID列表作为参数，通过参数列表来显示该导航对应的模块，并隐藏导航相关联的剩余模块。也就是通过display:none/block来控制。</li>
+</ol>
+<p><strong>优点</strong></p>
+<ol>
+<li>tab点击时，切换效果较好。因为模块数据都是准备好的。</li>
+</ol>
+<p><strong>缺点</strong></p>
+<ol>
+<li>因为页面模块数据是全部加载的。所以会有性能上的压力。</li>
+</ol>
+<p><strong>结论</strong></p>
+<p>此方法虽然能实现效果，但是在页面初始进来时，需要把对应模块的数据全部加载，活动落地页上配置模块的数量不固定，会有性能上的问题，暂不考虑。</p>
+<h3 id="方案二：">方案二：</h3>
+<p><strong>实现步骤</strong></p>
+<ol>
+<li>tab导航模块当做普通模块来处理，并非特殊模块。</li>
+<li>页面进来时按序加载所有模块的框架，同时隐藏所有跟tab导航关联的模块框架。（如果页面配置了5个tab导航，则隐藏5个tab导航关联的所有模块）</li>
+<li>加载首屏模块的数据，如果包含了跟tab导航关联的模块，则不加载。</li>
+<li>加载非首屏模块的数据，如果包含了跟tab导航关联的模块，则不加载。</li>
+<li>点击tab导航时，抛出事件，并把tab对应显示的模块ID列表作为参数，通过参数列表来加载该导航对应的模块。此时才会发请求拿模块的数据。</li>
+</ol>
+<p><strong>优点</strong></p>
+<ol>
+<li>获取模块数据的异步请求在tab点击时才发，减少页面进来时的请求压力和渲染压力。</li>
+<li>第一次tab点击时才会发送请求，第二次点击时则直接取本地存好的数据。</li>
+</ol>
+<p><strong>缺点</strong></p>
+<ol>
+<li>第一次点击tab时，因为要发送请求再渲染模块，所以可能会有短暂的loading效果出现。</li>
+</ol>
+<p><strong>结论</strong></p>
+<p>tab的实现采用第二种方案来处理。</p>
+<h3 id="注意点">注意点</h3>
+<ol>
+<li>呈现页面的模块结构是平级关系，不存在模块的包含关系，也就是一个模块内嵌另一个模块。</li>
+<li>页面的框架数据里，需额外返回一份数据，标注哪些模块是跟导航有关联关系的。</li>
+<li>导航模块里的每个tab指定要显示的模块ID列表。</li>
+</ol>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

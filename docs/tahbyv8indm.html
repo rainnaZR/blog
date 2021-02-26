@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>《前端工程化》之脚手架</h1><p>《前端工程化体系设计与实践》读书总结：</p>
+<h1 id="脚手架">脚手架</h1>
+<p>脚手架的功能是创造项目初始文件，本质是方案的封装，目的就是快速的解决问题：</p>
+<p>1.快速生成配置</p>
+<p>2.降低框架学习成本</p>
+<p>3.令业务开发人员关注业务本身，而不需要再学习框架配置</p>
+<h2 id="脚手架的基本原则">脚手架的基本原则</h2>
+<p>1.与其他功能模块联动，创建项目的同时生成对应配置项。</p>
+<p>2.自动安装依赖模块。</p>
+<p>3.动态可配置。</p>
+<p>4.底层高度可扩展。</p>
+<p>5.支持各种运行环境，比如node。</p>
+<p>6.兼容各类主流操作系统，比如windows, mac等。</p>
+<h2 id="前端流行脚手架yeoman">前端流行脚手架Yeoman</h2>
+<p>Yeoman可以帮助开发者快速搭建一个项目工程，提供最佳实践和工具。Yeoman主要是通过命令行工具“yo”来创建的。</p>
+<p>封装一个Yeoman脚手架方案本质上是创建一个Yeoman Generator实例。Generator将一个脚手架工具各生命周期具化为Class的各个方法，比如prompting()负责用户提示和配置收集，writing()负责文件操作，install()负责依赖模块的安装等。</p>
+<p>自定义一个脚手架，操作如下：</p>
+<p><strong>1.安装yo，generator-generator包。并根据提示新建一个脚手架项目。</strong></p>
+<pre><code>cnpm i -g yo
+
+cnpm i -g generator-generator
+
+yo generator
+
+然后按照命令行的提示信息填写，比如新建脚手架units-list
+</code></pre>
+<p><strong>2.检查并修改generator-units-list目录下的package.json。</strong></p>
+<p><strong>3.切换到generator-units-list目录下，执行cnpm i命令，安装依赖包。</strong></p>
+<p><strong>4.切换到generator-units-list/generators/app/templates目录，把项目代码放进去，这里就是项目模板文件。</strong></p>
+<p><strong>5.编写generator-units-list/generators/app/index.js入口文件，prompting()负责用户提示和配置收集，writing()负责文件操作，install()负责依赖模块的安装等。</strong></p>
+<p><strong>6.将generator-units-list包上传至npm官网。</strong></p>
+<pre><code>npm login
+npm publish --access=public</code></pre>
+<p><strong>7.使用时，将包拉下来，调用 yo units-list命令。</strong></p>
+<p>参考链接：
+<a href="https://www.jianshu.com/p/038c6b91f667">https://www.jianshu.com/p/038c6b91f667</a>
+<a href="http://www.07net01.com/2016/01/1179066.html">http://www.07net01.com/2016/01/1179066.html</a></p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

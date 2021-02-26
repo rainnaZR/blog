@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>pm2部署node项目遇到process.cwd报错的解决方式</h1><p>此文章来源：
+<a href="http://ju.outofmemory.cn/entry/300329">http://ju.outofmemory.cn/entry/300329</a>
+<a href="https://github.com/Unitech/pm2/issues/2057">https://github.com/Unitech/pm2/issues/2057</a></p>
+<h2 id="问题场景">问题场景</h2>
+<p>公司运维清理机器磁盘，将项目部署的代码暴力的全删了。这个时候每个前端项目都需要重新部署，当部署node服务时，发现启动失败。</p>
+<h2 id="解决思路">解决思路</h2>
+<h3 id="1-使用pm2查看日志">1. 使用pm2查看日志</h3>
+<pre><code>pm2 list
+
+pm2 logs</code></pre>
+<p>发现node服务重启失败，报错日志如下：</p>
+<pre><code>path.js:1144
+          cwd = process.cwd();
+                        ^
+
+Error: ENOENT: no such file or directory, uv_cwd
+    at Error (native)
+    at Object.resolve (path.js:1144:25)
+    at Function.Module._resolveLookupPaths (module.js:361:17)
+    at Function.Module._resolveFilename (module.js:431:31)
+    at Function.Module._load (module.js:388:25)
+    at Module.require (module.js:468:17)
+    at require (internal/module.js:20:19)
+    at Object. (/usr/lib/node_modules/pm2/lib/ProcessContainer.js:12:15)
+    at Module._compile (module.js:541:32)</code></pre>
+<h3 id="2-根据报错信息查资料">2. 根据报错信息查资料</h3>
+<p>网上查资料，发现这个报错的原因是pm2的启动目录被删除了（删除后重建同名目录也是无效的）。</p>
+<blockquote>
+<p>什么叫最早启动的目录呢？就是在命令行下第一次执行pm2时所在的目录，比如新装系统，在 /home/deploy 下第一次执行 pm2命令，那么 /home/deploy 就是最早启动的目录。</p>
+</blockquote>
+<blockquote>
+<p>再比如杀掉 pm2 进程后，再次在某个目录下执行了 pm2 命令，那这个目录也是最早启动的目录。</p>
+</blockquote>
+<h3 id="3-验证-pm2-的启动目录是否被删除">3. 验证 pm2 的启动目录是否被删除</h3>
+<blockquote>
+<p>pm2 issues-2057中也有人指出了验证方法，如下：</p>
+</blockquote>
+<h4 id="第一步：先找到pm2的进程pid">第一步：先找到pm2的进程pid:</h4>
+<pre><code>ps ax | grep PM2</code></pre>
+<h4 id="第二步：查询该进程执行时所在的目录用上一步得到的pid替换下面命令的pm2_pid">第二步：查询该进程执行时所在的目录(用上一步得到的pid替换下面命令的PM2_PID)</h4>
+<pre><code>ls -l /proc/PM2_PID/cwd</code></pre>
+<h4 id="比如：">比如：</h4>
+<pre><code>$ ls -l /proc/24016/cwd
+lrwxrwxrwx 1 root root 0 Feb 4 17:04 /proc/24016/cwd -&gt; /home/nodejs/deploy(deleted)
+</code></pre>
+<p>上面显示的目录已经被删除过。</p>
+<h3 id="4-新建-pm2-的启动目录">4. 新建 pm2 的启动目录</h3>
+<h4 id="第一步：用pm2-kill命令杀掉pm2进程">第一步：用pm2 kill命令杀掉pm2进程</h4>
+<pre><code>pm2 kill</code></pre>
+<h4 id="第二步：重启pm2">第二步：重启pm2</h4>
+<p>cd ~ 到home目录，执行 pm2 -v 命令</p>
+<pre><code>cd ~
+pm2 -v</code></pre>
+<h4 id="第三步：重新部署node服务">第三步：重新部署node服务</h4>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

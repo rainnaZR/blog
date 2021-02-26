@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>《你不知道的JS》之7关于this</h1><p>#《你不知道的JS》 上卷 第二部分 this和对象原型</p>
+<h1 id="第一章-关于this">第一章 关于this</h1>
+<h2 id="1-定义">1. 定义</h2>
+<p>具名函数可以通过名字调用自身。</p>
+<pre><code>function foo(num){
+    console.log(11, num);
+    this.count ++
+}
+
+foo.count = 0;
+
+for(var i = 0; i &lt; 2; i++){
+    foo(i)
+}
+
+console.log(foo.count) 
+
+// 输出结果：
+// 11 0
+// 11 1
+// 0</code></pre>
+<p>可以看到this.count并没有增加。通过call，apply方法可以动态修改this的指向。修改如下：</p>
+<pre><code>function foo(num){
+    console.log(11, num);
+    this.count ++
+}
+
+foo.count = 0;
+
+for(var i = 0; i &lt; 2; i++){
+    foo.call(foo, i)
+}
+
+console.log(foo.count)  // 2</code></pre>
+<p>this在任何情况下都不指向函数的词法作用域，在JS内部，作用域确实和对象类型，可见的标识符都是作用域的属性。但是作用域对象无法通过JS代码访问，它存在于js引擎内部。</p>
+<p><strong>this是在运行时进行绑定的，并不是在编译时绑定，它的上下文取决于函数调用时的各种条件。this的绑定和函数声明没有任何关系，只取决于函数的调用方式。当一个函数调用时，会创建一个活动记录（执行上下文）。这个记录会包括函数在哪里调用（调用栈），函数的调用方式，传参等信息。</strong></p>
+<h2 id="2-this绑定规则">2. this绑定规则</h2>
+<h3 id="21-默认绑定">2.1 默认绑定</h3>
+<p>直接调用的函数就叫独立函数，独立函数调用时，this使用默认绑定，指向全局对象。当使用严格模式时，this指向undefined。</p>
+<h3 id="22-隐式绑定">2.2 隐式绑定</h3>
+<p>当函数引用有上下文对象时，隐式绑定规则会把函数调用中的this绑定到这个上下文中。比如通过obj.foo()这种方式调用。</p>
+<p>在使用隐式绑定时，在一个对象内使用一个指向函数的属性，通过对象的属性来引用函数，这样函数的this就指向了这个对象。</p>
+<pre><code>obj.say();  // say方法中的this指向obj</code></pre>
+<h3 id="23-显式绑定">2.3 显式绑定</h3>
+<p>使用call, apply方法强制绑定函数中的this到第一个参数值上。如果传了一个原始值来当做this的绑定对象，这个原始值会被转换成它的对象形式，比如new String(),new Number()，成为“装箱”。</p>
+<pre><code>foo.call(obj)  // 强制把foo中的this绑定到obj上</code></pre>
+<h3 id="24-new绑定">2.4 new绑定</h3>
+<p>构造函数只是被new操作符调用的普通函数而已。比如Number构造函数，当Number在new表达式中被调用时，它是一个构造函数，会初始化新创建的对象。<strong>构造函数其实是函数的构造调用。</strong></p>
+<p>使用new操作符来调用函数时，操作如下：</p>
+<ul>
+<li><strong>创建或构造一个全新的对象。</strong></li>
+<li><strong>这个新对象与函数直接建立原型链链接。</strong></li>
+<li><strong>函数中的this指向这个新对象。</strong></li>
+<li><strong>如果函数没有返回其他对象，则自动返回这个新对象。</strong></li>
+</ul>
+<h2 id="3-优先级">3. 优先级</h2>
+<ul>
+<li>显式绑定（call,apply调用）的优先级比隐式绑定（对象调用）优先级更高。</li>
+<li>new绑定的优先级比显式绑定（call, apply）的优先级高。</li>
+</ul>
+<p><strong>如何判断this？按照如下优先级的顺序判断：</strong></p>
+<p>1.<strong>new绑定</strong>：函数是否在new中调用？如果是，则this指向这个新创建的对象。否则到下一步。</p>
+<pre><code>var bar = new Foo()  // 函数中this指向bar</code></pre>
+<p>2.<strong>显式绑定</strong>：函数是否通过call，apply，bind来绑定调用？如果是，则this绑定的是指定的对象。否则到下一步。</p>
+<pre><code>foo.call(bar)  // foo函数中的this指向bar</code></pre>
+<p>3.<strong>隐式绑定</strong>：函数是否在某个上下文对象中调用，如果是，这函数的this绑定到这个上下文对象上。</p>
+<pre><code>obj.foo()  //foo函数中的this指向obj</code></pre>
+<p>4.<strong>默认绑定</strong>：以上情况如果都不是，就执行默认绑定，严格模式this绑定到undefined，否则绑定到全局对象。</p>
+<pre><code>foo()  //foo函数中的this指向全局对象</code></pre>
+<h2 id="4-绑定例外">4. 绑定例外</h2>
+<p>当函数不关心this的话，可以把null当做占位符传入。</p>
+<pre><code>foo.call(null, 2)</code></pre>
+<p>也可以将this绑定到空对象上，不用担心污染全局环境。比如：</p>
+<pre><code>var empt = Object.create(null);
+foo.call(empt, 1)</code></pre>
+<h2 id="5-this词法">5. this词法</h2>
+<p>箭头函数是根据外层（函数或者全局）作用域来决定this。箭头函数的绑定生效后无法再次修改。</p>
+<pre><code>function foo(){
+    return () =&gt; {
+        console.log(this.a)
+    }
+}
+
+var obj1 = {
+    a: 1
+}
+var obj2 = {
+    a: 2
+}
+
+var bar = foo.call(obj1);
+bar.call(obj2)
+
+// 1</code></pre>
+<p>箭头函数常用于回调函数中，例如事件处理器或者定时器。</p>
+<h2 id="6-小结">6. 小结</h2>
+<p>可以用下面四条规则判断this的绑定对象：</p>
+<ol>
+<li>由new调用？this绑定到新创建的对象。</li>
+<li>由call,apply,bind调用？this绑定到指定的对象。</li>
+<li>由上下文对象调用？this绑定到上下文对象。</li>
+<li>默认：严格模式下this指向undefined，非严格模式指向全局对象。</li>
+</ol>
+<p>箭头函数不根据上面的规则决定this，箭头函数的this指向外层的this绑定。</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

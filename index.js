@@ -83,19 +83,20 @@ function onGetDocFiles({filePath, level}) {
             let mdContent = fs.readFileSync(subPath, 'utf-8');
             let htmlContent = marked(mdContent.toString());
             let fileName = Math.random().toString(36).substr(2);
+            let fileTitle = path.basename(file, '.md');
             // markdown 文件生成 html 文件
             onLoadHtml({
                 filePath: './static/detail.html',
                 outputFilePath: `${OUTPUT_FILE_DIRECTORY}`,
                 outputFileName: fileName,
                 outputFileContent: {
-                    '@markdown': htmlContent
+                    '@markdown': `<h1>${fileTitle}</h1>${htmlContent}`
                 }
             })
             return {
                 ...option,
                 path: `${fileName}.html`,
-                title: path.basename(file, '.md'),
+                title: fileTitle,
                 introduce: `${mdContent.substr(0, 150)}......`
             }
         }

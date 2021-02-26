@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>《你不知道的JS》之10原型</h1><p>#《你不知道的JS》 上卷 第二部分 this和对象原型</p>
+<h1 id="第四章-原型">第四章 原型</h1>
+<h2 id="1-类">1. 类</h2>
+<pre><code>var a = new Foo()</code></pre>
+<p>new Foo()会生成一个新对象a，这个新对象的内部链接[[Prototype]]关联的是Foo.prototype对象。</p>
+<p>JS在两个对象中创建一个关联，这样一个对象就可以通过委托访问另一个对象的属性和函数。</p>
+<h3 id="11-构造函数">1.1 构造函数</h3>
+<pre><code>function Foo(){
+
+}
+
+Foo.prototype.constructor === Foo;  //true
+
+var a = new Foo();
+a.constructor === Foo;  // true</code></pre>
+<p>Foo.prototype默认有个公有并且不可枚举的属性.constructor，这个属性引用的是对象关联的函数。</p>
+<p>通过构造函数调用的new Foo()创建的对象a也有一个.constructor属性，指向创建这个对象的函数。但是a本身是没有.constructor属性的，但是a.prototype指向Foo.prototype的引用，Foo.prototype.constructor == Foo，所以a的原型链上constructor也指向Foo。</p>
+<p>函数不是构造函数，当且仅当使用new来调用时，函数调用会变成“构造函数调用”。</p>
+<h2 id="2-原型继承">2. 原型继承</h2>
+<pre><code>// 创建一个新的Bar.prototype对象并关联到Foo.prototype
+Bar.prototype = Object.create(Foo.prototype)
+
+// 或者
+Object.setPrototypeOf(Bar.prototype, Foo.prototype)</code></pre>
+<p><strong>检查类关系</strong></p>
+<p>instanceof 操作符的左操作数是一个对象，右操作数是一个函数。</p>
+<pre><code>function Foo(){
+    ...
+}
+var a = new Foo();
+a instanceof Foo; // true</code></pre>
+<p>instanceof只能处理对象和函数之间的关系。如果想判断两个对象之间的关系，则使用isPrototypeOf方法。</p>
+<pre><code>b.isPrototypeof(c)</code></pre>
+<h2 id="3-对象关联">3. 对象关联</h2>
+<p>原型链的作用：如果在对象上没有找到需要的属性或方法的引用，引擎就会继续在prototype关联的对象上查找。这一系列对象的链接就称为“原型链“。</p>
+<p>通过Object.create来建立对象间的关联，其polyfill代码如下：</p>
+<pre><code>if(!Object.create){
+    Object.create = function(o){
+        function F(){}
+        F.prototype = o;
+        return new F();
+    }
+}</code></pre>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

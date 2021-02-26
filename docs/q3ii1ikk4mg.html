@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>《大型网站技术架构》之万无一失 网站的高可用架构</h1><h1 id="《大型网站技术架构》之万无一失-网站的高可用架构">《大型网站技术架构》之万无一失 网站的高可用架构</h1>
+<h1 id="第五章-万无一失网站的高可用架构">第五章 万无一失网站的高可用架构</h1>
+<h2 id="1-高可用的网站架构">1. 高可用的网站架构</h2>
+<p>使用数据备份和失效转移。典型的分层模式是：应用层，服务层，数据层；应用层负责具体逻辑处理，服务层负责提供可复用的服务；数据层负责数据的存储与访问。</p>
+<p>利用cookie记录session，或者利用独立部署的session服务器统一管理session，应用服务器每次读写session时，都访问session服务器。</p>
+<h2 id="2-高可用的服务">2. 高可用的服务</h2>
+<p>高可用的服务器策略：</p>
+<h3 id="21-分级管理">2.1 分级管理</h3>
+<p>核心服务使用更好的硬件，优先级不高的任务部署在不同的虚拟机上，核心任务部署在不同的物理机上等。</p>
+<h3 id="22-超时设置">2.2 超时设置</h3>
+<h3 id="23-异步调用">2.3 异步调用</h3>
+<h3 id="24-服务降级">2.4 服务降级</h3>
+<h2 id="3-高可用的数据">3. 高可用的数据</h2>
+<h3 id="31-数据备份">3.1 数据备份</h3>
+<p>数据热备份分为两种：异步热备方式和同步热备方式。在异步写入方式下，存储服务器分为主存储服务器和从存储服务器，应用程序正常情况下链接主存储服务器，数据写入主存储服务器立即返回操作成功的响应，然后通过异步线程将写操作数据同步到从存储服务器。</p>
+<h3 id="32-失效转移机制">3.2 失效转移机制</h3>
+<p>通过负载均衡进行无状态服务的失效转移。
+应用服务器集群的session管理，包括session的复制，利用cookie记录session，使用专门的session服务器存储会话信息。</p>
+<h2 id="4-高可用的服务">4. 高可用的服务</h2>
+<p>主要策略如下：</p>
+<ul>
+<li>分级管理，核心应用和服务使用更好的硬件。</li>
+<li>超时设置，设置超时时间，一旦超时，就抛出异常。</li>
+<li>异步调用。</li>
+<li>服务降级，高峰期的时候将服务降级。</li>
+<li>幂等性设计，对数据做好有效性校验。</li>
+</ul>
+<h2 id="5-高可用的数据">5. 高可用的数据</h2>
+<p>主要手段是失效转移和数据备份机制。</p>
+<ul>
+<li>数据持久性。做好备份，保证数据不丢失。</li>
+<li>数据可访问性。</li>
+<li>数据一致性。</li>
+</ul>
+<h3 id="51-数据备份">5.1 数据备份</h3>
+<p>数据备份分为：异步热备方式和同步热备方式。在异步写入方式下，存储服务器分为主服务器和从服务器，主存储服务器负责写入数据，通过异步线程将写操作数据同步到从存储服务器。通过从存储数据库来读取数据。</p>
+<h3 id="52-失效转移">5.2 失效转移</h3>
+<ul>
+<li>失效确认：心跳检测和应用程序访问失败报告确定失效。</li>
+<li>访问转移。</li>
+<li>数据恢复。</li>
+</ul>
+<h2 id="6-软件质量保证">6. 软件质量保证</h2>
+<ul>
+<li>网站发布</li>
+<li>自动化测试</li>
+<li>预发环境验证</li>
+<li>自动化发布</li>
+<li>灰度发布，每次发布部分服务器，确定稳定后再发布其他的，分多次发布完</li>
+</ul>
+<h2 id="7-网站运行监控">7. 网站运行监控</h2>
+<h3 id="71-监控数据采集">7.1 监控数据采集</h3>
+<p>包括：网站用户行为日志，业务运行数据，系统性能数据等。</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

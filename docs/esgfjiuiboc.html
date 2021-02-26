@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>《ES6标准入门》之Symbol</h1><p>《ES6标准入门》阅读总结</p>
+<h1 id="第九章-symbol">第九章 Symbol</h1>
+<h3 id="1-概述">1. 概述</h3>
+<p>ES6引进的新的数据类型：Symbol，表示独一无二的值。Symbol值由Symbol()函数生成。是一种类似于字符串的数据类型。</p>
+<pre><code>var mySymbol = Symbol();
+
+//第一种写法
+var a = {};
+a[mySymbol] = &#39;a&#39;;
+
+//第二种写法
+var a = {
+    [mySymbol]: &#39;a&#39;
+}
+
+//第三种写法
+var a = {};
+a.defineProperty(a, mySymbol, {value: &#39;a&#39;})
+
+a[mySymbol]  //输出&#39;a&#39;</code></pre>
+<h3 id="2-属性名的遍历">2. 属性名的遍历</h3>
+<p>Symbol属性不会出现在for...of，for...in循环中，可以通过Object.getOwnPropertySymbols()获取到。</p>
+<pre><code>var obj = {
+    [Symbol(&#39;a&#39;)] : &#39;hello&#39;,
+    [Symbol(&#39;b&#39;)]: &#39;world&#39;
+}
+Object.getOwnPropertySymbols(obj);
+
+//输出[Symbol(a), Symbol(b)]</code></pre>
+<h3 id="3-symbolfor-symbolkeyfor">3. Symbol.for(), Symbol.keyFor()</h3>
+<p>Symbol.for()可以使用同一个Symbol()值。Symbol.for(key)会先检查对应key的值是否存在，如果存在直接取值，如果不存在则新建值。比如Symbol.for(&#39;key&#39;)调用30次，每次会返回同一个值，如果调用Symbol(&#39;key&#39;)30次，会返回30个不同的Symbol值。</p>
+<pre><code>var a = Symbol.for(&#39;a&#39;), b = Symbol.for(&#39;a&#39;);
+
+a === b //true</code></pre>
+<pre><code>var a = Symbol(&#39;a&#39;), b = Symbol(&#39;a&#39;);
+
+a === b //false</code></pre>
+<h3 id="4-内置的symbol的值">4. 内置的Symbol的值</h3>
+<p>1）Symbol.hasInstance</p>
+<p>2）Symbol.isConcatSpreadable</p>
+<p>3）Symbol.species</p>
+<p>4）Symbol.match</p>
+<p>5）Symbol.replace</p>
+<p>6）Symbol.search</p>
+<p>7）Symbol.split</p>
+<p>8）Symbol.iterator</p>
+<p>9）Symbol.toPrimitive</p>
+<p>...</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>呈现系统-组件间的通信方式(7)</h1><h1 id="组件间的通信方式">组件间的通信方式</h1>
+<p>呈现页面的开发就是组件的开发，那组件与组件，组件与模块，组件与页面之间是如何通信呢？</p>
+<p>组件的通信采用的是事件订阅/发布模式来处理的。定义一个全局的事件管理中心，事件的订阅，发布，销毁统一管理。</p>
+<h3 id="实现步骤">实现步骤</h3>
+<h4 id="第一步：实例化一个空的regular构造函数。">第一步：实例化一个空的regular构造函数。</h4>
+<pre><code>import RegularJS from &#39;regularjs&#39;;
+
+let EvtController = RegularJS.extend({});
+
+let evtController = new EvtController();
+
+export default evtController;</code></pre>
+<h4 id="第二步：在这个实例化的对象上做事件的订阅，发布，销毁操作。">第二步：在这个实例化的对象上做事件的订阅，发布，销毁操作。</h4>
+<p>regularjs内已经对事件的操作方法做好了封装，所以我们直接用就行了。</p>
+<p>事件订阅：</p>
+<pre><code>evtController.$on(&#39;updateCartNum&#39;, this.updateCartNum.bind(this));</code></pre>
+<p>事件触发：</p>
+<pre><code>evtController.$emit(&#39;updateCartNum&#39;, cbdata.cartGoodsNum);</code></pre>
+<p>事件销毁：</p>
+<pre><code>evtController.$off(&#39;firstScreenRegionLoaded&#39;);</code></pre>
+<p>之前采用的方式是，将回调函数作为参数传入进行调用。过程比较复杂，而且不科学，改成现在这种方式会好管理些。</p>
+<h4 id="regularjs-事件定义源码">regularJs 事件定义源码</h4>
+<pre><code>var API = {
+      $on: function(event, fn, desc) {
+        if(typeof event === &quot;object&quot; &amp;&amp; event){
+          for (var i in event) {
+            this.$on(i, event[i], fn);
+          }
+        }else{
+          desc = desc || {};
+          // @patch: for list
+          var context = this;
+          event = fix(event);
+          var handles = context._handles || (context._handles = {}),
+            calls = handles[event] || (handles[event] = []);
+          var realFn;
+          if(desc.once){
+            realFn = function(){
+              fn.apply( this, arguments )
+              this.$off(event, fn);
+            }
+            // @FIX: if  same fn
+            fn.real = realFn;
+          }
+          calls.push( realFn || fn );
+        }
+        return this;
+      },
+      $off: function(event, fn) {
+        var context = this;
+        if(!context._handles) return;
+        if(!event) this._handles = {};
+        var handles = context._handles,
+          calls;
+
+        event = fix(event);
+        if (calls = handles[event]) {
+          if (!fn) {
+            handles[event] = [];
+            return context;
+          }
+          fn = fn.real || fn;
+          for (var i = 0, len = calls.length; i &lt; len; i++) {
+            if (fn === calls[i]) {
+              calls.splice(i, 1);
+              return context;
+            }
+          }
+        }
+        return context;
+      },
+      // bubble event
+      $emit: function(event){
+        // @patch: for list
+        var context = this;
+        var handles = context._handles, calls, args, type;
+        if(!event) return;
+        var args = _.slice(arguments, 1);
+        var type = fix(event);
+
+        if(!handles) return context;
+        if (!(calls = handles[type])) return context;
+
+        if(calls.length &gt; 1){ // handle, when first is off the event
+          calls = calls.slice();
+        }
+
+        for (var i = 0, len = calls.length; i &lt; len; i++) {
+          if(typeof calls[i] === &#39;function&#39;) calls[i].apply(context, args)
+        }
+        return context;
+      },
+      // capture  event
+      $once: function(event, fn){
+        var args = _.slice(arguments);
+        args.push({once: true})
+        return this.$on.apply(this, args);
+      }
+    }</code></pre>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

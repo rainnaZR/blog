@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>JS函数的特点</h1><p>JS是一门基于对象的语言，比如JS中的函数，对象，数组等。JS中的函数是一等公民，可以将函数定义为变量，函数可以入参，也可以返回新函数。对象在运行时可以动态修改其内容，所以JS语言非常灵活。</p>
+<h3 id="js对象">JS对象</h3>
+<p>JS实现继承的方式：在对象中的原型链中添加属性，把继承的属性通过原型链链接起来。JS对象就是由一组组属性和值构成的对象集合。JS对象的值有三种类型：</p>
+<ul>
+<li>原始类型：本身值无法改变。主要包括null, undefined, boolean, number, string, symbol七种。</li>
+<li>对象类型。</li>
+<li>函数类型。</li>
+</ul>
+<h3 id="v8内部如何实现函数的调用">V8内部如何实现函数的调用</h3>
+<p>函数调用时，在V8内部会为函数对象添加两个隐藏属性：name属性和code属性，如下图所示：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/30/173050d627cc7584?w=1142&h=543&f=png&s=214952" alt=""></p>
+<p>如果函数是匿名函数，则name值为anonymous，code为函数代码，以字符串的形式存储在内存中。当执行到一个函数时，V8就会从函数对象中取出code属性值，也就是函数代码，然后解释执行这段函数代码。</p>
+<p>JS函数执行的过程中，V8会维护一个作用域链，如果函数中使用了某个变量，会先在函数内部查找，如果没有会继续沿着作用域链去外部作用域中查找。这种将外部变量和函数绑定的技术就叫闭包。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/30/17305209cacd3ec1?w=1142&h=554&f=png&s=193982" alt=""></p>
+<h3 id="v8是怎样提升对象属性的访问速度">V8是怎样提升对象属性的访问速度</h3>
+<p>ECMAScript规范中定义数字属性按照索引值大小升序排列，字符串属性根据创建时的顺序升序排列。对象中的数字属性成为排序属性，V8中称其为elements；字符串属性称为常规属性，V8中称其为properties。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/9/17333c4de8db092c?w=1142&h=846&f=png&s=160740" alt=""></p>
+<p>分解成elements和properties两种线性数据解构后，如果执行索引操作，V8会先从elements属性中按照顺序读取所有的元素，然后在properties属性中读取所有元素，这样就完成了一次索引操作。</p>
+<p>V8采用一个权衡的策略来加快属性查找的效率，这个策略是将部分常规属性直接存储到对象本身，成为对象内属性。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/10/17338dc24e64f549?w=1142&h=490&f=png&s=118047" alt=""></p>
+<p>不过对象内属性数量是固定的，默认10个，如果超出则它们依然会被保存到常规属性存储中。保存在线性数据结构中的属性称为”快属性“。线性数据结构中只需要通过索引就可以访问到属性。</p>
+<p>如果一个对象的属性过多，V8会采用另外一种存储策略：”慢属性“策略。慢属性的对象内部会有独立的非线性数据结构（词典）作为属性存储容器。所有的属性元信息不再是线性存储的，而是直接保存在属性字典中。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/10/17338e2169c712b6?w=1142&h=876&f=png&s=225518" alt=""></p>
+<h3 id="chrome中查看对象布局">chrome中查看对象布局</h3>
+<p>chrome中查看对象的内存快照如下图：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/7/10/17338f2df6e22f4d?w=1664&h=1012&f=png&s=681029" alt=""></p>
+<h3 id="总结">总结</h3>
+<p>JS中的对象是由键值对组成的，如果以一个字典来存储，则读取效率会非常低。为了提升查找效率，V8引入了排序属性elements和常规属性properties。</p>
+<p>在elements对象中，会按照顺序存放排序属性。
+在properties对象中，会按照创建时间保存常规属性。</p>
+<p>当常规属性少于一定数量时，V8会将该属性直接写入到对象中，节省中间步骤；如果对象的属性过多，V8就会降级为非线性的字典存储模式。</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

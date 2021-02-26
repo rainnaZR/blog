@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>《ES6标准入门》之数组的扩展</h1><p>《ES6标准入门》阅读总结</p>
+<h1 id="第六章-数组的扩展">第六章 数组的扩展</h1>
+<h3 id="1-arrayfrom">1. Array.from()</h3>
+<p>Array.from()将两类对象转换成真正的数组：类似数组的对象和可遍历的对象。</p>
+<pre><code>//ES5的写法
+[].slice.apply(newArray);
+
+//ES6的写法
+Array.from(newArray);
+
+//计算字符串的长度
+Array.from(string).length;</code></pre>
+<p>伪数组比如NodeList节点列表，或者参数数组。Array.from可以将它们转换成真正的数组。</p>
+<h3 id="2-arrayof">2. Array.of()</h3>
+<p>Array.of()将一组数值转换成数组。</p>
+<pre><code>Array.of(1, 2, 3); //[1, 2, 3]
+Array.of(3);  //[,,,]参数只有一个时，指定数组的长度</code></pre>
+<h3 id="3-数组实例的find和findindex">3. 数组实例的find()和findIndex()</h3>
+<p>数组实例的find(func)，用于找出第一个符合条件的数组成员。参数是一个回调函数。</p>
+<pre><code>[1,2,3,4].find((x) =&gt; x &gt; 1)
+
+//输出2</code></pre>
+<h3 id="4-数组实例的fill">4. 数组实例的fill()</h3>
+<pre><code>[1, 2, 3, 4].fill(&#39;a&#39;);
+
+//[a, a, a, a]</code></pre>
+<h3 id="5-数组实例的entries-keys-values">5. 数组实例的entries(), keys(), values()</h3>
+<p>entries()对键值对的遍历，keys()对健名的遍历，values()对键值的遍历。</p>
+<h3 id="6-数组实例的includes">6. 数组实例的includes()</h3>
+<p>该方法返回一个布尔值，表示某个数组是否包含给定的值。</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

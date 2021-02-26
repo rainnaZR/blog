@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        
+        <div class="markdown-body"><h1>《前端架构设计》之测试核心-性能测试</h1><p>《前端架构设计》阅读总结：</p>
+<h1 id="第十章-测试核心-性能测试">第十章 测试核心-性能测试</h1>
+<p>性能测试衡量的是影响用户使用网站的刘畅程度的关键指标，包括页面大小，请求数量，首字节时间，加载时间和滚动性能。</p>
+<h3 id="1-制定性能预算">1. 制定性能预算</h3>
+<p>为每个关键指标设定目标值，然后在代码合并或部署之前持续测试这些指标。比如设置页面的大小，页面的请求数，页面可缓存资源占比等。</p>
+<h3 id="2-性能测试指标">2. 性能测试指标</h3>
+<p><strong>页面大小</strong></p>
+<p>影响页面大小的几个关键因素：</p>
+<p>1）图片占比较大。</p>
+<p>2）自定义字体文件较多。可以使用SVG代替图标字体。</p>
+<p>3）JS框架代码较多。</p>
+<p>4）对文件没有进行压缩。</p>
+<p><strong>HTTP的请求次数</strong></p>
+<p>1）减少HTTP请求的次数。文件合并，图片文件合并，延迟加载非首屏内容。</p>
+<p>2）增加浏览器并发请求资源的个数。使用域名发散策略。</p>
+<p><strong>计时度量</strong></p>
+<p>1）首字节时间，客户端接收到服务端返回的第一个字节的时间。单位是毫秒数。</p>
+<p>2）开始渲染时间，指用户在页面上看到内容的时间。此时浏览器开始渲染DOM了。可以延迟加载阻塞渲染的JS和CSS文件，将关键CSS内联到页面头部，用数据URI代替图片资源，延迟加载非首屏资源等。</p>
+<p>3）文档完成时间，请求的资源已经加载成功，表示文档已经加载完成。</p>
+<p><strong>使用第三方站点检测性能值</strong></p>
+<p>1）PageSpeed分数。</p>
+<p>2）Speed Index指标。指的是页面可见部分展示完成的平均时间。</p>
+<p><strong>使用插件监控性能值</strong></p>
+<p>1）使用Grunt PageSpeed插件监控页面的得分，如果得分不超过指定值，则测试失败。</p>
+<p>2）使用Grunt Perfbuget插件，设置视觉万能充时间指标为指定值，如果高于指定值，则测试失败。</p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
