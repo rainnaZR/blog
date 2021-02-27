@@ -45,14 +45,24 @@ function onBuildFiles({filePath}) {
         data: data.children,
         dataPath: `${JSON_DATA_PATH}/indexList.json`,
         filePath: './static/index.html',
-        outputFilePath: OUTPUT_FILE_DIRECTORY
+        outputFilePath: OUTPUT_FILE_DIRECTORY,
+        fileType: 'file'
     });
     // 文章页输出到打包目录
     onBuildFile({
         data: data.children.filter(i => i.title == 'article')[0].children,
         dataPath: `${JSON_DATA_PATH}/articleList.json`,
         filePath: './static/article.html',
-        outputFilePath: OUTPUT_FILE_DIRECTORY
+        outputFilePath: OUTPUT_FILE_DIRECTORY,
+        fileType: 'file'
+    });
+    // 文章页输出到打包目录
+    onBuildFile({
+        data: data.children.filter(i => i.title == 'book')[0].children,
+        dataPath: `${JSON_DATA_PATH}/bookList.json`,
+        filePath: './static/book.html',
+        outputFilePath: OUTPUT_FILE_DIRECTORY,
+        fileType: 'directory'
     });
 }
 
@@ -124,11 +134,12 @@ function onGetDocFiles({filePath, level}) {
 /**
  * 输出单个打包文件
  * **/
-function onBuildFile({ data, dataPath, filePath, outputFilePath }) {
+function onBuildFile({ data, dataPath, filePath, outputFilePath, fileType }) {
     // 生成数据
     onGetJsonData({
         data,
-        path: dataPath
+        path: dataPath,
+        fileType
     });
     // 生成页面
     onLoadHtml({
@@ -140,9 +151,9 @@ function onBuildFile({ data, dataPath, filePath, outputFilePath }) {
 /**
  * 根据目录数据生成页面需要展示的数据
 */
-function onGetJsonData({data, path}){
+function onGetJsonData({data, path, fileType}){
     let onLoopData = children => children.reduce((list, i) => {
-        if(i.type == 'file'){
+        if(i.type == fileType){
             return list.concat(i);
         }
         return list.concat(onLoopData(i.children||[]))

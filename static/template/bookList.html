@@ -1,0 +1,16 @@
+<div class="m-list m-list-1">
+    ${data.map((item, index) => {
+        return `<div class="item f-flexr f-mb40">
+            <div class="iteml f-pr f-mr30">
+                <img class="f-db" width="100%" src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4">
+                <p class="booktitle f-fs26">${item.title}</p>
+            </div>
+            <div class="itemr f-flex-1">
+                ${item.children.map((article, index) => {
+                    return `<a class="f-db" href="${article.path}">${article.title}</a>`
+                })}
+            </div>
+        </div>`;
+    }).join('')}
+</div>
+

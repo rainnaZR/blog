@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-书库</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        @include('./static/template/introduce.html')
+      </div>
+      
+      <div class="m-box">
+        @include('./static/template/menu.html')
+        @include('./static/template/bookList.html', './static/data/bookList.json')
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
