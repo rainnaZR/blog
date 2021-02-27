@@ -16,6 +16,16 @@ String.prototype.interpolate = function (params) {
     const vals = Object.values(params);
     return new Function(...names, `return \`${this}\`;`)(...vals);
 };
+String.prototype.hashCode = function() {
+    let hash = 0, char;
+    if (this.length === 0) return hash;
+    [...new Array(this.length).keys()].forEach(i => {
+        char = this.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + char;
+        hash |= 0;  // Convert to 32bit integer
+    });
+    return Math.abs(hash);
+  };
  
 function onBuildFiles({filePath}) {
     // 删除打包目录
@@ -82,8 +92,8 @@ function onGetDocFiles({filePath, level}) {
         if(ext == '.md'){
             let mdContent = fs.readFileSync(subPath, 'utf-8');
             let htmlContent = marked(mdContent.toString());
-            let fileName = Math.random().toString(36).substr(2);
             let fileTitle = path.basename(file, '.md');
+            let fileName = fileTitle.hashCode();
             // markdown 文件生成 html 文件
             onLoadHtml({
                 filePath: './static/detail.html',
