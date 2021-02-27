@@ -47,6 +47,13 @@ function onBuildFiles({filePath}) {
         filePath: './static/index.html',
         outputFilePath: OUTPUT_FILE_DIRECTORY
     });
+    // 文章页输出到打包目录
+    onBuildFile({
+        data: data.children.filter(i => i.title == 'article')[0].children,
+        dataPath: `${JSON_DATA_PATH}/articleList.json`,
+        filePath: './static/article.html',
+        outputFilePath: OUTPUT_FILE_DIRECTORY
+    });
 }
 
 /**
