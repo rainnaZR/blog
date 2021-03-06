@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        <div class="markdown-body"><h1>flex</h1><div class="preview-link"><a href="./3145721/index.html">查看链接</a></div><p>url:  <a href="http://www.cnblogs.com/zourong/p/5630683.html">http://www.cnblogs.com/zourong/p/5630683.html</a></p>
+<p>CSS3中新增一种弹性布局模型：flexbox。网上关于flex的介绍很多，这里介绍下常用的几个属性。弹性布局的特点是非常灵活。可根据剩余的宽高，灵活布局。</p>
+<p>先用图片说明flex具有哪些属性。（网上盗的图）</p>
+<p>上图中flex容器即是父元素，flex项目为子元素。</p>
+<p>属性说明</p>
+<p>1.首先在父元素中定义display:flex;</p>
+<p>2.flex-direction:属性用来控制伸缩容器中主轴的方向，同时也决定了伸缩项目子元素的方向。</p>
+<p>flex-direction：row | row-reverse | column | column-reverse</p>
+<p>row 横向从左到右排列（左对齐）
+row-reverse  横向从右到左排列（右对齐）
+column 纵向从上到下排列（顶对齐）
+column-reverse 纵向从下到上排列（底对齐）</p>
+<ol start="3">
+<li>justify-content: 设置子元素在横轴上的对齐方式。</li>
+</ol>
+<p>justify-content：flex-start | flex-end | center | space-between | space-around</p>
+<p>flex-start  弹性盒子元素将向行起始位置对齐。
+flex-end  弹性盒子子元素向行结束位置对齐。
+center  弹性盒子子元素水平居中对齐。
+space-between 弹性盒子元素会平均地分布在行里。如果最左边的剩余空间是负数，或该行只有一个子元素，则该值等效于&#39;flex-start&#39;。在其它情况下，第一个元素的边界与行的主起始位置的边界对齐，同时最后一个元素的边界与行的主结束位置的边距对齐，而剩余的伸缩盒项目则平均分布，并确保两两之间的空白空间相等。
+space-around 弹性盒子元素会平均地分布在行里，两端保留子元素与子元素之间间距大小的一半。如果最左边的剩余空间是负数，或该行只有一个伸缩盒项目，则该值等效于&#39;center&#39;。在其它情况下，伸缩盒项目则平均分布，并确保两两之间的空白空间相等，同时第一个元素前的空间以及最后一个元素后的空间为其他空白空间的一半。</p>
+<ol start="4">
+<li><p>align-items：定义flex子项在flex容器的当前行的侧轴（纵轴）方向上的对齐方式。</p>
+<p>align-items：flex-start | flex-end | center | baseline | stretch</p>
+</li>
+</ol>
+<p>flex-start  弹性盒子元素的侧轴（纵轴）起始位置的边界紧靠住该行的纵轴起始边界。
+flex-end   弹性盒子元素的侧轴（纵轴）起始位置的边界紧靠住该行的侧轴结束边界。
+center     弹性盒子子元素垂直对齐。
+baseline  如弹性盒子元素的行内轴与侧轴为同一条，则该值与&#39;flex-start&#39;等效。其它情况下，该值将参与基线对齐。
+stretch  如果指定侧轴大小的属性值为&#39;auto&#39;，则其值会使项目的边距盒的尺寸尽可能接近所在行的尺寸，但同时会遵照&#39;min/max-width/height&#39;属性的限制。</p>
+<ol start="5">
+<li>align-content：当伸缩容器的侧轴还有多余空间时，本属性可以用来调准「伸缩行」在伸缩容器里的对齐方式，这与调准伸缩项目在主轴上对齐方式的 &lt;&#39; justify-content &#39;&gt; 属性类似。</li>
+</ol>
+<p>align-content：flex-start | flex-end | center | space-between | space-around | stretch</p>
+<p>效果同justify-content属性。</p>
+<p>6.flex-wrap：该属性控制flex容器是单行或者多行，同时横轴的方向决定了新行堆叠的方向。</p>
+<p>flex-wrap：nowrap | wrap | wrap-reverse</p>
+<p>nowrap 强制不换行
+wrap  正常排列，换行
+wrap-reverse 正常反向排列，换行</p>
+<p>参考：</p>
+<p><a href="http://web.jobbole.com/86488/">http://web.jobbole.com/86488/</a></p>
+<p><a href="https://bocoup.com/weblog/dive-into-flexbox">https://bocoup.com/weblog/dive-into-flexbox</a></p>
+<p><a href="http://www.css88.com/book/css/properties/flex/flex-wrap.htm">http://www.css88.com/book/css/properties/flex/flex-wrap.htm</a></p>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+

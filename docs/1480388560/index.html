@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>利用performance属性查看网页性能</title>
+</head>
+<body>
+<script>
+function getTimes(){
+	var t = performance.timing;
+	var timing = {
+		domainLookupTime: t.domainLookupEnd - t.domainLookupStart,
+		TCPConnectTime: t.connectEnd - t.connectStart,
+		ttfb: t.responseStart - t.navigationStart,
+		requestTime: t.responseEnd - t.requestStart,
+		waitTime: t.domLoading - t.navigationStart,
+		renderDomTime: t.domComplete - t.domLoading,
+		loadPageTime: t.loadEventEnd - t.fetchStart
+	}
+	console.log(timing);
+}
+getTimes();
+</script>
+</body>
+</html>

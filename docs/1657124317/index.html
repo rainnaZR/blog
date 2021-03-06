@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>select下拉框弹窗两次</title>
+    <style>
+        select{
+            width:200px;
+            height:30px;
+            font-size:14px;
+        }
+    </style>
+</head>
+<body>
+
+<form onclick="onFormClick()">
+    <select id="select" onchange="onSelectChange(this.value)">
+        <option value="0">请选择省份</option>
+        <option value="1">浙江</option>
+        <option value="2">湖北</option>
+        <option value="3">湖南</option>
+        <option value="4">上海</option>
+        <option value="5">北京</option>
+        <option value="6">深圳</option>
+    </select>
+</form>
+
+<script>
+    var select = document.getElementById('select');
+    console.log(select.value)
+
+    function onSelectChange(value){
+        console.log('change:' + value);
+    }
+
+    function onFormClick() {
+        setTimeout(function(){
+            console.log('click');
+            select.value = 2;
+        },2000)
+    }
+</script>
+</body>
+</html>

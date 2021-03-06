@@ -56,11 +56,19 @@ function onBuildFiles({filePath}) {
         outputFilePath: OUTPUT_FILE_DIRECTORY,
         fileType: 'file'
     });
-    // 文章页输出到打包目录
+    // 书库页输出到打包目录
     onBuildFile({
         data: data.children.filter(i => i.title == 'book')[0].children,
         dataPath: `${JSON_DATA_PATH}/bookList.json`,
         filePath: './static/book.html',
+        outputFilePath: OUTPUT_FILE_DIRECTORY,
+        fileType: 'directory'
+    });
+    // demo页输出到打包目录
+    onBuildFile({
+        data: data.children.filter(i => i.title == 'demo')[0].children,
+        dataPath: `${JSON_DATA_PATH}/demoList.json`,
+        filePath: './static/demo.html',
         outputFilePath: OUTPUT_FILE_DIRECTORY,
         fileType: 'directory'
     });
@@ -107,22 +115,56 @@ function onGetDocFiles({filePath, level}) {
         };
         let ext = path.extname(file);
         if(ext == '.md'){
-            let mdContent = fs.readFileSync(subPath, 'utf-8');
+            try{
+                let mdContent = fs.readFileSync(subPath, 'utf-8');
+                let htmlContent = marked(mdContent.toString());
+                let fileTitle = path.basename(file, '.md');
+                let fileHashTitle = fileTitle.hashCode();
+                // markdown 文件生成 html 文件，文章详情页
+                onLoadHtml({
+                    filePath: './static/detail.html',
+                    outputFilePath: `${OUTPUT_FILE_DIRECTORY}`,
+                    outputFileName: fileHashTitle,
+                    outputFileContent: {
+                        '@markdown': `<h1>${fileTitle}</h1>${htmlContent}`
+                    }
+                })
+                return {
+                    ...option,
+                    path: `${fileHashTitle}.html`,
+                    title: fileTitle,
+                    introduce: `${mdContent.substr(0, 150)}......`
+                }
+            }catch(err){
+                error(err);
+            }
+        }
+        if(ext == '.html'){
+            let mdContent = '';
+            try{
+                mdContent = fs.readFileSync(`${filePath}/readme.md`, 'utf-8');
+            }catch(err){}
             let htmlContent = marked(mdContent.toString());
-            let fileTitle = path.basename(file, '.md');
-            let fileName = fileTitle.hashCode();
-            // markdown 文件生成 html 文件
+            let pathArr = filePath.split('/');
+            let fileTitle = pathArr[pathArr.length - 1];
+            let fileHashTitle = fileTitle.hashCode();
+            onCopyFiles({
+                filePath,
+                outputFilePath: `${OUTPUT_FILE_DIRECTORY}/${fileHashTitle}`,
+                fileType: 'directory'
+            });
+            // markdown 文件生成 html 文件，文章详情页
             onLoadHtml({
                 filePath: './static/detail.html',
                 outputFilePath: `${OUTPUT_FILE_DIRECTORY}`,
-                outputFileName: fileName,
+                outputFileName: fileHashTitle,
                 outputFileContent: {
-                    '@markdown': `<h1>${fileTitle}</h1>${htmlContent}`
+                    '@markdown': `<h1>${fileTitle}</h1><div class="preview-link"><a href="./${fileHashTitle}/index.html">查看链接</a></div>${htmlContent}`
                 }
             })
             return {
                 ...option,
-                path: `${fileName}.html`,
+                path: `${fileHashTitle}.html`,
                 title: fileTitle,
                 introduce: `${mdContent.substr(0, 150)}......`
             }
@@ -193,7 +235,7 @@ function onLoadHtml({ filePath, outputFilePath, outputFileName, outputFileConten
             // 如果是 @markdown 标签
             if(i.startsWith('@markdown')){
                 html = outputFileContent[i];
-            } 
+            }
             res = res.replace(i, html);   
         })
         // 当全部加载完后，生成完整html文件

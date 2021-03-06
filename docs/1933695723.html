@@ -15,7 +15,7 @@
     <div class="m-page">
       <div class="m-box">
         <div class="m-introduce f-flexr">
-    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877"></div>
     <div class="f-ml25 f-flex-1">
         <p class="f-mb10 f-fs26">Zrainna</p>
         <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
@@ -30,7 +30,6 @@
     <div class="item"><a href="./book.html">书库</a></div>
     <div class="item"><a href="./demo.html">Demo</a></div>
 </div>
-        
         <div class="markdown-body"><h1>CommonJS和ES6模块循环加载处理的区别</h1><p>CommonJS模块规范使用require语句导入模块，module.exports导出模块，输出的是值的拷贝，模块导入的也是输出值的拷贝，也就是说，一旦输出这个值，这个值在模块内部的变化是监听不到的。</p>
 <p>ES6模块的规范是使用import语句导入模块，export语句导出模块，输出的是对值的引用。ES6模块的运行机制和CommonJS不一样，遇到模块加载命令import时不去执行这个模块，只会生成一个动态的只读引用，等真的需要用到这个值时，再到模块中取值，也就是说原始值变了，那输入值也会发生变化。</p>
 <h3 id="那commonjs和es6模块规范针对模块的循环加载处理机制有什么不同呢？">那CommonJS和ES6模块规范针对模块的循环加载处理机制有什么不同呢？</h3>

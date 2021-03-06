@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" Content="text/html; charset=utf-8;">
+<title>CSS3实现加载的动画效果7</title>
+<meta name="author" content="rainna" />
+<meta name="keywords" content="rainna's css lib" />
+<meta name="description" content="CSS3" />
+<style>
+*{margin:0;padding:0;}
+body{background:#e2e2e2;}
+.m-load{width:240px;height:240px;margin:100px auto;background:url('load.png') center center no-repeat;}
+
+/** 加载动画的静态样式 **/
+.m-load2{position:relative;width:95px;height:95px;margin:100px auto;border-radius:44px;overflow:hidden;}
+.m-load2:before,.m-load2:after,.m-load2 .item{float:left;width:50%;height:50%;}
+.m-load2:before{content:'';background:#e36767;}
+.m-load2:after{content:'';background:#6BB9DD;}
+.m-load2 .item:nth-child(1){background:#F6CB7D;}
+.m-load2 .item:nth-child(2){background:#6BA374;}
+.m-load2 .circle{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;background:#e2e2e2;border-radius:28px;}
+.m-load2 .circle:before{content:'';position:absolute;left:2%;top:20%;width:0;height:0;overflow:hidden;border-top:18px solid #CCC;border-left:18px solid #ccc;border-right:18px solid transparent;border-bottom:18px solid transparent;-webkit-transform:rotate(135deg) skew(12deg,12deg);}
+
+/** 加载动画 **/
+@-webkit-keyframes load{
+	0%{background:#e36767;}
+	24.9%{background:#e36767;}
+	25%{background:#F6CB7D;}
+	49.9%{background:#F6CB7D;}
+	50%{background:#6BB9DD;}
+	74.9%{background:#6BB9DD;}
+	75%{background:#6BA374;}
+	99.9%{background:#6BA374;}
+}
+.m-load2:before{-webkit-animation:load 1s linear infinite;}
+.m-load2 .item:nth-child(1){-webkit-animation:load 1s linear .25s infinite;}
+.m-load2:after{-webkit-animation:load 1s linear .5s infinite;}
+.m-load2 .item:nth-child(2){-webkit-animation:load 1s linear .75s infinite;}
+
+
+.m-intro{width:800px;margin:0 auto;padding:20px;background:#f7f7f7;}
+.m-intro h2,.m-intro p{margin:0 0 15px;line-height:1.8;}
+</style>
+</head>
+
+<body>
+<div class="m-load"></div>
+<div class="m-load2">
+	<div class="item"></div>
+	<div class="item"></div>
+	<div class="circle"></div>
+</div>
+
+
+<div class="m-intro">
+	<a href="http://www.cnblogs.com/zourong/p/4021813.html" target="_blank">原文链接</a>
+	<p>今天整理的这个动画估计大家都不会陌生，彩环旋转，看过之后是不是觉得很熟悉，对，这个就是优酷视频APP里面的加载动画。本人空余时间喜欢看些视频，留意到这个动画后就想用代码实现出来，今天整理了下，跟大家分享，如果有大牛能提出更好的实现方法，欢迎补充。案例请在chrome中查看。</p>
+	<p>这个动画的实现也非常简单，并没有使用太复杂的技术。关键点在于把四个变换背景色的元素分离出来，然后延迟动画开始的时间。动画的关键帧定义为变换四个背景颜色。</p>
+	<h2>代码实现思路</h2>
+	<p><img width="100%" src="intro.png" /></p>
+	<p>2.1 定义一个方形的容器。<br />2.2 定义四个不同背景色的方形子元素。<br />2.3 定义一个椭圆形的元素盖在子元素上方，椭圆形元素的背景色为页面背景色，这样就形成了圆环的效果。<br />2.4 在元素中心定义一个三角形元素，形成一个播放按钮。<br />最后在四个方形子元素上应用动画，延时改变其背景色。最后的效果就是圆环的四个部分轮流改变其背景色。</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" Content="text/html; charset=utf-8;">
+<title>CSS3实现加载的动画效果6</title>
+<meta name="author" content="rainna" />
+<meta name="keywords" content="rainna's css lib" />
+<meta name="description" content="CSS3" />
+<style>
+*{margin:0;padding:0;}
+body{background:#444;}
+
+/** 加载动画的静态样式 **/
+.m-load{position:relative;width:52px;height:52px;margin:100px auto;}
+.m-load .item{position:absolute;left:50%;top:0;width:20px;height:100%;margin-left:-10px;}
+.m-load .item:nth-child(2){-webkit-transform:rotate(45deg);}
+.m-load .item:nth-child(3){-webkit-transform:rotate(90deg);}
+.m-load .item:nth-child(4){-webkit-transform:rotate(135deg);clip:rect(-26px,18px,26px,-18px);}
+.m-load .item:nth-child(5){-webkit-transform:rotate(135deg);clip:rect(26px,37px,78px,2px);}
+.m-load .item span{position:absolute;left:0;width:18px;height:100%;}
+.m-load .first{bottom:52%;border-left:2px solid #fff;-webkit-transform-origin:left bottom;-webkit-transform:translate(100%,0) rotate(-45deg);}
+.m-load .last{top:52%;border-right:2px solid #fff;-webkit-transform-origin:right top;-webkit-transform:translate(-100%,0) rotate(-45deg);}
+.m-load .item span:before{content:'';position:absolute;left:-1px;width:0;height:0;overflow:hidden;}
+.m-load .first:before{top:-1px;border-top:30px solid #444;border-left:20px solid transparent;}
+.m-load .last:before{bottom:-1px;border-bottom:30px solid #444;border-right:20px solid transparent;}
+.m-load .item:nth-child(1) .first{background:#48ec53;}
+.m-load .item:nth-child(1) .last{background:#f75e5a;}
+.m-load .item:nth-child(2) .first{background:#a6ea4b;}
+.m-load .item:nth-child(2) .last{background:#724dee;}
+.m-load .item:nth-child(3) .first{background:#e8d84b;}
+.m-load .item:nth-child(3) .last{background:#44abec;}
+.m-load .item:nth-child(4) .first{background:#fdc103;}
+.m-load .item:nth-child(5) .last{background:#51ddeb;}
+
+.m-load .point{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:18px;background:#444;}
+
+/** 加载动画 **/
+@-webkit-keyframes load{
+	100%{-webkit-transform:rotate(360deg);}
+}
+.m-load{-webkit-animation:load 1.8s linear infinite;}
+
+
+.m-intro{width:800px;margin:0 auto;padding:20px;background:#f7f7f7;}
+.m-intro h2,.m-intro p{margin:0 0 15px;line-height:1.8;}
+</style>
+</head>
+
+<body>
+<div class="m-load">
+	<div class="item"><span class="first"></span><span class="last"></span></div>
+	<div class="item"><span class="first"></span><span class="last"></span></div>
+	<div class="item"><span class="first"></span><span class="last"></span></div>
+	<div class="item"><span class="first"></span><span class="last"></span></div>
+	<div class="item"><span class="first"></span><span class="last"></span></div>
+	<div class="point"></div>
+</div>
+
+
+<div class="m-intro">
+	<a href="http://www.cnblogs.com/zourong/p/3999700.html" target="_blank">原文链接</a>
+	<p>这个动画改编自<a href="http://www.cnblogs.com/zourong/p/3998485.html" target="_blank">光盘旋转</a>，前几个步骤一样，最后一步不同。光盘旋转的最后一步是外层容器加个圆形的白色边框，多余部分隐藏，这个案例则是在每个旋转的子元素的顶部或底部增加一个三角形的元素，构成风车旋转的角。</p>
+	<h2>代码实现思路</h2>
+	<p><img width="100%" src="intro.png" /></p>
+	<p>2.1 首先还是定义四个元素，元素的中心为这四个元素组成的圆的圆心。这样定义的目的可以保证元素拼凑成一个正圆。<br />2.2 在单个元素的头尾各定义一个子元素，子元素旋转一定的角度，使其平行排列，中间刚好留一个正圆的位置。这里用了rotate和translate属性，没有用skew属性，是因为skew方法会使元素拉伸后变小。<br />2.3 将每个元素的子元素都定义不同的背景色，定义完成后，会形成8个不同的颜色排列，此时元素的形状已经产生了。需要注意的是，最后一个元素需要裁剪下，因为有可能会覆盖第一个元素。案例中第4，8个子元素是分开写的。<br />2.4 此时在圆心位置定义一个圆，圆的大小刚好覆盖中间的空隙位置。在1,2,3,4个子元素的顶部绝对定位一个元素，设置这个元素的边框，产生三角形的形状，形成风车旋转的角。同样的，在5,6,7,8个子元素的底部设置同样一个三角形的形状。<br />2.5 定义动画，并在外层容器上应用这个动画。这个动画的方式比较简单，就是旋转，直接使用rotate即可。</p>
+</div>
+</body>
+</html>

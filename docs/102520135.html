@@ -15,7 +15,7 @@
     <div class="m-page">
       <div class="m-box">
         <div class="m-introduce f-flexr">
-    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877"></div>
     <div class="f-ml25 f-flex-1">
         <p class="f-mb10 f-fs26">Zrainna</p>
         <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
@@ -30,7 +30,6 @@
     <div class="item"><a href="./book.html">书库</a></div>
     <div class="item"><a href="./demo.html">Demo</a></div>
 </div>
-        
         <div class="markdown-body"><h1>V8如何实现对象继承</h1><p>继承就是一个对象可以访问另外一个对象中的属性和方法。最典型的继承方式有基于类的设计和基于原型继承的设计。js仅仅在对象中引入一个原型的属性来实现继承。</p>
 <h3 id="1-原型继承的概念">1. 原型继承的概念</h3>
 <p>JS的每个对象都包含一个隐藏属性__proto__，这个隐藏属性称为该对象的原型prototype，__proto__在内存中指向的对象为该对象的原型对象，访问该对象就能直接访问其原型对象的属性和方法。JS查找属性时优先从自身对象查找，如果查找不到，就回去原型上查找，查找的路径称为<strong>原型链</strong>。</p>

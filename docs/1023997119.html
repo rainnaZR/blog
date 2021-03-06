@@ -15,7 +15,7 @@
     <div class="m-page">
       <div class="m-box">
         <div class="m-introduce f-flexr">
-    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877?s=460&v=4"></div>
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877"></div>
     <div class="f-ml25 f-flex-1">
         <p class="f-mb10 f-fs26">Zrainna</p>
         <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
@@ -30,7 +30,6 @@
     <div class="item"><a href="./book.html">书库</a></div>
     <div class="item"><a href="./demo.html">Demo</a></div>
 </div>
-        
         <div class="markdown-body"><h1>第二章-主进程与渲染进程</h1><h2 id="主进程与渲染进程">主进程与渲染进程</h2>
 <h3 id="概念">概念</h3>
 <p>Electron应用程序区分主进程和渲染进程。线程是进程的子集，进程不共享内存，线程可以共享内存，一个进程会创建多个线程。例子中yarn start执行index.js中的代码就是在Electron的主进程中，主进程负责创建窗口并加载index.html，而index.html中编写的代码运行在Electron的渲染进程中。</p>

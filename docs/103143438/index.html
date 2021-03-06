@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" Content="text/html; charset=utf-8;">
+<title>CSS3实现加载的动画效果4</title>
+<meta name="author" content="rainna" />
+<meta name="keywords" content="rainna's css lib" />
+<meta name="description" content="CSS3" />
+<style>
+*{margin:0;padding:0;}
+
+.m-load,.m-load2{width:100px;height:100px;margin:100px auto;background:url('load.png') top center no-repeat;}
+.m-load2{background:#68C531;}
+
+/** 加载动画的静态样式 **/
+.m-load2{position:relative;}
+.m-load2 .item{position:absolute;left:50%;top:0;width:14px;height:100%;margin-left:-7px;}
+.m-load2 .item:before,.m-load2 .item:after{content:'';display:block;width:14px;height:14px;border-radius:14px;background:#fff;}
+.m-load2 .item:after{position:absolute;bottom:0;}
+.m-load2 .item:nth-child(2){-webkit-transform:rotate(45deg);}
+.m-load2 .item:nth-child(3){-webkit-transform:rotate(90deg);}
+.m-load2 .item:nth-child(4){-webkit-transform:rotate(135deg);}
+
+/** 加载动画 **/
+@-webkit-keyframes load{
+	0%{opacity:0;}
+	100%{opacity:1;}
+}
+.m-load2 .item:nth-child(1):before{-webkit-animation:load 0.8s linear 0.7s infinite;}
+.m-load2 .item:nth-child(2):before{-webkit-animation:load 0.8s linear 0.6s infinite;}
+.m-load2 .item:nth-child(3):before{-webkit-animation:load 0.8s linear 0.5s infinite;}
+.m-load2 .item:nth-child(4):before{-webkit-animation:load 0.8s linear 0.4s infinite;}
+.m-load2 .item:nth-child(1):after{-webkit-animation:load 0.8s linear 0.3s infinite;}
+.m-load2 .item:nth-child(2):after{-webkit-animation:load 0.8s linear 0.2s infinite;}
+.m-load2 .item:nth-child(3):after{-webkit-animation:load 0.8s linear 0.1s infinite;}
+.m-load2 .item:nth-child(4):after{-webkit-animation:load 0.8s linear 0s infinite;}
+
+
+.m-intro{width:800px;margin:0 auto;padding:20px;background:#f7f7f7;}
+.m-intro h2,.m-intro p{margin:0 0 15px;line-height:1.8;}
+</style>
+</head>
+
+<body>
+<div class="m-load"></div>
+<div class="m-load2">
+	<div class="item"></div>
+	<div class="item"></div>
+	<div class="item"></div>
+	<div class="item"></div>
+</div>
+
+
+<div class="m-intro">
+	<a href="http://www.cnblogs.com/zourong/p/3996595.html" target="_blank">原文链接</a>
+	<p>圆点旋转也是加载动画中经常用到的。其实现方式和菊花旋转一样，只不过一个是线条形式，一个是圆点形式。圆点按照固定的旋转角度排列，加上延时的改变透明度的动画就可以实现。这个实现也比较简单。</p>
+</div>
+</body>
+</html>
