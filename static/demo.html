@@ -5,10 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>ZRainna的博客-详情</title>
+    <title>ZRainna的博客-Demo</title>
     <link type="text/css" rel="stylesheet" href="./css/base.css" />
     <link type="text/css" rel="stylesheet" href="./css/page.css" />
-    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
   </head>
   
   <body>
@@ -19,10 +18,13 @@
       
       <div class="m-box">
         @include('./static/template/menu.html')
-        <div class="markdown-body">@markdown</div>
-        <div class="iframe-preview">@iframe</div>
+        @include('./static/template/articleList.html', './static/data/demoList.json')
       </div>
     </div>
+
+    <script>
+      document.querySelectorAll('.m-menu .item')[3].className = 'item item-curr';
+    </script>
   </body>
 </html>
 
