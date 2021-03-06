@@ -106,12 +106,14 @@ function onGetDocFiles({filePath, level}) {
             return onGetDocFiles({filePath: subPath, level});
         }
 
-        let date = dayjs(stats.mtime || stats.ctime).format('YYYY/MM/DD').split('/');
+        let modifyTime = stats.mtime || stats.ctime;
+        let timeArr = dayjs(modifyTime).format('YYYY/MM/DD').split('/');
         let option = {
             type: 'file',
             level,
-            date: `${date[1]}/${date[2]}`,
-            year: date[0]
+            modifyTime,
+            year: timeArr[0],
+            date: `${timeArr[1]}/${timeArr[2]}`
         };
         let ext = path.extname(file);
         if(ext == '.md'){
@@ -201,7 +203,7 @@ function onGetJsonData({data, path, fileType}){
         return list.concat(onLoopData(i.children||[]))
     }, []);
     fs.writeJsonSync(path, {
-        data: onLoopData(data)
+        data: onLoopData(data).sort((a, b) => b.modifyTime - a.modifyTime)
     });
 }
 
