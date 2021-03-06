@@ -70,7 +70,7 @@ function onBuildFiles({filePath}) {
         dataPath: `${JSON_DATA_PATH}/demoList.json`,
         filePath: './static/demo.html',
         outputFilePath: OUTPUT_FILE_DIRECTORY,
-        fileType: 'directory'
+        fileType: 'file'
     });
 }
 
@@ -159,7 +159,7 @@ function onGetDocFiles({filePath, level}) {
                 outputFilePath: `${OUTPUT_FILE_DIRECTORY}`,
                 outputFileName: fileHashTitle,
                 outputFileContent: {
-                    '@markdown': `<h1>${fileTitle}</h1><div class="preview-link"><a href="./${fileHashTitle}/index.html">查看链接</a></div>${htmlContent}`
+                    '@markdown': `<h1>${fileTitle}</h1><div class="preview-link"><a target="_blank" href="./${fileHashTitle}/index.html">查看链接</a></div>${htmlContent}`
                 }
             })
             return {
