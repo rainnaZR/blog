@@ -10,7 +10,6 @@ const OUTPUT_FILE_DIRECTORY = 'docs';
 const JSON_DATA_PATH = './static/data';
 const CSS_DATA_PATH = './static/css';
 
-
 String.prototype.interpolate = function (params) {
     const names = Object.keys(params);
     const vals = Object.values(params);
@@ -135,7 +134,7 @@ function onGetDocFiles({filePath, level}) {
                     ...option,
                     path: `${fileHashTitle}.html`,
                     title: fileTitle,
-                    introduce: `${mdContent.substr(0, 150)}......`
+                    introduce: `${mdContent.substr(0, 150).replace(/#/g,'')}......`
                 }
             }catch(err){
                 error(err);
@@ -168,7 +167,7 @@ function onGetDocFiles({filePath, level}) {
                 ...option,
                 path: `${fileHashTitle}.html`,
                 title: fileTitle,
-                introduce: `${mdContent.substr(0, 150)}......`
+                introduce: `${mdContent.substr(0, 150).replace(/#/g,'')}......`
             }
         }
     }).filter(i => i);
