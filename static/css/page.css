@@ -10,6 +10,9 @@
 .m-box .markdown-body{
     padding: 0 30px 30px;
 }
+.m-box .markdown-body .preview-link{
+    margin: 0 0 15px;
+}
 
 .m-introduce .logo img{
     display: block;
