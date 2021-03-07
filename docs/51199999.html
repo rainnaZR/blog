@@ -30,20 +30,19 @@
     <div class="item"><a href="./book.html">书库</a></div>
     <div class="item"><a href="./demo.html">Demo</a></div>
 </div>
-        <div class="markdown-body"><h1>呈现系统-组件间的通信方式(7)</h1><h1 id="组件间的通信方式">组件间的通信方式</h1>
-<p>呈现页面的开发就是组件的开发，那组件与组件，组件与模块，组件与页面之间是如何通信呢？</p>
+        <div class="markdown-body"><h1>组件间的通信方式</h1><p>呈现页面的开发就是组件的开发，那组件与组件，组件与模块，组件与页面之间是如何通信呢？</p>
 <p>组件的通信采用的是事件订阅/发布模式来处理的。定义一个全局的事件管理中心，事件的订阅，发布，销毁统一管理。</p>
 <h3 id="实现步骤">实现步骤</h3>
-<h4 id="第一步：实例化一个空的regular构造函数。">第一步：实例化一个空的regular构造函数。</h4>
-<pre><code>import RegularJS from &#39;regularjs&#39;;
+<h4 id="第一步：实例化一个空的构造函数。">第一步：实例化一个空的构造函数。</h4>
+<pre><code>import TestJS from &#39;testJS&#39;;
 
-let EvtController = RegularJS.extend({});
+let EvtController = TestJS.extend({});
 
 let evtController = new EvtController();
 
 export default evtController;</code></pre>
 <h4 id="第二步：在这个实例化的对象上做事件的订阅，发布，销毁操作。">第二步：在这个实例化的对象上做事件的订阅，发布，销毁操作。</h4>
-<p>regularjs内已经对事件的操作方法做好了封装，所以我们直接用就行了。</p>
+<p>testJS内已经对事件的操作方法做好了封装，所以我们直接用就行了。</p>
 <p>事件订阅：</p>
 <pre><code>evtController.$on(&#39;updateCartNum&#39;, this.updateCartNum.bind(this));</code></pre>
 <p>事件触发：</p>

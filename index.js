@@ -105,7 +105,7 @@ function onGetDocFiles({filePath, level}) {
             return onGetDocFiles({filePath: subPath, level});
         }
 
-        let modifyTime = stats.mtime || stats.ctime;
+        let modifyTime = stats.ctime;
         let timeArr = dayjs(modifyTime).format('YYYY/MM/DD').split('/');
         let option = {
             type: 'file',
