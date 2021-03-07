@@ -115,7 +115,7 @@ function onGetDocFiles({filePath, level}) {
             date: `${timeArr[1]}/${timeArr[2]}`
         };
         let ext = path.extname(file);
-        if(ext == '.md'){
+        if(ext == '.md' && file !== 'readme.md'){
             try{
                 let mdContent = fs.readFileSync(subPath, 'utf-8');
                 let htmlContent = marked(mdContent.toString());
@@ -140,7 +140,7 @@ function onGetDocFiles({filePath, level}) {
                 error(err);
             }
         }
-        if(ext == '.html'){
+        if(file == 'index.html'){
             let mdContent = '';
             try{
                 mdContent = fs.readFileSync(`${filePath}/readme.md`, 'utf-8');
