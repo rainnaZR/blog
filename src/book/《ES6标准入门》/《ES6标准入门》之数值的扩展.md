@@ -1,6 +1,4 @@
-《ES6标准入门》阅读总结
-
-# 第五章 数值的扩展
+第五章阅读总结：
 
 ### 1. Number.isFinite(), Number.isNaN()
 

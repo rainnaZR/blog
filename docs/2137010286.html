@@ -30,8 +30,7 @@
     <div class="item"><a href="./book.html">书库</a></div>
     <div class="item"><a href="./demo.html">Demo</a></div>
 </div>
-        <div class="markdown-body"><h1>《现代前端技术解析》之现代前端交互框架</h1><p>《现代前端技术解析》阅读总结</p>
-<h1 id="第四章-现代前端交互框架">第四章 现代前端交互框架</h1>
+        <div class="markdown-body"><h1>《现代前端技术解析》之现代前端交互框架</h1><p>第四章阅读总结：</p>
 <h3 id="1-直接dom操作时代">1. 直接DOM操作时代</h3>
 <p>原生DOM API有：getElementById, createElement, createDocumentFragment, appendChild等。推荐使用createDocumentFragment代替createElement来创建节点内容，因为createDocumentFragment可以把节点内容缓存起来，最后一次性插入到DOM中，从而减少DOM操作次数，提高效率。</p>
 <p>AJAX跨域请求时默认不会带上浏览器的cookie信息，需要在请求头里加上xhrFields: {withCredentials: true}，才能将Cookie信息正常带到请求中发送给服务器。</p>

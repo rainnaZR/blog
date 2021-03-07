@@ -1,6 +1,4 @@
-《JS语言精粹》阅读总结
-
-# 第七章 正则表达式
+第七章阅读总结：
 
 
 正则表达式的方法有regexp.exec, regexp.test, string.match, string.replace, string.search, string.split等方法。

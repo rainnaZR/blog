@@ -1,5 +1,3 @@
-## 主进程与渲染进程
-
 ### 概念
 
 Electron应用程序区分主进程和渲染进程。线程是进程的子集，进程不共享内存，线程可以共享内存，一个进程会创建多个线程。例子中yarn start执行index.js中的代码就是在Electron的主进程中，主进程负责创建窗口并加载index.html，而index.html中编写的代码运行在Electron的渲染进程中。

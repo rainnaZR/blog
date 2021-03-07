@@ -30,8 +30,7 @@
     <div class="item"><a href="./book.html">书库</a></div>
     <div class="item"><a href="./demo.html">Demo</a></div>
 </div>
-        <div class="markdown-body"><h1>第二章-主进程与渲染进程</h1><h2 id="主进程与渲染进程">主进程与渲染进程</h2>
-<h3 id="概念">概念</h3>
+        <div class="markdown-body"><h1>《Electron实战》第二章-主进程与渲染进程</h1><h3 id="概念">概念</h3>
 <p>Electron应用程序区分主进程和渲染进程。线程是进程的子集，进程不共享内存，线程可以共享内存，一个进程会创建多个线程。例子中yarn start执行index.js中的代码就是在Electron的主进程中，主进程负责创建窗口并加载index.html，而index.html中编写的代码运行在Electron的渲染进程中。</p>
 <ul>
 <li>主进程负责完成监听应用程序的生命周期事件，启动窗口，加载页面，应用程序关闭后回收资源，退出程序等工作。主进程管理窗口及其渲染进程。</li>

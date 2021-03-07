@@ -1,6 +1,3 @@
-《深入浅出Node.js》阅读总结
-
-## 网络编程
 
 Node具有事件驱动，无阻塞，单线程等特性，具备良好的伸缩性。利用Node可以方便的搭建网络服务器。Node提供了net, dgram, http, https四个模块，分别处理TCP, UDP, HTTP, HTTPS, 适用于客户端和服务器端。
 

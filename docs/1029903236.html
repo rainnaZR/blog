@@ -30,9 +30,7 @@
     <div class="item"><a href="./book.html">书库</a></div>
     <div class="item"><a href="./demo.html">Demo</a></div>
 </div>
-        <div class="markdown-body"><h1>《深入浅出Node.js》之内存控制</h1><p>《深入浅出Node.js》阅读总结</p>
-<h2 id="内存控制">内存控制</h2>
-<h3 id="1v8的垃圾回收与内存限制">1.V8的垃圾回收与内存限制</h3>
+        <div class="markdown-body"><h1>《深入浅出Node.js》之内存控制</h1><h3 id="1v8的垃圾回收与内存限制">1.V8的垃圾回收与内存限制</h3>
 <p>Node是一个构建在Chrome的JS运行时上的平台。在Node中通过JS使用内存时只能使用部分内存。在Node中使用的JS对象基本上都是通过V8自己的方式来进行分配和管理的。</p>
 <p>V8堆内存大小的限制，对内存泄漏很敏感。</p>
 <p>在V8中，所有的JS对象都是通过堆来分配的。下面的代码可以查看内存信息：</p>
