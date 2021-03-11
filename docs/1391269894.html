@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        <div class="markdown-body"><h1>前端实现PDF导出功能</h1><p>基于Vue框架开发，前端实现PDF文件导出功能，有多种实现方案，现大概介绍下如何使用html2canvas + jspdf来实现。</p>
+<h2 id="需求简介">需求简介</h2>
+<p>点击“导出按钮”，导出并下载指定内容的PDF文件。</p>
+<h2 id="需求分析">需求分析</h2>
+<p>调研了下，决定采用html2canvas + jspdf插件来实现，大致原理是使用html2canvas将dom内容截图生成为图片格式，然后使用jspdf插件将图片转换成pdf格式。</p>
+<h2 id="代码实现">代码实现</h2>
+<h3 id="1-定义需要生成pdf文件的模板内容">1. 定义需要生成PDF文件的模板内容</h3>
+<p>因为项目是基于Vue开发，所以生成PDF文件的模板内容基于vue语法就行，只要最终能拿到节点就可以。例如 export.vue：</p>
+<pre><code>&lt;template&gt;
+  &lt;div class=&quot;m-export&quot;&gt;
+    &lt;div class=&quot;logo&quot;&gt;
+      &lt;img crossOrigin=&quot;Anonymous&quot; :src=&quot;getPath(logoPath)&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;f-tac f-fw0&quot;&gt;{{ customerName }}&lt;/div&gt;
+    &lt;div class=&quot;date s-fc3&quot;&gt;{{ currDate }}&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  props: [&#39;logoPath&#39;, &#39;customerName&#39;, &#39;currDate&#39;]
+  methods: {
+    getPath(url) {
+      let str = Date.now();
+      return url.indexOf(&#39;?&#39;) &gt; -1 ? `${url}&amp;v=${str}` : `${url}?v=${str}`;
+    }
+  }
+};
+&lt;/script&gt;
+
+&lt;style lang=&quot;less&quot; scoped&gt;
+.m-export {
+  position: fixed;
+  left: 99999px;
+  top: 99999px;
+  width: 1000px;
+  min-height: 1000px;
+}
+&lt;/style&gt;</code></pre>
+<h3 id="2-调用生成pdf文件的方法">2. 调用生成PDF文件的方法</h3>
+<p>模板定义好后，此时点击导出按钮，执行导出逻辑。此处用了定时器，是因为调用pdf生成方法前需要保证模板内容渲染完成，节点内容如果没渲染好会导致生成的pdf内容缺失。</p>
+<pre><code>import { getPdf } from &#39;@/config/htmlToPdf&#39;;
+
+setTimeout(() =&gt; {
+  getPdf({
+    element: this.$refs.export.$el,  // pdf模板节点：上面第一步中的模板内容节点
+    title: &#39;文件导出&#39;,  // pdf文件名
+    isFullPage: true,   // pdf尺寸：true为不分页的长文件，false为A4分页的文件
+    canvasOptions: {
+      width: 1000   // 画布尺寸
+    }
+  })
+}, 500);</code></pre>
+<h3 id="3-核心getpdf-方法定义">3. 核心getPdf() 方法定义</h3>
+<p>首先安装html2canvas插件和jspdf插件。如果包拉不下来，可使用脚本外链的方式引用。此处jspdf最新5.1.3的包通过yarn下载失败，先通过脚本的方式加载，注意外链脚本最好放在本地cdn上，避免因为网络问题或其他原因导致脚本加载失败。</p>
+<p>html2Canvas参数选项中allowTaint: true和useCORS: true选项，二者互斥。当定义了allowTaint: true后，跨域的不安全的图会被加载，但是出于安全性的考虑，html2Canvas内部很多方法会被禁用，比如toDataURL()；当定义了useCORS: true选项后，图片响应头里需要加上允许跨域的参数，客户端图片img标签里也需要加上crossOrigin=&quot;Anonymous&quot;，允许被跨域加载。</p>
+<p>大致代码如下：</p>
+<pre><code>import html2Canvas from &#39;html2canvas&#39;;
+
+const appendJs = () =&gt; {
+  let script = document.createElement(&#39;script&#39;);
+  script.src = &#39;https://unpkg.com/jspdf@1.5.3/dist/jspdf.min.js&#39;;
+  let node = document.getElementsByTagName(&#39;script&#39;)[0];
+  node.parentNode.insertBefore(script, node);
+};
+appendJs();
+
+const getPdf = ({ element, title, isFullPage, canvasOptions = {} }) =&gt; {
+  return new Promise((resolve, reject) =&gt; {
+    // 定义canvas画布的属性，避免生成的pdf文件尺寸不统一
+    let { scale = 2, width, height } = canvasOptions;
+    width = width || element.clientWidth;
+    height = height || element.clientHeight;
+    element.ownerDocument.defaultView.devicePixelRatio = scale;
+    element.ownerDocument.defaultView.innerWidth = width;
+    element.ownerDocument.defaultView.innerHeigth = height;
+
+    html2Canvas(element, {
+      // allowTaint: true,
+      useCORS: true,
+      scale,
+      width,
+      height
+    })
+      .then(function(canvas) {
+        let contentWidth = canvas.width;
+        let contentHeight = canvas.height;
+        let pageData = canvas.toDataURL(&#39;image/jpeg&#39;, 1.0);
+        let PDF;
+        let imgWidth;
+        let imgHeight;
+
+        if (isFullPage) {
+          // 全屏长图
+          imgWidth = (contentWidth / scale) * 0.75;
+          imgHeight = (contentHeight / scale) * 0.75;
+          PDF = new jsPDF(&#39;&#39;, &#39;pt&#39;, [imgWidth, imgHeight]);  // [imgWidth, imgHeight] 为PDF宽高
+          PDF.addImage(pageData, &#39;JPEG&#39;, 0, 0, imgWidth, imgHeight);
+        } else { 
+          // A4纸截图
+          imgWidth = 595;
+          imgHeight = (imgWidth / contentWidth) * contentHeight;
+          let position = 0;
+          let pageHeight = (contentWidth / imgWidth) * 842; // A4一页的高度
+          PDF = new jsPDF(&#39;&#39;, &#39;pt&#39;, &#39;a4&#39;);
+          if (contentHeight &lt; pageHeight) {
+            PDF.addImage(pageData, &#39;JPEG&#39;, 0, 0, imgWidth, imgHeight);
+          } else {
+            while (contentHeight &gt; 0) {
+              PDF.addImage(pageData, &#39;JPEG&#39;, 0, position, imgWidth, imgHeight);
+              contentHeight -= pageHeight;
+              position -= 842;
+              if (contentHeight &gt; 0) {
+                PDF.addPage();
+              }
+            }
+          }
+        }
+        PDF.save(title + &#39;.pdf&#39;);  // 保存pdf文件
+        resolve();
+      })
+      .catch(err =&gt; reject(err));
+  });
+};
+
+export { getPdf };</code></pre>
+<h2 id="踩坑总结">踩坑总结</h2>
+<h3 id="1-pdf文件中，内容较少时宽度会被截断">1. pdf文件中，内容较少时宽度会被截断</h3>
+<p>解决办法：在模板样式中定义最小高度，把容器撑开。</p>
+<pre><code>.m-export {
+  width: 1000px;
+  min-height: 1000px;
+}</code></pre>
+<h3 id="2-pdf中图片不显示，报跨域问题">2. pdf中图片不显示，报跨域问题</h3>
+<p>测试时发现图片会报跨域问题，如果使用跨域的资源画到canvas中，并且资源没有使用CORS去请求，canvas会被认为是被污染了, canvas可以正常展示，但是没办法使用toDataURL()或者toBlob()导出数据。</p>
+<p>图片已经通过img标签加载过，浏览器默认会缓存下来，下次再请求会直接返回缓存的图片，如果缓存中的图片不是通过CORS请求或者响应头中不存在Access-Control-Allow-Origin，都会导致报错。</p>
+<p>解决办法：</p>
+<ul>
+<li>生成PDF文件时，可在图片链接后加时间戳加载，避免使用本地缓存。</li>
+<li>通过在img标签设置crossOrigin=&quot;Anonymous&quot;，在CORS请求时不会发送认证信息。</li>
+<li>在启用CORS请求跨域资源时，服务端资源必须允许跨域，才能正常返回，所以还需要在服务端设置允许跨域的响应头Access-Control-Allow-Origin等。</li>
+</ul>
+<h3 id="3-pdf尺寸不统一">3. pdf尺寸不统一</h3>
+<p>设置pdf的尺寸。</p>
+<pre><code>element.ownerDocument.defaultView.devicePixelRatio = scale;
+element.ownerDocument.defaultView.innerWidth = width;
+element.ownerDocument.defaultView.innerHeigth = height;</code></pre>
+<h3 id="4-不可见元素的导出">4. 不可见元素的导出</h3>
+<p>意思是pdf文件的内容在页面是不可见的，静默导出。这种情况下，可以使用固定或绝对定位显示页面元素，注意不能使用display:none。</p>
+<pre><code>.m-export {
+  position: fixed;
+  left: 99999px;
+  top: 99999px;
+}</code></pre>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
