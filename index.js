@@ -134,7 +134,7 @@ function onGetDocFiles({filePath, level}) {
                     ...option,
                     path: `${fileHashTitle}.html`,
                     title: fileTitle,
-                    introduce: `${mdContent.substr(0, 150).replace(/#/g,'')}......`
+                    introduce: `${mdContent.substr(0, 150).replace(/#|<style>|<\/style>/g,'')}......`
                 }
             }catch(err){
                 error(err);
@@ -167,7 +167,7 @@ function onGetDocFiles({filePath, level}) {
                 ...option,
                 path: `${fileHashTitle}.html`,
                 title: fileTitle,
-                introduce: `${mdContent.substr(0, 150).replace(/#/g,'')}......`
+                introduce: `${mdContent.substr(0, 150).replace(/#|<style>|<\/style>/g,'')}......`
             }
         }
     }).filter(i => i);
