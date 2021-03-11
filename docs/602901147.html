@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>ZRainna的博客-详情</title>
+    <link type="text/css" rel="stylesheet" href="./css/base.css" />
+    <link type="text/css" rel="stylesheet" href="./css/page.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" />
+  </head>
+  
+  <body>
+    <div class="m-page">
+      <div class="m-box">
+        <div class="m-introduce f-flexr">
+    <div class="logo"><img src="https://avatars.githubusercontent.com/u/5309877"></div>
+    <div class="f-ml25 f-flex-1">
+        <p class="f-mb10 f-fs26">Zrainna</p>
+        <p class="f-fs12 s-fc6">比较懒，什么都没介绍。。。。。</p>
+    </div>
+</div>
+      </div>
+      
+      <div class="m-box">
+        <div class="m-menu f-flexr f-mb40 f-fs16 f-tac">
+    <div class="item"><a href="./index.html">首页</a></div>
+    <div class="item"><a href="./article.html">文章</a></div>
+    <div class="item"><a href="./book.html">书库</a></div>
+    <div class="item"><a href="./demo.html">Demo</a></div>
+</div>
+        <div class="markdown-body"><h1>语雀钉钉内容更新提醒</h1><p>当使用语雀平台维护文档时，文档发生变化时，希望能及时通知到组内协作人员。如果刚好团队内部使用钉钉沟通，就可以通过添加webhook来实现即时通知提醒。webhook是钉钉对外开放的web钩子，是一个接口地址，通过传参并调用接口，可以实现向钉钉群发送消息。</p>
+<p>操作步骤主要如下：</p>
+<ul>
+<li>钉钉内添加机器人，生成webhook地址</li>
+<li>语雀内设置webook</li>
+</ul>
+<h3 id="第一步：钉钉内添加机器人">第一步：钉钉内添加机器人</h3>
+<h4 id="1-个人设置内，选择机器人管理。">1. “个人设置”内，选择“机器人管理”。</h4>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b4efce1f41d14a23afbcb65b9157bd33~tplv-k3u1fbpfcp-watermark.image" alt=""></p>
+<h4 id="2-机器人管理弹窗内，添加机器人选择自定义选项。">2. 机器人管理弹窗内，添加机器人选择“自定义”选项。</h4>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2aded6e131964f6c833f851ffe69b67a~tplv-k3u1fbpfcp-watermark.image" alt=""></p>
+<h4 id="3-添加机器人弹窗内，信息补充完整。安全设置里自定义关键词需要填语雀。">3. 添加机器人弹窗内，信息补充完整。“安全设置”里自定义关键词需要填“语雀”。</h4>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f0d63944d4374cf9b6c7fff41a475e5f~tplv-k3u1fbpfcp-watermark.image" alt=""></p>
+<h4 id="4-添加机器人弹窗点击完成，生成webhook地址。复制webhook地址。">4. 添加机器人弹窗点击“完成”，生成webhook地址。复制webhook地址。</h4>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ac582655767d4d3e8eff921baf1a59c7~tplv-k3u1fbpfcp-watermark.image" alt=""></p>
+<p>以下方法可快速验证机器人是否工作：</p>
+<pre><code>curl &#39;https://oapi.dingtalk.com/robot/send?access_token=xxxxxxxx&#39; \
+   -H &#39;Content-Type: application/json&#39; \
+   -d &#39;{&quot;msgtype&quot;: &quot;text&quot;,&quot;text&quot;: {&quot;content&quot;: &quot;文件监控测试-您修改了公共文件，请联系testest，并谨慎处理。&quot;}}&#39;</code></pre>
+<h3 id="第二步：语雀内设置webook">第二步：语雀内设置webook</h3>
+<h4 id="1-选择某一个知识库。">1. 选择某一个“知识库”。</h4>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/609901bc1aff479bb56e0e096b4b993c~tplv-k3u1fbpfcp-watermark.image" alt=""></p>
+<h4 id="2-知识库点击设置。">2. 知识库点击“设置”。</h4>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8e581d799e59442ab1e2188d95ac0306~tplv-k3u1fbpfcp-watermark.image" alt=""></p>
+<h4 id="3-添加webhook。">3. 添加webhook。</h4>
+<p>仅管理员才有开发者设置权限。
+<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/76cb48c89a1446a3bddf8a0631d6db9a~tplv-k3u1fbpfcp-watermark.image" alt=""></p>
+<p>当勾选“仅主动推送更新触发”时，在文档发布和更新时，需要主动勾选下面的选项。
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8912fea8df7d477e9a73fc87df12d278~tplv-k3u1fbpfcp-watermark.image" alt=""></p>
+<h3 id="参考文档">参考文档</h3>
+<ul>
+<li><a href="https://developers.dingtalk.com/document/app/custom-robot-access?spm=ding_open_doc.document.0.0.6d9d28e1AQXHBl#topic-2026027">https://developers.dingtalk.com/document/app/custom-robot-access?spm=ding_open_doc.document.0.0.6d9d28e1AQXHBl#topic-2026027</a></li>
+<li><a href="https://www.yuque.com/metz/qzc5nr/shiimd">https://www.yuque.com/metz/qzc5nr/shiimd</a></li>
+</ul>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
+
+
+
