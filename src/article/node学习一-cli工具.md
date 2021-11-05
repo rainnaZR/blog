@@ -225,7 +225,17 @@ module.eports.spawn = function(...args){
 }
 ```
 
+#### 第四步：发布npm包
 
+```
+npm config get registry # 检查仓库镜像库
+npm config set registry=http://registry.npmjs.org
+
+npm login # 登陆
+npm publish # 发布
+
+npm config set registry=https://registry.npm.taobao.org # 设置为淘宝镜像
+```
 
 
 
