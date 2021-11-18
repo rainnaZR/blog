@@ -205,3 +205,16 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password
 ```
 
 password填数据库连接的密码。
+
+
+#### 4.4.4 MySql数据库导入sql报错 Unknown collation: ‘utf8mb4_0900_ai_ci
+
+错误原因：高版本数据库 转存sql文件 并导入低版本数据库
+
+解决办法：
+- 方案一：升级mysql至高版本
+- 方案二：将需要导入的sql文件，把其中的**utf8mb4_0900_ai_ci**全部替换为**utf8_general_ci**，**utf8mb4**替换为**utf8**。
+
+
+## 参考资料：
+https://blog.csdn.net/weixin_46152207/article/details/112573513
