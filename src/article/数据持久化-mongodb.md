@@ -1,17 +1,22 @@
 mongodb 文档型数据库。
 
-1. node调用mongodb
+## 1. node调用mongodb
 
-安装依赖包
+### 安装依赖包
 
 包文件地址：https://www.npmjs.com/package/mongodb
 
-cnpm install mongodb --save
 
- 连接mongodb，实现增删改查
+```
+cnpm install mongodb --save
+```
+
+### 连接mongodb，实现增删改查
 
 mongodb可以方便的将json插入到数据库中。调用方法可参考官方文档，下面简单示例：
 
+
+```
 (async () => {
 	const { MongoClient } = require('mongodb')
 	
@@ -53,19 +58,28 @@ mongodb可以方便的将json插入到数据库中。调用方法可参考官方
 	
 	client.close()
 })()
+```
 
-2. mongodb使用案例
-数据库配置文件
 
+## 2. mongodb使用案例
+
+### 数据库配置文件
+
+
+```
 // conf.js
 
 module.exports = {
 	url: 'mongodb://localhost:27017',
 	dbName: 'test'
 }
+```
 
-mongodb连接的封装
 
+### mongodb连接的封装
+
+
+```
 // db.js
 
 const conf = require('./conf')
@@ -99,8 +113,13 @@ class Mongodb{
 }
 
 module.exports = new Mongodb(conf)
-初始化测试数据
+```
 
+
+### 初始化测试数据
+
+
+```
 // initData.js
 
 const mongodb = require('./db')
@@ -119,9 +138,13 @@ mongodb.once('connect', async () => {
 	// 插入假数据
 	await collection.insertMany(data)
 })
+```
 
-定义接口文件
 
+### 定义接口文件
+
+
+```
 // api.js
 // 接口编写文件
 
@@ -157,24 +180,38 @@ app.get("/api/list", async (req, res) => {
 })
 
 app.listen(3000)
+```
 
-3. ODM-Mongoose
+
+## 3. ODM-Mongoose
 
 优雅的NodeJS对象⽂档模型object document model。Mongoose有两个特点： 通过关系型数据库的思想来设计⾮关系型数据库；基于mongodb驱动简化操作。
 Mongoose提供数据模型的概念，使用mongoose.Schema，mongoose.model来定义数据模型，基于数据模型来操作。
 
-mongoose与关系型数据库对应关系
-Oracle	MongoDB	Mongoose
-数据库实例（database instance）	MongoDB实例	Mongoose
-模式（schema）	数据库（database）	mongoose
-表（table）	集合（collection）	模板（Schema）+模型（Model）
-行（row）	文档（document）	实例（instance）
-rowid	_id	_id
-Join	DBRef	DBRef
-安装依赖包
-cnpm i mongoose
-使用方法
+### mongoose与关系型数据库对应关系
 
+|Oracle|MongoDB|Mongoose|
+|---|---|---|
+|数据库实例（database instance）|MongoDB实例|Mongoose|
+|模式（schema）|数据库（database）|mongoose|
+|表（table）|集合（collection）|模板（Schema）+模型（Model）|
+|行（row）|	文档（document）|	实例（instance）|
+|rowid	|_id	|_id|
+|Join	|DBRef|	DBRef|
+
+
+### 安装依赖包
+
+
+```
+cnpm i mongoose
+```
+
+
+### 使用方法
+
+
+```
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:21017')
 
@@ -209,11 +246,12 @@ conn.once('open', async () => {
 		name: '张三'
 	})  
 })
+```
 
-4. mongoose零编码实现restful接口
+## 4. mongoose零编码实现restful接口
 
-需求：添加一个model模型会自动添加一套crud接口。
-思路：
+**需求：**添加一个model模型会自动添加一套crud接口。
+**思路：**
 ● 在model目录下定义模型文件，比如 ./model/user.js
 ● 编写loader.js，遍历模型文件目录model下的所有模型文件，读取其内容并注册到mongoose，完成初始化数据库操作 ./loader.js
 ● 定义中间件处理路由，注册通用路由 ./router.js
@@ -222,8 +260,12 @@ conn.once('open', async () => {
 
 代码查看地址：https://github.com/rainnaZR/blog/tree/main/src/demo/mongoose-restful
 
-模型文件定义
+### 模型文件定义
+
 model目录存放所有模型定义文件，以user.js为例：
+
+
+```
 // ./model/user.js
 module.exports = {
     schema: {
@@ -231,10 +273,14 @@ module.exports = {
         realName: { type: String, required: true },
     }
 }
+```
 
-数据库处理文件 loader.js
+
+### 数据库处理文件 loader.js
 
 node读取model模型文件目录，自动注册到mongoose，完成初始化数据库操作。
+
+```
 // loader.js
 
 const fs = require('fs')
@@ -270,9 +316,12 @@ function loadModel(app) {
 module.exports = {
     loadModel
 }
+```
 
-数据库配置文件config.js
 
+### 数据库配置文件config.js
+
+```
 // config.js
 
 module.exports = {
@@ -329,10 +378,14 @@ module.exports = {
         ctx.body = await ctx.list.find({})/*  */
     }
 }
+```
 
-入口主文件
+### 入口主文件
+
 调用loader和引入路由中间件。
 
+
+```
 const Koa = require('koa')
 const app = new Koa()
 const { loadModel } = require('./loader')
@@ -348,3 +401,4 @@ app.use(restful)
 app.listen(3000,() => {
     console.log(`app started at port ${port}...`)
 })
+```
