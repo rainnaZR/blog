@@ -165,7 +165,7 @@ app.get("/api/list", async (req, res) => {
  			.limit(5)
  			.toArray()
  		res.json({ 
-    		code: 200, 
+			code: 200, 
 			data: { 
 				users, 
 				pagination: { 
@@ -187,7 +187,7 @@ app.listen(3000)
 
 优雅的NodeJS对象⽂档模型object document model。Mongoose有两个特点： 
 
-- 通过关系型数据库的思想来设计⾮关系型数据库
+- 通过关系型数据库的思想来设计⾮关系型数据库。
 - 基于mongodb驱动简化操作。
 
 
@@ -255,7 +255,7 @@ conn.once('open', async () => {
 
 ## 4. mongoose零编码实现restful接口
 
-**需求：**添加一个model模型会自动添加一套crud接口。
+**需求：** 添加一个model模型会自动添加一套crud接口。
 
 
 **思路：**
@@ -350,6 +350,9 @@ router.put('/api/:list/:id', init, update)
 router.delete('/api/:list/:id', init, del)
 
 module.exports = router.routes()
+```
+
+```
 // api.js
 
 module.exports = {
