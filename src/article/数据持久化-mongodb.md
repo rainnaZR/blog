@@ -166,13 +166,13 @@ app.get("/api/list", async (req, res) => {
  			.toArray()
  		res.json({ 
     	code: 200, 
-      data: { 
-      	users, 
-        pagination: { 
-        	total, 
-          page 
-        } 
-      } 
+			data: { 
+				users, 
+				pagination: { 
+					total, 
+				page 
+				} 
+			} 
     })
  } catch (error) {
  		console.log(error)
