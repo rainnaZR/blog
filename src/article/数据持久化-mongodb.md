@@ -220,6 +220,8 @@ conn.once('open', async () => {
 ● 定义通用路由处理路逻辑 ./app.js
 ● 入口主文件调用loader和引入路由中间件 ./index.js
 
+代码查看地址：https://github.com/rainnaZR/blog/tree/main/src/demo/mongoose-restful
+
 模型文件定义
 model目录存放所有模型定义文件，以user.js为例：
 // ./model/user.js
