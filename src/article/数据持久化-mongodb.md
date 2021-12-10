@@ -336,9 +336,14 @@ module.exports = {
 	url: 'mongodb://localhost:27017',
 	dbName: 'test'
 }
+```
 
-路由处理中间件 ./router.js
 
+
+### 路由处理中间件 ./router.js
+
+
+```
 const router = require('koa-router')()
 const {
     init, get, create, update, del,
