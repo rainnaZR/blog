@@ -173,10 +173,10 @@ app.get("/api/list", async (req, res) => {
 				page 
 				} 
 			} 
-    })
- } catch (error) {
- 		console.log(error)
- }
+    	})
+	} catch (error) {
+			console.log(error)
+	}
 })
 
 app.listen(3000)
