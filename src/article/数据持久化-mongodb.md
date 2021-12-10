@@ -29,7 +29,7 @@ mongodb可以方便的将json插入到数据库中。调用方法可参考官方
 	
 	// 建库
 	const db = client.db('test')
-  // 建集合-建表
+  	// 建集合-建表
 	const user = db.collection('user')
 	
 	// 添加文档/记录
@@ -51,9 +51,9 @@ mongodb可以方便的将json插入到数据库中。调用方法可参考官方
 	})
 	
 	// 删除文档
-  ret = await user.deleteOne({
-  	name: '李四'
-  })
+	ret = await user.deleteOne({
+		name: '李四'
+	})
 	ret = await user.deleteMany()
 	
 	client.close()
