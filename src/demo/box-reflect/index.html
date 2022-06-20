@@ -1,0 +1,79 @@
+<style>
+html, body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.g-parent {
+    margin: 50px auto;
+}
+
+.g-container,
+.g-parent {
+    position: relative;
+    display: flex;
+    width: 150px;
+    height: 150px;
+}
+
+.g-item {
+    position: absolute;
+    width: 4px;
+    height: 12px;
+    background: #000;
+    left: 0;
+    top: 0;
+}
+.g-item:nth-child(1) {
+    transform-origin: 0 150px;
+    transform: rotate(0deg);
+}
+.g-item:nth-child(2) {
+    transform-origin: 0 150px;
+    transform: rotate(18deg);
+}
+.g-item:nth-child(3) {
+    transform-origin: 0 150px;
+    transform: rotate(36deg);
+}
+.g-item:nth-child(4) {
+    transform-origin: 0 150px;
+    transform: rotate(54deg);
+}
+.g-item:nth-child(5) {
+    transform-origin: 0 150px;
+    transform: rotate(72deg);
+}
+.g-item:nth-child(6) {
+    transform-origin: 0 150px;
+    transform: rotate(90deg);
+}
+.g-container {
+    -webkit-box-reflect: below 4px;
+}
+.g-parent {
+    -webkit-box-reflect: left -4px;
+}
+</style>
+
+<div class="g-parent">
+    <div class="g-container">
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+        <div class="g-item"></div>
+    </div>
+</div>
