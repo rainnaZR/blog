@@ -1,0 +1,30 @@
+<button id="button">显示简单dialog</button>
+<button id="button2">显示自定义dialog</button>
+
+<dialog id="dialog">
+    hello world!
+</dialog>
+
+<dialog id="dialog2" style="width: 80%;">
+    <p>它真正有用的部分是它处理可访问性。它被称为对话框。可以防止键盘焦点离开元素。它还会在一个特殊的顶层中弹出所有内容的顶部，因此即使对话框元素是在某些嵌套组件结构的深处创建的，它也可以填充视口，即使父元素隐藏了溢出隐藏或其他类型的隐藏。</p>
+    <form method="dialog">
+        <button value="cancel">取消</button>
+        <button value="confirm">确认</button>
+    </form>
+</dialog>
+  
+<script>
+button.onclick = () => {
+    const dialog = document.getElementById('dialog');
+    dialog.showModal();
+};
+button2.onclick = () => {
+    const dialog = document.getElementById('dialog2');
+    dialog.showModal();
+};
+
+const dialog = document.getElementById('dialog2');
+dialog.addEventListener('close', () => {
+    console.log(dialog.returnValue)
+})
+</script>
